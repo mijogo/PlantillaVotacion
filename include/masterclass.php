@@ -2,76 +2,45 @@
 require_once "include.php";
 class MasterClass
 {
-	function MasterClass()
+	function MasterClass($NamePage)
 	{
-		if(!isset($_GET['id']))
-			$this->id_pagina =1;
+		$BG = new DataBase();
+		$BG->connect();
+		$a_menu = new menu($BG->con);
+		$a_menu->settituloingles($NamePage);
+		$a_menu = $a_menu->read(true,1,array("NamePage"));
+		if(count($a_menu) == 0)
+			Redireccionar("home.php");
 		else
-			$this->id_pagina = $_GET['id'];
-		
-		if(!isset($_GET['accion']))
-			$this->accion=1;
-		else
-			$this->accion = $_GET['accion'];
-		
-		if(!isset($_GET['tipo']))
-			$this->tipo=1;
-		else
-			$this->tipo = $_GET['tipo'];
-			
-		if(!isset($_GET['nivel']))
 		{
-			$BG = new DataBase();
-			$BG->connect();
-			$a_menu = new menu($BG->con);
-			$a_menu->setid($this->id_pagina);
-			$a_menu = $a_menu->read(true,1,array("id"));
-			if(count($a_menu) == 0)
-				$this->nivel=-1;
+			$b_menu = new menu($BG->con);
+			$b_menu->setid($a_menu[0]->getdependencia());
+			$b_menu = $b_menu->read(true,1,array("id"));
+			if(count($b_menu) == 0)
+				$this->nivel=$a_menu[0]->getdependencia();
 			else
-			{	
-				
-				$b_menu = new menu($BG->con);
-				$b_menu->setid($a_menu[0]->getdependencia());
-				$b_menu = $b_menu->read(true,1,array("id"));
-				if(count($b_menu) == 0)
-					$this->nivel=$a_menu[0]->getdependencia();
-				else
-					$this->nivel=$b_menu[0]->getdependencia();
-			}
-			$BG->close();
+			$this->nivel=$b_menu[0]->getdependencia();
 		}
-		else
-			$this->nivel = $_GET['nivel'];
+		$BG->close();
 	}
 	// id numero pagina, tipo a que pagina se refiere, action, tipo de accion
 	
-	function Trabajar()
+	function Pagina($script,$pagina)
 	{
 		$this->BG = new DataBase();
 		$this->BG->connect();
-		$this->torneoActual();
-		$this->usuarioACC();
-		if($this->accion == 1)
+		//$this->torneoActual();
+		//$this->usuarioACC();
+		$file = fopen("include/estructura.html", "r") or exit("Unable to open file!");
+		$pagina="";
+		while(!feof($file))
 		{
-			$file = fopen("include/estructura.html", "r") or exit("Unable to open file!");
-			//Output a line of the file until the end is reached
-			$pagina="";
-			while(!feof($file))
-			{
-				$pagina .= fgets($file);
-			}
-			$logicaU = new logicv();
-			$datos = $logicaU->logicaView($this->id_pagina,$this->tipo);
-			echo ingPagina($pagina,$this->menu_u(),$datos[0],$datos[1],widget());
+			$pagina .= fgets($file);
 		}
-		if($this->accion == 2)
-		{
-			$logicaU = new logicc();
-			$datos = $logicaU->trabaja($this->id_pagina,$this->tipo);
-			Redireccionar($datos);	
-		}
-		$BG->close();
+		$logicaU = new logicv();
+		$datos = $logicaU->logicaView($this->id_pagina,$this->tipo);
+		echo ingPagina($pagina,$this->menu_u(),$script,$pagina,widget());
+		$this->BG->close();
 	}
 	
 	function menu_u()
@@ -120,7 +89,7 @@ class MasterClass
 		}
 		return menu_html($datos,$this->nivel);
 	}
-	
+	/*
 	function torneoActual()
 	{
 		$torneoActual = new torneo($this->BG->con);
@@ -281,7 +250,7 @@ class MasterClass
 		else
 			$creaIp->setMasterIP($MasterIp);
 		
-		/*$ipBan = new ip();
+		$ipBan = new ip();
 		$ipBan->setUsada(8);
 		$ipBan = $ipBan->read(true,1,array("Usada"));
 		for($i=0;$i<count($ipBan);$i++)
@@ -290,7 +259,7 @@ class MasterClass
 			{
 				$creaIp->setTiempo(720);
 			}
-		}*/
+		}
 		$extraInfo = $_SERVER['HTTP_USER_AGENT'];
 		$creaIp->setinfo($extraInfo);
 		if($this->useractivo)
@@ -301,6 +270,6 @@ class MasterClass
 		$creaIp->save();
 		setcookie("uniqueCode",$this->newUniqueCode,time()+(2*60*60*24));
 		return $creaIp;
-	}
+	}*/
 }
 ?>

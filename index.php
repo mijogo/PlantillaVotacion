@@ -1,5 +1,4 @@
 <?php
-include 'include/masterclass.php';
-$ClaseMaestra = new MasterClass();
-$ClaseMaestra->Trabajar();
+include 'include/include.php';
+Redireccionar("home.php");
 ?>
