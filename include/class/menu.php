@@ -2,15 +2,15 @@
 require_once "menuBD.php";
 class menu extends menuBD
 {
-	function menu($db,$id="",$dependencia="",$titulo="",$tituloingles="",$url="",$descripcion="")
+	function menu($db,$id="",$dependencia="",$titulo="",$namepage="",$url="",$descripcion="" )
 	{
 		$this->id = $id;
 		$this->dependencia = $dependencia;
 		$this->titulo = $titulo;
-		$this->tituloingles = $tituloingles;
+		$this->namepage = $namepage;
 		$this->url = $url;
 		$this->descripcion = $descripcion;
-		$this->con=$db;
+		$this->con = $db;
 	}
 	function setid($id)
 	{
@@ -36,13 +36,13 @@ class menu extends menuBD
 	{
 		return $this->titulo;
 	}
-	function settituloingles($tituloingles)
+	function setnamepage($namepage)
 	{
-		$this->tituloingles=$tituloingles;
+		$this->namepage=$namepage;
 	}
-	function gettituloingles()
+	function getnamepage()
 	{
-		return $this->tituloingles;
+		return $this->namepage;
 	}
 	function seturl($url)
 	{

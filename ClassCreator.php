@@ -10,9 +10,11 @@ $ElementosTablaL = array();
 //log
 //$NombreTablaL[0]="log";
 //$ElementosTablaL[0]=array("iduser","accion","fecha","estado","ip","accioncompleta");
+
 //menu
-//$NombreTablaL[0]="menu";
-//$ElementosTablaL[0]=array("id","dependencia","titulo","tituloingles","url","descripcion");
+$NombreTablaL[0]="menu";
+$ElementosTablaL[0]=array("id","dependencia","titulo","namepage","url","descripcion");
+
 //participacionBD
 //$NombreTablaL[0]="participacion";
 //$ElementosTablaL[0]=array("idpersonaje","idbatalla");
@@ -25,6 +27,8 @@ $ElementosTablaL = array();
 //personajepar
 //$NombreTablaL[0]="personajepar";
 //$ElementosTablaL[0]=array("id","nombre","serie","idpersonaje","idserie","imagenpeq","imagen","idtorneo","estado","grupo","ronda","seiyuu","ponderacion");
+
+
 
 //Evento
 $NombreTablaL[]="evento";
@@ -143,7 +147,7 @@ $text.=")\";
 			while(\$row = \$this->fetch(\$result))
 			{
 				\$i=0;
-				\$".$NombreTabla."s[]=new ".$NombreTabla."(";
+				\$".$NombreTabla."s[]=new ".$NombreTabla."(\"\",";
 			for($i=0;$i<count($ElementosTabla);$i++)
 			{
 				$text.= "\$row[\$i++]";
@@ -159,7 +163,7 @@ $text.=")\";
 			\$result = \$this->select(\$sql);
 			\$row = \$this->fetch(\$result);
 			\$i=0;
-			\$".$NombreTabla."s= new ".$NombreTabla."(";
+			\$".$NombreTabla."s= new ".$NombreTabla."(\"\",";
 			for($i=0;$i<count($ElementosTabla);$i++)
 			{
 				$text.= "\$row[\$i++]";

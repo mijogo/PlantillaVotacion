@@ -7,12 +7,15 @@ class MasterClass
 		$BG = new DataBase();
 		$BG->connect();
 		$a_menu = new menu($BG->con);
-		$a_menu->settituloingles($NamePage);
-		$a_menu = $a_menu->read(true,1,array("NamePage"));
+		$a_menu->setnamepage($NamePage);
+		$a_menu = $a_menu->read(true,1,array("namepage"));
+		
+
 		if(count($a_menu) == 0)
 			Redireccionar("home.php");
 		else
 		{
+			$this->id_pagina = $a_menu[0]->getid();
 			$b_menu = new menu($BG->con);
 			$b_menu->setid($a_menu[0]->getdependencia());
 			$b_menu = $b_menu->read(true,1,array("id"));
@@ -25,21 +28,37 @@ class MasterClass
 	}
 	// id numero pagina, tipo a que pagina se refiere, action, tipo de accion
 	
+	function VerificacionIdentidad($nivel)
+	{
+		$this->BG = new DataBase();
+		$this->BG->connect();
+		if($this->NivelUsuario() >= $nivel)
+		{
+			$this->torneoActual();
+			$this->usuarioACC();
+			$this->BG->close();
+			return true;
+		}
+		else
+		{
+			$this->BG->close();
+			return false;
+		}
+	}
+	
 	function Pagina($script,$pagina)
 	{
 		$this->BG = new DataBase();
 		$this->BG->connect();
-		//$this->torneoActual();
-		//$this->usuarioACC();
 		$file = fopen("include/estructura.html", "r") or exit("Unable to open file!");
-		$pagina="";
+		$masterpagina="";
 		while(!feof($file))
 		{
-			$pagina .= fgets($file);
+			$masterpagina .= fgets($file);
 		}
-		$logicaU = new logicv();
-		$datos = $logicaU->logicaView($this->id_pagina,$this->tipo);
-		echo ingPagina($pagina,$this->menu_u(),$script,$pagina,widget());
+		//$logicaU = new logicv();
+		//$datos = $logicaU->logicaView($this->id_pagina,$this->tipo);
+		echo ingPagina($masterpagina,$this->menu_u(),$script,$pagina,widget());
 		$this->BG->close();
 	}
 	
@@ -60,7 +79,7 @@ class MasterClass
 			else
 				$datos[$k][3] = 0;
 			$datos[$k][5] = $b_menu[$i]->geturl();
-			$c_menu = new menu();
+			$c_menu = new menu($this->BG->con);
 			$c_menu->setdependencia($b_menu[$i]->getid());
 			$c_menu = $c_menu->read(true,1,array("dependencia"));
 			if(count($c_menu)==0)
@@ -89,7 +108,7 @@ class MasterClass
 		}
 		return menu_html($datos,$this->nivel);
 	}
-	/*
+	
 	function torneoActual()
 	{
 		$torneoActual = new torneo($this->BG->con);
@@ -104,7 +123,7 @@ class MasterClass
 			$this->torneoActivo=false;
 	}
 	
-	function usuarioACC()
+	function NivelUsuario()
 	{
 		if(isset($_COOKIE['id_user']))
 		{
@@ -113,10 +132,17 @@ class MasterClass
 			$userpage->read(false,1,array("idusuario"));
 			$this->user = $userpage;
 			$this->useractivo=true;
+			return $this->user->getpoder();
 		}
 		else
+		{
 			$this->useractivo=false;
-		
+			return 1;
+		}
+	}
+	
+	function usuarioACC()
+	{
 		if(isset($_COOKIE['CodePassVote']))
 		{
 			$this->userAnterior=true;
@@ -136,13 +162,13 @@ class MasterClass
 		if(count($evetoActual)>0)
 		{
 			$ipcreada = false;
-			$evetoActual = $evetoActual[0];
+			$this->evetoActual = $evetoActual[0];
 			if(isset($_COOKIE['uniqueCode']))
 			{
 				$estaIp = new ip();
 				$estaIp->setuniquecode($_COOKIE['uniqueCode']);
 				$estaIp = $estaIp->read(false,1,array("uniquecode"));
-				if($estaIp->getidevento()==$evetoActual->getid())
+				if($estaIp->getidevento()==$this->evetoActual->getid())
 				{
 					$ipcreada=true;
 					if($this->useractivo && $estaIp->gettiempo()>0)
@@ -270,6 +296,6 @@ class MasterClass
 		$creaIp->save();
 		setcookie("uniqueCode",$this->newUniqueCode,time()+(2*60*60*24));
 		return $creaIp;
-	}*/
+	}
 }
 ?>

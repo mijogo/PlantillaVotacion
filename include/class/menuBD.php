@@ -5,12 +5,12 @@ class menuBD extends DataBase
 	function menuBD(){}
 	
 	function save()
-	{		$sql = "INSERT INTO menu (id,dependencia,titulo,tituloingles,url,descripcion) VALUES 
+	{		$sql = "INSERT INTO menu (id,dependencia,titulo,namepage,url,descripcion) VALUES 
 		(
 		'".$this->id."',
 		'".$this->dependencia."',
 		'".$this->titulo."',
-		'".$this->tituloingles."',
+		'".$this->namepage."',
 		'".$this->url."',
 		'".$this->descripcion."')";
 		return $this->insert($sql);
@@ -50,7 +50,7 @@ class menuBD extends DataBase
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$menus[]=new menu($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$menus[]=new menu("",$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $menus;
 		}
@@ -59,7 +59,7 @@ class menuBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$menus= new menu($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$menus= new menu("",$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $menus;
 		}
 	}

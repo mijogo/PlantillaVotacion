@@ -52,7 +52,7 @@ class usuarioBD extends DataBase
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$usuarios[]=new usuario($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$usuarios[]=new usuario("",$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $usuarios;
 		}
@@ -61,7 +61,7 @@ class usuarioBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$usuarios= new usuario($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$usuarios= new usuario("",$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $usuarios;
 		}
 	}
