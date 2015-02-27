@@ -164,9 +164,9 @@ $text .="</div>";
 return $text;
 }
 
-function img($src,$height="",$width="",$id="",$class="")
+function img($src,$height="",$width="",$id="",$class="",$alt="")
 {
-	$text = "<img src=\"".$src."\" alt=\"\" ";
+	$text = "<img src=\"".$src."\" alt=\"".$alt."\" ";
 	if($id!="")
 		$text .= " id=\"$id\" ";
 	if($class!="")
@@ -180,7 +180,7 @@ function img($src,$height="",$width="",$id="",$class="")
 	return $text;
 }
 
-function menu_html($datos,$nivel)
+function menu_html($datos,$nivel,$existeusuario,$usuarioactual)
 {
 	$text = "";
 	$text .= " <div class=\"navbar navbar-inverse navbar-fixed-top\">
@@ -191,7 +191,7 @@ function menu_html($datos,$nivel)
             <span class=\"icon-bar\"></span>
             <span class=\"icon-bar\"></span>
           </button>
-          <a class=\"navbar-brand\" href=\"?id=1&nivel=-1\">Project name</a>
+          <a class=\"navbar-brand\" href=\"home.php\">Project name</a>
         </div>
         <div class=\"navbar-collapse collapse\">
 		  <ul class=\"nav navbar-nav\">";
@@ -237,7 +237,16 @@ function menu_html($datos,$nivel)
           $text .= "</ul>
  		<div style=\"height: 1px;\" class=\"navbar-collapse collapse\">
           <ul class=\"nav navbar-nav navbar-right\">
-            <li><a href=\"?nivel=-2\">perfil</a></li>
+            <li>";
+			if($existeusuario)
+			{
+				$text .="<a href=\"perfil.php\">".img("./image/".$usuarioactual->getimagen(),"20px","","","","perfil")."</a>";
+			}
+			else
+			{
+				$text .="<a href=\"login.php\">Iniciar Sesión</a>";
+			}
+			$text .="</li>
           </ul>
           <form class=\"navbar-form navbar-right\">
             <input class=\"form-control\" placeholder=\"Buscar...\" type=\"text\">

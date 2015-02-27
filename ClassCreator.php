@@ -29,18 +29,21 @@ $ElementosTablaL[0]=array("id","dependencia","titulo","namepage","url","descripc
 //$ElementosTablaL[0]=array("id","nombre","serie","idpersonaje","idserie","imagenpeq","imagen","idtorneo","estado","grupo","ronda","seiyuu","ponderacion");
 
 
+//ip
+$NombreTablaL[]="ip";
+$ElementosTablaL[]=array("fecha","ip","codepass","forumcode","user","idevento","tiempo","usada","uniquecode","mastercode","masterip","info");
 
-//Evento
+//evento
 $NombreTablaL[]="evento";
 $ElementosTablaL[]=array("id","estado","idtorneo","fechainicio","fechatermino");
 
 //torneo
 $NombreTablaL[]="torneo";
-$ElementosTablaL[]=array("id","ano","version","nombre","activo","estado","duracionbatalla","extraconteo","nominaciones","intervalo","horainicio","duracionlive","maxmiembrosgraf","opcionpartida","limitadoractivo","duracionlimitador","porcentajelimite");
+$ElementosTablaL[]=array("id","ano","version","nombre","activo","estado","duracionbatalla","extraconteo","nominaciones","intervalo","horainicio","duracionlive","maxmiembrosgraf","opcionpartida");
 
 //usuario
 $NombreTablaL[]="usuario";
-$ElementosTablaL[]=array("idusuario","poder","facecode","facecodeex","twittercode","twittercodeex","extracode","extracodeex");
+$ElementosTablaL[]=array("id","username","password","poder","email","verificacion","fechacumpleano","sexo","pais","fecharegistro","imagen","facecode","facecodeex","twittercode","twittercodeex","extracode","extracodeex");
 for($mn =0; $mn < count($NombreTablaL);$mn++)
 {
 $NombreTabla = $NombreTablaL[$mn];

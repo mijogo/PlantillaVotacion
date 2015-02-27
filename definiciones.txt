@@ -1,0 +1,21 @@
+/////[[batalla]]/////////
+guarda los datos se una batalla, esto considera las fechas y todo eso
+[int id]
+guarda el id de la batalla, esto se puede utilizar como clave foranea junto a los personajes
+[date fecha]
+guarda la fecha general en que se desarrolla el enfretamiento
+[varchar ronda] 
+se almacena la ronda en que se encuentra el enfrentamiento
+[varchar grupo]
+el grupo exacto donde se desarrola el enfrentamiento, esto consiste en reducir a un grupo exacto
+[int idtorneo]
+toda batalla esta relacionado a un evento, si es el activo, significa que pertenece al actual
+[int estado]
+se refiere al estado actual del torneo, este se puede poner en los siguientes digitos
+-1: batallas que aun no han comenzado
+0: batallas que actualmente se encuentran activas
+1: batallas finalizadas
+[int numerovotos]
+se refiere al numero total de votos conseguidos por esta batalla
+[int ganador]
+almacena al ganador de la batalla para su futura utilizacion

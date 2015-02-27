@@ -2,7 +2,7 @@
 require_once "ipBD.php";
 class ip extends ipBD
 {
-	function ip($fecha="",$ip="",$codepass="",$forumcode="",$user="",$idevento="",$tiempo="",$usada="",$uniquecode="",$mastercode="",$masterip="",$info="")
+	function ip($db,$fecha="",$ip="",$codepass="",$forumcode="",$user="",$idevento="",$tiempo="",$usada="",$uniquecode="",$mastercode="",$masterip="",$info="" )
 	{
 		$this->fecha = $fecha;
 		$this->ip = $ip;
@@ -16,6 +16,7 @@ class ip extends ipBD
 		$this->mastercode = $mastercode;
 		$this->masterip = $masterip;
 		$this->info = $info;
+		$this->con = $db;
 	}
 	function setfecha($fecha)
 	{

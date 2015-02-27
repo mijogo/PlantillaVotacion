@@ -35,7 +35,7 @@ class DataBase
 	
 	function insert($sql)
 	{
-		$this->result = $this->querry($sql);
+		$this->result = $this->con->query($sql);
 		return $this->result;
 	}
 }

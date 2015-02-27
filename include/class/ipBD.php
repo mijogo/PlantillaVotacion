@@ -51,12 +51,12 @@ class ipBD extends DataBase
 		}
 		if($multi)
 		{
-			$result = $this->select($sql);
+			$result = $this->multiselect($sql);
 			$ips = array();
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$ips[]=new ip($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$ips[]=new ip("",$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $ips;
 		}
@@ -65,7 +65,7 @@ class ipBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$ips= new ip($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$ips= new ip("",$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $ips;
 		}
 	}

@@ -2,7 +2,7 @@
 require_once "torneoBD.php";
 class torneo extends torneoBD
 {
-	function torneo($db,$id="",$ano="",$version="",$nombre="",$activo="",$estado="",$duracionbatalla="",$extraconteo="",$nominaciones="",$intervalo="",$horainicio="",$duracionlive="",$maxmiembrosgraf="",$opcionpartida="",$limitadoractivo="",$duracionlimitador="",$porcentajelimite="" )
+	function torneo($db,$id="",$ano="",$version="",$nombre="",$activo="",$estado="",$duracionbatalla="",$extraconteo="",$nominaciones="",$intervalo="",$horainicio="",$duracionlive="",$maxmiembrosgraf="",$opcionpartida="" )
 	{
 		$this->id = $id;
 		$this->ano = $ano;
@@ -18,9 +18,6 @@ class torneo extends torneoBD
 		$this->duracionlive = $duracionlive;
 		$this->maxmiembrosgraf = $maxmiembrosgraf;
 		$this->opcionpartida = $opcionpartida;
-		$this->limitadoractivo = $limitadoractivo;
-		$this->duracionlimitador = $duracionlimitador;
-		$this->porcentajelimite = $porcentajelimite;
 		$this->con = $db;
 	}
 	function setid($id)
@@ -134,30 +131,6 @@ class torneo extends torneoBD
 	function getopcionpartida()
 	{
 		return $this->opcionpartida;
-	}
-	function setlimitadoractivo($limitadoractivo)
-	{
-		$this->limitadoractivo=$limitadoractivo;
-	}
-	function getlimitadoractivo()
-	{
-		return $this->limitadoractivo;
-	}
-	function setduracionlimitador($duracionlimitador)
-	{
-		$this->duracionlimitador=$duracionlimitador;
-	}
-	function getduracionlimitador()
-	{
-		return $this->duracionlimitador;
-	}
-	function setporcentajelimite($porcentajelimite)
-	{
-		$this->porcentajelimite=$porcentajelimite;
-	}
-	function getporcentajelimite()
-	{
-		return $this->porcentajelimite;
 	}
 }?>
 

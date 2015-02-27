@@ -4,6 +4,7 @@ class MasterClass
 {
 	function MasterClass($NamePage)
 	{
+		$this->user="";
 		$BG = new DataBase();
 		$BG->connect();
 		$a_menu = new menu($BG->con);
@@ -11,9 +12,9 @@ class MasterClass
 		$a_menu = $a_menu->read(true,1,array("namepage"));
 		
 
-		if(count($a_menu) == 0)
+		if(count($a_menu) == 0 && $NamePage != "login")
 			Redireccionar("home.php");
-		else
+		elseif($NamePage != "login")
 		{
 			$this->id_pagina = $a_menu[0]->getid();
 			$b_menu = new menu($BG->con);
@@ -23,6 +24,11 @@ class MasterClass
 				$this->nivel=$a_menu[0]->getdependencia();
 			else
 			$this->nivel=$b_menu[0]->getdependencia();
+		}
+		else
+		{
+			$this->nivel=-1;
+			$this->id_pagina=-1;
 		}
 		$BG->close();
 	}
@@ -34,8 +40,8 @@ class MasterClass
 		$this->BG->connect();
 		if($this->NivelUsuario() >= $nivel)
 		{
-			$this->torneoActual();
-			$this->usuarioACC();
+			if($this->torneoActual())
+				$this->usuarioACC();
 			$this->BG->close();
 			return true;
 		}
@@ -106,33 +112,42 @@ class MasterClass
 				}
 			}
 		}
-		return menu_html($datos,$this->nivel);
+		return menu_html($datos,$this->nivel,$this->useractivo,$this->user);
 	}
 	
 	function torneoActual()
 	{
 		$torneoActual = new torneo($this->BG->con);
 		$torneoActual->setactivo(1);
-		$torneoActual = $torneoActual->read(true,1,array("activo"));
-		if(count($torneoActual)>0)
+		$torneoActual = $torneoActual->read(true,1,array("activo"));		if(count($torneoActual)>0)
 		{
 			$this->torneoActivo=true;
 			$this->torneoActual = $torneoActual[0];
+			return true;
 		}
 		else
 			$this->torneoActivo=false;
-	}
+			return false;
+	} 
 	
 	function NivelUsuario()
 	{
 		if(isset($_COOKIE['id_user']))
 		{
-			$userpage = new usuario();
+			$userpage = new usuario($this->BG->con);
 			$userpage->setidusuario($_COOKIE['id_user']);
-			$userpage->read(false,1,array("idusuario"));
-			$this->user = $userpage;
-			$this->useractivo=true;
-			return $this->user->getpoder();
+			$userpage->read(true,1,array("idusuario"));
+			if(count($userpage)>0)
+			{
+				$this->user = $userpage[0];
+				$this->useractivo=true;
+				return $this->user->getpoder();
+			}
+			else
+			{
+				$this->useractivo=false;
+				return 1;
+			}
 		}
 		else
 		{
@@ -165,7 +180,7 @@ class MasterClass
 			$this->evetoActual = $evetoActual[0];
 			if(isset($_COOKIE['uniqueCode']))
 			{
-				$estaIp = new ip();
+				$estaIp = new ip($this->BG->con);
 				$estaIp->setuniquecode($_COOKIE['uniqueCode']);
 				$estaIp = $estaIp->read(false,1,array("uniquecode"));
 				if($estaIp->getidevento()==$this->evetoActual->getid())
@@ -181,15 +196,15 @@ class MasterClass
 			}
 			if(!$ipcreada)
 			{
-				$this->newUniqueCode = $this->cookies."-".$evetoActual->getid();
+				$this->newUniqueCode = $this->cookies."-".$this->evetoActual->getid();
 				$this->ip = getRealIP();
 				$this->crearIp();
 			}
 			//analizar datos anteriores
-			$ipUsadas=new ip();
+			$ipUsadas=new ip($this->BG->con);
 			$ipUsadas->setcodepass($this->cookies);
 			$ipUsadas->setip($this->ip);
-			$ipUsadas->setidevento($evetoActual->getid());
+			$ipUsadas->setidevento($this->evetoActual->getid());
 			if($this->useractivo)
 			{
 				$ipUsadas->setuser($this->user->getidusuario());
@@ -230,14 +245,14 @@ class MasterClass
 	
 	function crearIp($MasterCode="",$MasterIp="",$tipoUsada="")
 	{
-		$creaIp = new ip();
+		$creaIp = new ip($this->BG->con);
 		$creaIp->setfecha(fechaHoraActual());
 		$creaIp->setip($this->ip);
 		if($this->userAnterior)
 			$creaIp->setTiempo(30);
 		else
 		{
-			$buscIP = new ip();
+			$buscIP = new ip($this->BG->con);
 			$buscIP->setip($this->ip);
 			$buscIP->setcodepass($this->cookies);
 			$buscIP->setusada(1);
@@ -246,7 +261,7 @@ class MasterClass
 				$creaIp->setTiempo(0);
 			else
 			{
-				$buscIP = new ip();
+				$buscIP = new ip($this->BG->con);
 				$buscIP->setcodepass($this->cookies);
 				$buscIP->setusada(1);
 				$buscIP = $buscIP->read(true,2,array("codepass","AND","usada"));
@@ -276,9 +291,9 @@ class MasterClass
 		else
 			$creaIp->setMasterIP($MasterIp);
 		
-		$ipBan = new ip();
-		$ipBan->setUsada(8);
-		$ipBan = $ipBan->read(true,1,array("Usada"));
+		$ipBan = new ip($this->BG->con);
+		$ipBan->setusada(8);
+		$ipBan = $ipBan->read(true,1,array("usada"));
 		for($i=0;$i<count($ipBan);$i++)
 		{
 			if($ipBan[$i]->getCodePass()==$creaIp->getCodePass()||$ipBan[$i]->getIp()==$creaIp->getIp())
