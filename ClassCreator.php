@@ -43,7 +43,7 @@ $ElementosTablaL[]=array("id","ano","version","nombre","activo","estado","duraci
 
 //usuario
 $NombreTablaL[]="usuario";
-$ElementosTablaL[]=array("id","username","password","poder","email","verificacion","fechacumpleano","sexo","pais","fecharegistro","imagen","facecode","facecodeex","twittercode","twittercodeex","extracode","extracodeex");
+$ElementosTablaL[]=array("id","username","password","email","verificacion","fechacumpleano","sexo","pais","fecharegistro","imagen","poder","facecode","facecodeex","twittercode","twittercodeex","extracode","extracodeex");
 for($mn =0; $mn < count($NombreTablaL);$mn++)
 {
 $NombreTabla = $NombreTablaL[$mn];
@@ -150,7 +150,7 @@ $text.=")\";
 			while(\$row = \$this->fetch(\$result))
 			{
 				\$i=0;
-				\$".$NombreTabla."s[]=new ".$NombreTabla."(\"\",";
+				\$".$NombreTabla."s[]=new ".$NombreTabla."(\$this->con,";
 			for($i=0;$i<count($ElementosTabla);$i++)
 			{
 				$text.= "\$row[\$i++]";
@@ -166,7 +166,7 @@ $text.=")\";
 			\$result = \$this->select(\$sql);
 			\$row = \$this->fetch(\$result);
 			\$i=0;
-			\$".$NombreTabla."s= new ".$NombreTabla."(\"\",";
+			\$".$NombreTabla."s= new ".$NombreTabla."(\$this->con,";
 			for($i=0;$i<count($ElementosTabla);$i++)
 			{
 				$text.= "\$row[\$i++]";

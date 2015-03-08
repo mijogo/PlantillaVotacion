@@ -180,7 +180,7 @@ function img($src,$height="",$width="",$id="",$class="",$alt="")
 	return $text;
 }
 
-function menu_html($datos,$nivel,$existeusuario,$usuarioactual)
+function menu_html($datos,$nivel,$existeusuario,$usuarioactual,$esadmin)
 {
 	$text = "";
 	$text .= " <div class=\"navbar navbar-inverse navbar-fixed-top\">
@@ -237,16 +237,28 @@ function menu_html($datos,$nivel,$existeusuario,$usuarioactual)
           $text .= "</ul>
  		<div style=\"height: 1px;\" class=\"navbar-collapse collapse\">
           <ul class=\"nav navbar-nav navbar-right\">
-            <li>";
+            ";
 			if($existeusuario)
 			{
-				$text .="<a href=\"perfil.php\">".img("./image/".$usuarioactual->getimagen(),"20px","","","","perfil")."</a>";
+				$MenuAdmin="";
+				if($esadmin)
+					$MenuAdmin="<li><a href=\"admin.php\">Administración</a></li>   ";
+				$text .=	"
+		  	<li class=\"dropdown\">
+		  	 <a href=\"perfil.php\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">".img("./image/".$usuarioactual->getimagen(),"20px","","","","perfil")."<b class=\"caret\"></b></a>
+              	<ul class=\"dropdown-menu\">
+					<li><a href=\"perfil.php\">Perfil</a></li>   
+					<li><a href=\"configuracion.php\">Configuración</a></li> 
+					".$MenuAdmin."  
+					<li><a href=\"logout.php\">Cerrar Sesión</a></li>              
+				</ul>
+            </li>";
 			}
 			else
 			{
-				$text .="<a href=\"login.php\">Iniciar Sesión</a>";
+				$text .="<li><a href=\"login.php\">Iniciar Sesión</a></li>";
 			}
-			$text .="</li>
+			$text .="
           </ul>
           <form class=\"navbar-form navbar-right\">
             <input class=\"form-control\" placeholder=\"Buscar...\" type=\"text\">
@@ -257,5 +269,7 @@ function menu_html($datos,$nivel,$existeusuario,$usuarioactual)
       </div>
     </div>";
 	return $text;	
+	
+
 }
 ?>

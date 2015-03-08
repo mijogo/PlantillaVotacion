@@ -50,7 +50,7 @@ class menuBD extends DataBase
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$menus[]=new menu("",$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$menus[]=new menu($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $menus;
 		}
@@ -59,7 +59,7 @@ class menuBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$menus= new menu("",$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$menus= new menu($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $menus;
 		}
 	}

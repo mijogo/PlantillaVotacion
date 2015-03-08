@@ -2,19 +2,19 @@
 require_once "usuarioBD.php";
 class usuario extends usuarioBD
 {
-	function usuario($db,$id="",$username="",$password="",$poder="",$email="",$verificacion="",$edad="",$sexo="",$pais="",$fecharegistro="",$imagen="",$facecode="",$facecodeex="",$twittercode="",$twittercodeex="",$extracode="",$extracodeex="" )
+	function usuario($db,$id="",$username="",$password="",$email="",$verificacion="",$fechacumpleano="",$sexo="",$pais="",$fecharegistro="",$imagen="",$poder="",$facecode="",$facecodeex="",$twittercode="",$twittercodeex="",$extracode="",$extracodeex="" )
 	{
 		$this->id = $id;
 		$this->username = $username;
 		$this->password = $password;
-		$this->poder = $poder;
 		$this->email = $email;
 		$this->verificacion = $verificacion;
-		$this->edad = $edad;
+		$this->fechacumpleano = $fechacumpleano;
 		$this->sexo = $sexo;
 		$this->pais = $pais;
 		$this->fecharegistro = $fecharegistro;
 		$this->imagen = $imagen;
+		$this->poder = $poder;
 		$this->facecode = $facecode;
 		$this->facecodeex = $facecodeex;
 		$this->twittercode = $twittercode;
@@ -47,14 +47,6 @@ class usuario extends usuarioBD
 	{
 		return $this->password;
 	}
-	function setpoder($poder)
-	{
-		$this->poder=$poder;
-	}
-	function getpoder()
-	{
-		return $this->poder;
-	}
 	function setemail($email)
 	{
 		$this->email=$email;
@@ -71,13 +63,13 @@ class usuario extends usuarioBD
 	{
 		return $this->verificacion;
 	}
-	function setedad($edad)
+	function setfechacumpleano($fechacumpleano)
 	{
-		$this->edad=$edad;
+		$this->fechacumpleano=$fechacumpleano;
 	}
-	function getedad()
+	function getfechacumpleano()
 	{
-		return $this->edad;
+		return $this->fechacumpleano;
 	}
 	function setsexo($sexo)
 	{
@@ -110,6 +102,14 @@ class usuario extends usuarioBD
 	function getimagen()
 	{
 		return $this->imagen;
+	}
+	function setpoder($poder)
+	{
+		$this->poder=$poder;
+	}
+	function getpoder()
+	{
+		return $this->poder;
 	}
 	function setfacecode($facecode)
 	{

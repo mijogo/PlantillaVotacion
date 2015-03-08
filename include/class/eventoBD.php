@@ -49,7 +49,7 @@ class eventoBD extends DataBase
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$eventos[]=new evento("",$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$eventos[]=new evento($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $eventos;
 		}
@@ -58,7 +58,7 @@ class eventoBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$eventos= new evento("",$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$eventos= new evento($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $eventos;
 		}
 	}

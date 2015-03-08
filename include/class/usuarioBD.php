@@ -5,19 +5,19 @@ class usuarioBD extends DataBase
 	function usuarioBD(){}
 	
 	function save()
-	{		$sql = "INSERT INTO usuario (id,username,password,poder,email,verificacion,edad,sexo,pais,fecharegistro,imagen,facecode,facecodeex,twittercode,twittercodeex,extracode,extracodeex) VALUES 
+	{		$sql = "INSERT INTO usuario (id,username,password,email,verificacion,fechacumpleano,sexo,pais,fecharegistro,imagen,poder,facecode,facecodeex,twittercode,twittercodeex,extracode,extracodeex) VALUES 
 		(
 		'".$this->id."',
 		'".$this->username."',
 		'".$this->password."',
-		'".$this->poder."',
 		'".$this->email."',
 		'".$this->verificacion."',
-		'".$this->edad."',
+		'".$this->fechacumpleano."',
 		'".$this->sexo."',
 		'".$this->pais."',
 		'".$this->fecharegistro."',
 		'".$this->imagen."',
+		'".$this->poder."',
 		'".$this->facecode."',
 		'".$this->facecodeex."',
 		'".$this->twittercode."',
@@ -61,7 +61,7 @@ class usuarioBD extends DataBase
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$usuarios[]=new usuario("",$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$usuarios[]=new usuario($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $usuarios;
 		}
@@ -70,7 +70,7 @@ class usuarioBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$usuarios= new usuario("",$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$usuarios= new usuario($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $usuarios;
 		}
 	}

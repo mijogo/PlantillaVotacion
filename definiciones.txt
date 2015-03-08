@@ -19,3 +19,35 @@ se refiere al estado actual del torneo, este se puede poner en los siguientes di
 se refiere al numero total de votos conseguidos por esta batalla
 [int ganador]
 almacena al ganador de la batalla para su futura utilizacion
+
+///////////[[calendario]]//////////
+Sirve para almacenar eventos y programarlos
+[int id]
+es el identificador del evento programado
+[varchar accion]
+identifica el tipo de accion que realiza
+SORTE: se refiere a los sorteos que se pueden realizar
+ACTVA: se refiere a la activacion de alguna batalla
+CONVO: se refiere al contro de votos de alguna batalla
+CHTOR: se refiere al cambio del estado del torneo
+CHEVE: se refiere a la creacion o el termino de un evento en particular
+CALPO: hace el calculo de la ponderacion del evento en general
+INMAT: sirve para ingresar un nuevo match
+[datetime fecha]
+Se refiere a la fecha exacta de la activacion
+[int hecho]
+se refiere si la accion fue hecha o no
+-1: aun no se realiza
+1: ya se llevo a cabo
+[varchar targetstring]
+[date targetdate]
+[int targetint]
+todos sirven para setear los datos de algun evento
+-SORTE:String [La ronda que se lleva a cabo],[el grupo a sortear],[el tipo de sorteo],[si se usa semilla]
+Tipo de sorteo ELIMI: Eliminacion y ELGRU: torneo en grupos
+Semilla: 0-no usa semillas, 1-si usa semillas
+-ACTVA: usa la fecha para activar las batallas
+-CONVO: no usa nigun dato en especial
+-CHTOR: int co los posibles estados del torneo
+-CHEVE: String CREAR: crea un nuevo evento - KILL: termina un evento
+-CALPO: Se calcula la ponderacion con los personajes de una instancia actual y los datos de una instancia pasada

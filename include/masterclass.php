@@ -12,9 +12,9 @@ class MasterClass
 		$a_menu = $a_menu->read(true,1,array("namepage"));
 		
 
-		if(count($a_menu) == 0 && $NamePage != "login")
+		if(count($a_menu) == 0 && $NamePage != "login" && $NamePage != "registro")
 			Redireccionar("home.php");
-		elseif($NamePage != "login")
+		elseif($NamePage != "login"&&$NamePage != "registro")
 		{
 			$this->id_pagina = $a_menu[0]->getid();
 			$b_menu = new menu($BG->con);
@@ -112,7 +112,7 @@ class MasterClass
 				}
 			}
 		}
-		return menu_html($datos,$this->nivel,$this->useractivo,$this->user);
+		return menu_html($datos,$this->nivel,$this->useractivo,$this->user,$this->useradmin);
 	}
 	
 	function torneoActual()
@@ -135,12 +135,16 @@ class MasterClass
 		if(isset($_COOKIE['id_user']))
 		{
 			$userpage = new usuario($this->BG->con);
-			$userpage->setidusuario($_COOKIE['id_user']);
-			$userpage->read(true,1,array("idusuario"));
+			$userpage->setid($_COOKIE['id_user']);
+			$userpage = $userpage->read(true,1,array("id"));
 			if(count($userpage)>0)
 			{
 				$this->user = $userpage[0];
 				$this->useractivo=true;
+				if($this->user->getpoder()>3)
+					$this->useradmin=true;
+				else
+					$this->useradmin=false;
 				return $this->user->getpoder();
 			}
 			else
@@ -207,7 +211,7 @@ class MasterClass
 			$ipUsadas->setidevento($this->evetoActual->getid());
 			if($this->useractivo)
 			{
-				$ipUsadas->setuser($this->user->getidusuario());
+				$ipUsadas->setuser($this->user->getid());
 				$ipUsadas = $ipUsadas->read(true,0,"",1,array("fecha","ASC")," idevento = ".$ipUsadas->getidevento()." AND (codepass = '".$ipUsadas->getcodepass()."' OR ip = '".$ipUsadas->getip()."' OR user = ".$ipUsadas->getuser().") ");
 			}
 			else
@@ -256,7 +260,7 @@ class MasterClass
 			$buscIP->setip($this->ip);
 			$buscIP->setcodepass($this->cookies);
 			$buscIP->setusada(1);
-			$buscIP = $buscip->read(true,3,array("ip","AND","codepass","AND","usada"));
+			$buscIP = $buscIP->read(true,3,array("ip","AND","codepass","AND","usada"));
 			if(count($buscIP)>0)
 				$creaIp->setTiempo(0);
 			else
@@ -304,7 +308,7 @@ class MasterClass
 		$extraInfo = $_SERVER['HTTP_USER_AGENT'];
 		$creaIp->setinfo($extraInfo);
 		if($this->useractivo)
-			$creaIp->setuser($this->user->getidusuario());
+			$creaIp->setuser($this->user->getid());
 		else
 			$creaIp->setuser(-1);
 		$creaIp->setuniquecode($this->newUniqueCode);
