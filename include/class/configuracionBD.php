@@ -5,12 +5,13 @@ class configuracionBD extends DataBase
 	function configuracionBD(){}
 	
 	function save()
-	{		$sql = "INSERT INTO configuracion (id,nombre,idtorneo,numerogrupos,tipo,segundo,primclas,primproxronda,segclas,segproxronda,sorteo,limitevotos,extra) VALUES 
+	{		$sql = "INSERT INTO configuracion (id,nombre,idtorneo,numerogrupos,numerobatallas,tipo,segundo,primclas,primproxronda,segclas,segproxronda,sorteo,limitevotos,extra) VALUES 
 		(
 		'".$this->id."',
 		'".$this->nombre."',
 		'".$this->idtorneo."',
 		'".$this->numerogrupos."',
+		'".$this->numerobatallas."',
 		'".$this->tipo."',
 		'".$this->segundo."',
 		'".$this->primclas."',
@@ -52,12 +53,12 @@ class configuracionBD extends DataBase
 		}
 		if($multi)
 		{
-			$result = $this->select($sql);
+			$result = $this->multiselect($sql);
 			$configuracions = array();
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$configuracions[]=new configuracion($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$configuracions[]=new configuracion($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $configuracions;
 		}
@@ -66,7 +67,7 @@ class configuracionBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$configuracions= new configuracion($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$configuracions= new configuracion($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $configuracions;
 		}
 	}

@@ -2,7 +2,7 @@
 require_once "include.php";
 class MasterClass
 {
-	function MasterClass($NamePage)
+	function MasterClass($NamePage,$Esta_Menu=true,$nivel=-1)
 	{
 		$this->user="";
 		$BG = new DataBase();
@@ -12,9 +12,9 @@ class MasterClass
 		$a_menu = $a_menu->read(true,1,array("namepage"));
 		
 
-		if(count($a_menu) == 0 && $NamePage != "login" && $NamePage != "registro")
+		if(count($a_menu) == 0 && $Esta_Menu)
 			Redireccionar("home.php");
-		elseif($NamePage != "login"&&$NamePage != "registro")
+		elseif($Esta_Menu)
 		{
 			$this->id_pagina = $a_menu[0]->getid();
 			$b_menu = new menu($BG->con);
@@ -27,7 +27,7 @@ class MasterClass
 		}
 		else
 		{
-			$this->nivel=-1;
+			$this->nivel=$nivel;
 			$this->id_pagina=-1;
 		}
 		$BG->close();

@@ -28,6 +28,7 @@ class torneoBD extends DataBase
 	{
 		$sql="SELECT * FROM torneo ";
 		if($consultaextra=="")
+		{
 			if($cantConsulta != 0)
 			{
 				$sql .= "WHERE ";
@@ -38,6 +39,7 @@ class torneoBD extends DataBase
 						$sql .= $Consulta[$i*2+1]." ";
 				}
 			}
+		}
 		else
 			$sql="WHERE ".$consultaextra;
 		

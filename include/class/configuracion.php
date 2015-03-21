@@ -2,12 +2,13 @@
 require_once "configuracionBD.php";
 class configuracion extends configuracionBD
 {
-	function configuracion($id="",$nombre="",$idtorneo="",$numerogrupos="",$tipo="",$segundo="",$primclas="",$primproxronda="",$segclas="",$segproxronda="",$sorteo="",$limitevotos="",$extra="")
+	function configuracion($db,$id="",$nombre="",$idtorneo="",$numerogrupos="",$numerobatallas="",$tipo="",$segundo="",$primclas="",$primproxronda="",$segclas="",$segproxronda="",$sorteo="",$limitevotos="",$extra="" )
 	{
 		$this->id = $id;
 		$this->nombre = $nombre;
 		$this->idtorneo = $idtorneo;
 		$this->numerogrupos = $numerogrupos;
+		$this->numerobatallas = $numerobatallas;
 		$this->tipo = $tipo;
 		$this->segundo = $segundo;
 		$this->primclas = $primclas;
@@ -17,6 +18,7 @@ class configuracion extends configuracionBD
 		$this->sorteo = $sorteo;
 		$this->limitevotos = $limitevotos;
 		$this->extra = $extra;
+		$this->con = $db;
 	}
 	function setid($id)
 	{
@@ -49,6 +51,14 @@ class configuracion extends configuracionBD
 	function getnumerogrupos()
 	{
 		return $this->numerogrupos;
+	}
+	function setnumerobatallas($numerobatallas)
+	{
+		$this->numerobatallas=$numerobatallas;
+	}
+	function getnumerobatallas()
+	{
+		return $this->numerobatallas;
 	}
 	function settipo($tipo)
 	{

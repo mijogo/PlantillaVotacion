@@ -1,4 +1,4 @@
-/////[[batalla]]/////////
+/////////////////////////////////[[batalla]]/////////////////////////////////////////////////
 guarda los datos se una batalla, esto considera las fechas y todo eso
 [int id]
 guarda el id de la batalla, esto se puede utilizar como clave foranea junto a los personajes
@@ -9,7 +9,7 @@ se almacena la ronda en que se encuentra el enfrentamiento
 [varchar grupo]
 el grupo exacto donde se desarrola el enfrentamiento, esto consiste en reducir a un grupo exacto
 [int idtorneo]
-toda batalla esta relacionado a un evento, si es el activo, significa que pertenece al actual
+clave foranea de torneo, toda batalla esta relacionado a un evento, si es el activo, significa que pertenece al actual
 [int estado]
 se refiere al estado actual del torneo, este se puede poner en los siguientes digitos
 -1: batallas que aun no han comenzado
@@ -20,7 +20,7 @@ se refiere al numero total de votos conseguidos por esta batalla
 [int ganador]
 almacena al ganador de la batalla para su futura utilizacion
 
-///////////[[calendario]]//////////
+/////////////////////////////////[[calendario]]///////////////////////////////////////////////
 Sirve para almacenar eventos y programarlos
 [int id]
 es el identificador del evento programado
@@ -51,3 +51,52 @@ Semilla: 0-no usa semillas, 1-si usa semillas
 -CHTOR: int co los posibles estados del torneo
 -CHEVE: String CREAR: crea un nuevo evento - KILL: termina un evento
 -CALPO: Se calcula la ponderacion con los personajes de una instancia actual y los datos de una instancia pasada
+
+/////////////////////////////////[[configuracion]]//////////////////////////////////////////////////
+Sirve para almacenar los datos de cada ronda de un torneo
+[int id]
+es el identificador de cada configuracion
+[varchar nombre]
+guarda el nombre de la ronda, ejemplos "Preliminar", "Primera Ronda", etc
+[int idtorneo]
+Clave foranea de torneo, sirve para relacionar una configuracion a un torneo
+[int numerogrupos]
+este almacena la cantidad de grupos que tiene una ronda
+[int numerobatallas]
+cuenta la cantidad total de batallas, esto solo cuenta cuando son grupos de eliminacion
+[varchar tipo]
+Esta variable nos da la informacion del tipo de Ronda que es, puede ser 
+-ELIMI: es todo un grupo de elminacion directa
+-ELGRU: es para grupos, este puede tener varias batallas en cada ronda
+-EXHIB: es para batallas que no se consideran para la clasificacion del torneo
+[int segundo]
+Indica si los personajes pueden clasificar a otroa ronda
+1: si clasifican a otro grupo
+0: solo se toma los primeros numeros para clasificar
+[int primclas]
+indica hasta que punto clasifican los primeros personajes
+[varchar primproxronda]
+indica cual es el siguiente grupo
+[int segclas]
+indica hasta que puesto clasifican los personajes en dicha instancia, esto solo si esta activada la opcion segundo
+[varchar segproxronda]
+indica cual es el grupo al que clasifican los segundos clasificados
+[int sorteo]
+indica si los clasificados de este grupo deben pasar por un sorteo, esto sirve para dejarlos listos para esto
+-1: si se hace sorteo, se modifica el grupo del personaje en "N"
+-0: no se hace el sorteo, se le da el grupo que corresponde
+[int limitevotos]
+muestra la cantidad maxima de votos que puede emitir una persona en un enfrentamiento
+[varchar extra]
+aun no tengo uso para esto
+
+/////////////////////////////////////////////[[estadistica]]///////////////////////////////////////////////////////
+guarda los datos de los votos por hora, sirve para devolver rapidamente las estadisticas
+[int idpersonaje]
+es una clave foranea para identificar a un ususario en especifico
+[int idbatalla]
+hace referencia a una batalla en especifico
+[datetime fecha]
+almacena la fecha y la hora de una cantidad de votos en especifico
+[int votos]
+almacena la cantidad exacta de votos que tiene un personaje

@@ -28,6 +28,9 @@ $ElementosTablaL[0]=array("id","dependencia","titulo","namepage","url","descripc
 //$NombreTablaL[0]="personajepar";
 //$ElementosTablaL[0]=array("id","nombre","serie","idpersonaje","idserie","imagenpeq","imagen","idtorneo","estado","grupo","ronda","seiyuu","ponderacion");
 
+//configuracion
+$NombreTablaL[]="configuracion";
+$ElementosTablaL[]=array("id","nombre","idtorneo","numerogrupos","numerobatallas","tipo","segundo","primclas","primproxronda","segclas","segproxronda","sorteo","limitevotos","extra");
 
 //ip
 $NombreTablaL[]="ip";
@@ -120,6 +123,7 @@ $text.=")\";
 	{
 		\$sql=\"SELECT * FROM ".$NombreTabla." \";
 		if(\$consultaextra==\"\")
+		{
 			if(\$cantConsulta != 0)
 			{
 				\$sql .= \"WHERE \";
@@ -130,8 +134,9 @@ $text.=")\";
 						\$sql .= \$Consulta[\$i*2+1].\" \";
 				}
 			}
+		}
 		else
-			\$sql=\"WHERE \".\$consultaextra;
+			\$sql.=\"WHERE \".\$consultaextra;
 		
 		if(\$cantOrden != 0)
 		{

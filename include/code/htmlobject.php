@@ -272,4 +272,24 @@ function menu_html($datos,$nivel,$existeusuario,$usuarioactual,$esadmin)
 	
 
 }
+
+function tablaobjetos($titulo,$array)
+{
+	$text = "";
+	$text.="
+    <div class=\"panel panel-default\">\n";
+	$text.="
+      <div class=\"panel-heading\">".$titulo."</div>
+	        <table class=\"table\">\n";
+	for($i=0;$i<count($array);$i++)
+	{
+		$text.="<tr>\n";
+		for($j=0;$j<count($array[$i]);$j++)
+			$text.="<td>".$array[$i][$j]."</td>\n";	
+		$text.="</tr>\n";
+	}
+	$text.="</table>
+	</div>	\n";
+	return $text;
+}
 ?>

@@ -4,7 +4,7 @@ if(!isset($_GET['action']))
 			$_GET['action']=0;
 if($_GET['action']==0)
 {
-	$ClaseMaestra = new MasterClass("registro");
+	$ClaseMaestra = new MasterClass("registro",false);
 	if(!$ClaseMaestra->VerificacionIdentidad(1))
 		Redireccionar("home.php");
 	$file = fopen("registro.html", "r") or exit("Unable to open file!");

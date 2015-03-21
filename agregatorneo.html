@@ -1,0 +1,27 @@
+<div class="col-sm-6 col-md-4">
+	<h1>Crear un Toneo</h1>
+    <form role="form" action="agregatorneo.php?action=1" method="post">
+      <div class="form-group">
+        <label for="nombretorneo">Nombre</label>
+        <input type="text" class="form-control" id="nombretorneo" name="nombretorneo" placeholder="Introduzca el nombre del torneo">
+      </div>
+      
+  		<div class="form-group">
+        <label for="anotorneo">Año</label>
+        <input type="text" class="form-control" id="anotorneo"  name="anotorneo" placeholder="Introduzca el año del torneo">
+      </div>
+
+  		<div class="form-group">
+        <label for="versiontorneo">Version</label>
+        <input type="text" class="form-control" id="versiontorneo"  name="versiontorneo" placeholder="Introduzca la version del torneo">
+      </div>
+      
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="activotroneo" name="activotroneo" > Activar Torneo
+        </label>
+      </div>
+      <button type="submit" class="btn btn-default">Crear</button>
+    </form>
+</div>
+

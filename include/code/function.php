@@ -355,4 +355,10 @@ function ingPagina($estructura,$menu,$script,$body,$widget,$extra="")
 	$estructura = $estructura[0].$widget.$estructura[1];
 	return $estructura;
 }
+
+function ingcualpag($pagina,$posicion,$ingresar)
+{
+	$estructura	= explode("[[".$posicion."]]",$pagina);
+	return $estructura[0].$ingresar.$estructura[1];
+}
 ?>
