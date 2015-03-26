@@ -18,6 +18,34 @@ if($_GET['action']==0)
 }
 else
 {
+	if(!isset($_GET['accion']))
+			$_GET['accion']=1;
+	if($_GET['accion']==1)
+	{	
+		$BG = new DataBase();
+		$BG->connect();
+		$ActivarTorneo = new Torneo($BG->con);
+		$ActivarTorneo->setactivo(1);
+		$ActivarTorneo = $ActivarTorneo->read(false,1,array("activo"));
+		$ActivarTorneo->setactivo(0);
+		$ActivarTorneo->update(1,array("activo"),1,array("id"));
+		$ActivarTorneo->setid($_GET['idtorneo']);
+		$ActivarTorneo = $ActivarTorneo->read(false,1,array("id"));
+		$ActivarTorneo->setactivo(1);
+		$ActivarTorneo->update(1,array("activo"),1,array("id"));
+		$BG->close();
+		redireccionar("revtorneo.php");
+	}
+	elseif($_GET['accion']==2)
+	{
+		$BG = new DataBase();
+		$BG->connect();
+		$BorrarTorneo = new Torneo($BG->con);
+		$BorrarTorneo->setid($_GET['idtorneo']);
+		$BorrarTorneo->delete("1",array("id"));
+		$BG->close();
+		redireccionar("revtorneo.php");
+	}
 }
 
 function arregloTorneo()
@@ -35,7 +63,7 @@ function arregloTorneo()
 			$activo = "SI";
 		else
 			$activo = "NO";
-		$objetos[] = array($torneos[$i]->getnombre(),$torneos[$i]->getano(),$torneos[$i]->getversion(),$activo,"<a href=\"modificartorneo.php?idtorneo=".$torneos[$i]->getid()."\">Modificar</a>");
+		$objetos[] = array($torneos[$i]->getnombre(),$torneos[$i]->getano(),$torneos[$i]->getversion(),$activo,"<a href=\"revtorneo.php?idtorneo=".$torneos[$i]->getid()."&action=1&accion=1\">Activar</a>","<a href=\"modificartorneo.php?idtorneo=".$torneos[$i]->getid()."\">Modificar</a>","<a href=\"revtorneo.php?idtorneo=".$torneos[$i]->getid()."&action=1&accion=2\">Eliminar</a>");
 	}	
 	$BG->close();
 	return $objetos;
