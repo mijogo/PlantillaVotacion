@@ -12,8 +12,8 @@ $ElementosTablaL = array();
 //$ElementosTablaL[0]=array("iduser","accion","fecha","estado","ip","accioncompleta");
 
 //menu
-$NombreTablaL[0]="menu";
-$ElementosTablaL[0]=array("id","dependencia","titulo","namepage","url","descripcion");
+$NombreTablaL[]="menu";
+$ElementosTablaL[]=array("id","dependencia","titulo","namepage","url","descripcion");
 
 //participacionBD
 //$NombreTablaL[0]="participacion";
@@ -21,12 +21,22 @@ $ElementosTablaL[0]=array("id","dependencia","titulo","namepage","url","descripc
 //pelea
 //$NombreTablaL[0]="pelea";
 //$ElementosTablaL[0]=array("idpersonaje","idbatalla","votos");
+
+//serie
+$NombreTablaL[]="serie";
+$ElementosTablaL[]=array("id","nombre","imagen","nombrecorto");
+
+//serie
+$NombreTablaL[]="seriepar";
+$ElementosTablaL[]=array("id","nombre","imagen","idtorneo","idserie","ano","tipoformato","tcours","ncours");
+
 //personaje
-//$NombreTablaL[0]="personaje";
-//$ElementosTablaL[0]=array("id","nombre","serie","imagen","idserie","nparticipaciones","mejorpos");
+$NombreTablaL[]="personaje";
+$ElementosTablaL[]=array("id","nombre","serie","imagen","idserie","nparticipaciones","mejorpos");
+
 //personajepar
-//$NombreTablaL[0]="personajepar";
-//$ElementosTablaL[0]=array("id","nombre","serie","idpersonaje","idserie","imagenpeq","imagen","idtorneo","estado","grupo","ronda","seiyuu","ponderacion");
+$NombreTablaL[]="personajepar";
+$ElementosTablaL[]=array("id","nombre","idpersonaje","idserie","imagenpeq","imagen","idtorneo","estado","grupo","ronda","seiyuu","ponderacion");
 
 //configuracion
 $NombreTablaL[]="configuracion";

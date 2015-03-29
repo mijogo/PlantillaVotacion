@@ -5,11 +5,10 @@ class personajeparBD extends DataBase
 	function personajeparBD(){}
 	
 	function save()
-	{		$sql = "INSERT INTO personajepar (id,nombre,serie,idpersonaje,idserie,imagenpeq,imagen,idtorneo,estado,grupo,ronda,seiyuu,ponderacion) VALUES 
+	{		$sql = "INSERT INTO personajepar (id,nombre,idpersonaje,idserie,imagenpeq,imagen,idtorneo,estado,grupo,ronda,seiyuu,ponderacion) VALUES 
 		(
 		'".$this->id."',
 		'".$this->nombre."',
-		'".$this->serie."',
 		'".$this->idpersonaje."',
 		'".$this->idserie."',
 		'".$this->imagenpeq."',
@@ -27,6 +26,7 @@ class personajeparBD extends DataBase
 	{
 		$sql="SELECT * FROM personajepar ";
 		if($consultaextra=="")
+		{
 			if($cantConsulta != 0)
 			{
 				$sql .= "WHERE ";
@@ -37,8 +37,9 @@ class personajeparBD extends DataBase
 						$sql .= $Consulta[$i*2+1]." ";
 				}
 			}
+		}
 		else
-			$sql="WHERE ".$consultaextra;
+			$sql.="WHERE ".$consultaextra;
 		
 		if($cantOrden != 0)
 		{
@@ -52,12 +53,12 @@ class personajeparBD extends DataBase
 		}
 		if($multi)
 		{
-			$result = $this->select($sql);
+			$result = $this->multiselect($sql);
 			$personajepars = array();
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$personajepars[]=new personajepar($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$personajepars[]=new personajepar($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $personajepars;
 		}
@@ -66,7 +67,7 @@ class personajeparBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$personajepars= new personajepar($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$personajepars= new personajepar($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $personajepars;
 		}
 	}

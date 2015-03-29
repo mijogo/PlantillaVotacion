@@ -28,5 +28,9 @@ include_once "Class/torneo.php";
 include_once "Class/torneoBD.php";
 include_once "Class/usuario.php";
 include_once "Class/usuarioBD.php";
+include_once "Class/serie.php";
+include_once "Class/seriepar.php";
+include_once "Class/serieBD.php";
+include_once "Class/serieparBD.php";
 
 ?>

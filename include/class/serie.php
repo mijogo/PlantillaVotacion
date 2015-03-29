@@ -2,11 +2,13 @@
 require_once "serieBD.php";
 class serie extends serieBD
 {
-	function serie($id="",$nombre="",$imagen="")
+	function serie($db,$id="",$nombre="",$imagen="",$nombrecorto="" )
 	{
 		$this->id = $id;
 		$this->nombre = $nombre;
 		$this->imagen = $imagen;
+		$this->nombrecorto = $nombrecorto;
+		$this->con = $db;
 	}
 	function setid($id)
 	{
@@ -32,4 +34,13 @@ class serie extends serieBD
 	{
 		return $this->imagen;
 	}
+	function setnombrecorto($nombrecorto)
+	{
+		$this->nombrecorto=$nombrecorto;
+	}
+	function getnombrecorto()
+	{
+		return $this->nombrecorto;
+	}
 }?>
+

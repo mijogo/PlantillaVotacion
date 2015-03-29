@@ -1,1 +1,80 @@
+<div class="col-sm-6 col-md-4">
+	<h1>Agregar Serie</h1>
+    <form role="form" action="agregaserie.php?action=1" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="nombreserie">Nombre</label>
+        <input type="text" class="form-control" id="nombreserie" name="nombreserie" placeholder="Introduzca el nombre de la serie">
+      </div>
+      
+      <div class="form-group">
+        <label for="imagenserie">Imagen</label>
+        <input type="file" id="imagenserie" name="imagenserie">
+        <p class="help-block">Es una imagen de la serie en general</p>
+      </div>
 
+  		<div class="form-group">
+        <label for="nombrecorto">Nombre Corto</label>
+        <input type="text" class="form-control" id="nombrecorto"  name="nombrecorto" placeholder="Introduzca un nombre corto para la serie">
+      </div>
+      
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="torneoactivar" name="torneoactivar" > Se activa automaticamente esta serie para este torneo (Si selecciona esto, rellene lo de abajo)
+        </label>
+      </div>
+      
+
+  		<div class="form-group">
+        <label for="nombreseriepar">Nombre Temporada</label>
+        <input type="text" class="form-control" id="nombreseriepar"  name="nombreseriepar" placeholder="Introduzca un nombre de la serie para la temporada">
+      </div>
+       
+       <div class="checkbox">
+        <label>
+          <input type="checkbox" id="mismaimagen" name="mismaimagen" > desea usar la misma imagen de la serie en general
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="imagenserie">Imagen</label>
+        <input type="file" id="imagenseriepar" name="imagenseriepar">
+        <p class="help-block">Es una imagen de la serie para la temporada</p>
+      </div>
+      
+      <div class="form-group">
+        <label for="anoserie">Año</label>
+        <input type="text" class="form-control" id="anoserie"  name="anoserie" placeholder="Introduzca el año en que se emitio la temporada para este concurso">
+      </div>
+      
+      <div class="form-group">
+        <label for="tipoformato">Formato en que salio dicho anime</label>
+          <select class="form-control" name="tipoformato" id="tipoformato">
+                <option value="OVA">OVA</option>
+                <option value="ONA">ONA</option>
+                <option value="MOVIE">Pelicula</option>
+                <option value="SERIE">Serie</option>
+            </select>
+     </div>
+     <div class="form-group">
+        <label for="tcours">temporada de salida del anime</label>
+          <select class="form-control" name="tcours" id="tcours">
+                <option value="1">Invierno</option>
+                <option value="2">Primavera</option>
+                <option value="3">Verano</option>
+                <option value="4">Otoño</option>
+            </select>
+     </div>
+      
+      
+           <div class="form-group">
+        <label for="ncours">Duracion del anime en cours</label>
+          <select class="form-control" name="ncours" id="ncours">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">4+</option>
+            </select>
+     </div>      
+      <button type="submit" class="btn btn-default">ingresar</button>
+    </form>
+</div>

@@ -2,7 +2,7 @@
 require_once "personajeBD.php";
 class personaje extends personajeBD
 {
-	function personaje($id="",$nombre="",$serie="",$imagen="",$idserie="",$nparticipaciones="",$mejorpos="")
+	function personaje($db,$id="",$nombre="",$serie="",$imagen="",$idserie="",$nparticipaciones="",$mejorpos="" )
 	{
 		$this->id = $id;
 		$this->nombre = $nombre;
@@ -11,6 +11,7 @@ class personaje extends personajeBD
 		$this->idserie = $idserie;
 		$this->nparticipaciones = $nparticipaciones;
 		$this->mejorpos = $mejorpos;
+		$this->con = $db;
 	}
 	function setid($id)
 	{

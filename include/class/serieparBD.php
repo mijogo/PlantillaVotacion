@@ -1,24 +1,27 @@
 <?php
 require_once "DataBase.php";
-class menuBD extends DataBase
+class serieparBD extends DataBase
 {
-	function menuBD(){}
+	function serieparBD(){}
 	
 	function save()
-	{		$sql = "INSERT INTO menu (id,dependencia,titulo,namepage,url,descripcion) VALUES 
+	{		$sql = "INSERT INTO seriepar (id,nombre,imagen,idtorneo,idserie,ano,tipoformato,tcours,ncours) VALUES 
 		(
 		'".$this->id."',
-		'".$this->dependencia."',
-		'".$this->titulo."',
-		'".$this->namepage."',
-		'".$this->url."',
-		'".$this->descripcion."')";
+		'".$this->nombre."',
+		'".$this->imagen."',
+		'".$this->idtorneo."',
+		'".$this->idserie."',
+		'".$this->ano."',
+		'".$this->tipoformato."',
+		'".$this->tcours."',
+		'".$this->ncours."')";
 		return $this->insert($sql);
 	}
 
 	function read($multi=true , $cantConsulta = 0 , $Consulta = "" , $cantOrden = 0 , $Orden = "" , $consultaextra="")
 	{
-		$sql="SELECT * FROM menu ";
+		$sql="SELECT * FROM seriepar ";
 		if($consultaextra=="")
 		{
 			if($cantConsulta != 0)
@@ -48,27 +51,27 @@ class menuBD extends DataBase
 		if($multi)
 		{
 			$result = $this->multiselect($sql);
-			$menus = array();
+			$seriepars = array();
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$menus[]=new menu($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$seriepars[]=new seriepar($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
-			return $menus;
+			return $seriepars;
 		}
 		else
 		{
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$menus= new menu($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
-			return $menus;
+			$seriepars= new seriepar($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			return $seriepars;
 		}
 	}
 	
 	function update($cantSet = 0 , $Set = "" , $cantConsulta = 0 , $Consulta= "")
 	{
-		$sql="UPDATE menu ";
+		$sql="UPDATE seriepar ";
 		if($cantSet != 0)
 		{
 			$sql .= "SET ";
@@ -95,7 +98,7 @@ class menuBD extends DataBase
 	
 	function delete($cantConsulta = 0 , $Consulta = "")
 	{
-		$sql = "DELETE FROM menu ";
+		$sql = "DELETE FROM seriepar ";
 		if($cantConsulta != 0)
 		{
 			$sql .= "WHERE ";

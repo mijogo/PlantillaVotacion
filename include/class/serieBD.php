@@ -5,18 +5,20 @@ class serieBD extends DataBase
 	function serieBD(){}
 	
 	function save()
-	{		$sql = "INSERT INTO serie (id,nombre,imagen) VALUES 
+	{		$sql = "INSERT INTO serie (id,nombre,imagen,nombrecorto) VALUES 
 		(
 		'".$this->id."',
 		'".$this->nombre."',
-		'".$this->imagen."')";
+		'".$this->imagen."',
+		'".$this->nombrecorto."')";
 		return $this->insert($sql);
 	}
 
-	function read($multi=true , $cantConsulta = 0 , $Consulta = "" , $cantOrden = 0 , $Orden = "" , , $consultaextra="")
+	function read($multi=true , $cantConsulta = 0 , $Consulta = "" , $cantOrden = 0 , $Orden = "" , $consultaextra="")
 	{
 		$sql="SELECT * FROM serie ";
 		if($consultaextra=="")
+		{
 			if($cantConsulta != 0)
 			{
 				$sql .= "WHERE ";
@@ -27,8 +29,9 @@ class serieBD extends DataBase
 						$sql .= $Consulta[$i*2+1]." ";
 				}
 			}
+		}
 		else
-			$sql="WHERE ".$consultaextra;
+			$sql.="WHERE ".$consultaextra;
 		
 		if($cantOrden != 0)
 		{
@@ -42,19 +45,12 @@ class serieBD extends DataBase
 		}
 		if($multi)
 		{
-			$result = $this->select($sql);
-			$".serie."s = array();
+			$result = $this->multiselect($sql);
+			$series = array();
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$".serie."s[]=new serie(";
-			for($i=0;$i<count($ElementosTabla);$i++)
-			{
-				$text.= "$row[$i++]";
-				if($i!=count($ElementosTabla)-1)
-					$text.= ",";
-			}
-			$text.=");
+				$series[]=new serie($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $series;
 		}
@@ -63,14 +59,7 @@ class serieBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$series= new serie(";
-			for($i=0;$i<count($ElementosTabla);$i++)
-			{
-				$text.= "$row[$i++]";
-				if($i!=count($ElementosTabla)-1)
-					$text.= ",";
-			}
-			$text.=");
+			$series= new serie($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $series;
 		}
 	}
@@ -117,4 +106,5 @@ class serieBD extends DataBase
 		}
 		return $this->insert($sql);
 	}
-}?>
+}
+?>

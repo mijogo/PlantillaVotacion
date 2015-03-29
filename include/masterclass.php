@@ -119,7 +119,8 @@ class MasterClass
 	{
 		$torneoActual = new torneo($this->BG->con);
 		$torneoActual->setactivo(1);
-		$torneoActual = $torneoActual->read(true,1,array("activo"));		if(count($torneoActual)>0)
+		$torneoActual = $torneoActual->read(true,1,array("activo"));		
+		if(count($torneoActual)>0)
 		{
 			$this->torneoActivo=true;
 			$this->torneoActual = $torneoActual[0];

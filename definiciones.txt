@@ -115,3 +115,33 @@ es la clave foranea que relaciona un evento con un torneo
 muestra la fecha de inicio del evento actual
 [datetime fechatermino]
 almacena la fecha en que el evento ha sido finalizado
+
+/////////////////////////////////////////////////[[ip]]///////////////////////////////////////////////////////////
+guarda la ip y otros datos de la personas que ingresan a la pagina
+[datetime fehca]
+almacena la fecha de su primer ingreso
+[varchar ip]
+almacena la direccion ip del usuario
+[varchar codepass]
+almacena el codepass, que es un string que identifica a un equipo en particular, estas son cookies
+[varchar forumcode]
+se iba a utilizar para tener el forum code, pero se dejo de usar
+[int user]
+almacena la id del usuario que se conecta, si no hay un usuario logueado, se colo un -1 que significa anonimo
+[int idevento]
+es una clave foranea que relaciona a una ip con un evento en particular, estos eventos son por un periodo y sirven
+para una accion en particular
+[int tiempo]
+es el tiempo en minutos de que el usuario puede votar en nuestro concurso
+[int usada]
+se refiere a que si ya se utilizo este registro de usuario para votar
+0: si no esta usada
+1: si esta usada
+[varchar uniquecode]
+es una especie especial de codigo que sirve para identificar a un usuario en un evento particular
+[varchar mastercode]
+es el codigo maestro que tienen una serie de dispositivo, es el codepass del primer equipo ingresado y relacionado a otro equipo
+[varchar masterip]
+hace referencia a la ip del usuario que tiene el mastercode, esto sirve para encontrar relaciones de ip, entre dispoistivos
+[varchar info]
+almacena la info completa que da el ordenador, el sistema operativo y el navegador

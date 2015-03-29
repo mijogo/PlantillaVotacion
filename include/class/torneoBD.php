@@ -41,7 +41,7 @@ class torneoBD extends DataBase
 			}
 		}
 		else
-			$sql="WHERE ".$consultaextra;
+			$sql.="WHERE ".$consultaextra;
 		
 		if($cantOrden != 0)
 		{
