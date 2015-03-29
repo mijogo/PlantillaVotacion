@@ -605,7 +605,10 @@ class Schedule
 		$torneoActual = $torneoActual->read(false,1,array("activo"));
 
 		if($nuevoEstado=="CREAR")
+		{
 			$nuevoEvento = new evento("",1,$torneoActual->getid(),fechaHoraActual(),$tipo);
+			$nuevoEvento->save();
+		}
 		elseif($nuevoEstado=="KILL")
 		{
 			$nuevoEvento = new evento();

@@ -100,3 +100,18 @@ hace referencia a una batalla en especifico
 almacena la fecha y la hora de una cantidad de votos en especifico
 [int votos]
 almacena la cantidad exacta de votos que tiene un personaje
+
+///////////////////////////////////////////////[[evento]]///////////////////////////////////////////////////
+es un evento que sirve para relacionar con cualquier cosa
+[int id]
+es el identificador de la clase evento
+[int estado]
+muestra el estado actual del evento
+1: el evento se encuentra actualmente activo
+-1: el evento ha finalizado
+[int idtorneo]
+es la clave foranea que relaciona un evento con un torneo
+[datetime fechainicio]
+muestra la fecha de inicio del evento actual
+[datetime fechatermino]
+almacena la fecha en que el evento ha sido finalizado
