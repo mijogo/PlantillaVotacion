@@ -292,4 +292,44 @@ function tablaobjetos($titulo,$array)
 	</div>	\n";
 	return $text;
 }
+
+function inputform($id,$nombre,$value="",$type="text",$placeholder="")
+{
+	$text ="      <div class=\"form-group\">
+        <label for=\"".$id."\">".$nombre."</label>\n";
+	$text .="<input type=\"".$type."\" class=\"form-control\" id=\"".$id."\" name=\"".$id."\" placeholder=\"".$placeholder."\" value=\"".$value."\">\n";	
+	$text .="</div>";
+	return $text;
+}
+
+function inputimage($id,$nombre,$help)
+{
+	$text = "      <div class=\"form-group\">
+        <label for=\"".$id."\">".$nombre."</label>
+        <input type=\"file\" id=\"".$id."\" name=\"".$id."\">
+        <p class=\"help-block\">".$help."</p>
+      </div>";	
+	  return $text;
+}
+
+function inputselected($id,$nombre,$valores,$opciones,$value="")
+{
+	 $text = "<div class=\"form-group\">
+        <label for=\"".$id."\">".$nombre."</label>
+          <select class=\"form-control\" name=\"".$id."\" id=\"".$id."\">
+		  ";
+		  
+		  for($i=0;$i<count($valores);$i++)
+		  {
+			  $extra = "";
+			  if($valores[$i]==$value)
+			  	$extra = " selected";
+		  	$text .= "<option value=\"".$valores[$i]."\"".$extra.">".$opciones[$i]."</option>\n";
+		  }
+		  
+		  $text .= "
+            </select>
+     </div>";
+	 return $text;
+}
 ?>

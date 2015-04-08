@@ -97,6 +97,6 @@ else
 		$nuevaseriepar->save();
 	}
 	$BG->close();
-	//Redireccionar("admin.php");
+	Redireccionar("admin.php");
 }
 ?>

@@ -361,4 +361,34 @@ function ingcualpag($pagina,$posicion,$ingresar)
 	$estructura	= explode("[[".$posicion."]]",$pagina);
 	return $estructura[0].$ingresar.$estructura[1];
 }
+
+function uploadimage($archivo)
+{
+	if($archivo[ 'tmp_name' ] !="" )
+	{
+		$str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+		$cad = "";
+		for($i=0;$i<18;$i++) 
+		{
+			$cad .= substr($str,rand(0,62),1);
+		}
+		$tamano = $archivo[ 'size' ];
+		$tamaño_max="50000000000";
+		if( $tamano < $tamaño_max)
+		{ 
+			$destino = 'perimage' ;
+			$sep=explode('image/',$archivo["type"]);
+			$tipo=$sep[1];
+			$Stringcompleto =  $destino . '/' .$cad.'.'.$tipo;
+			if($tipo == "gif" || $tipo == "pjpeg" || $tipo == "bmp" || $tipo == "png" || $tipo == "jpg" || $tipo == "jpeg")
+			{
+				move_uploaded_file ($archivo[ 'tmp_name' ], $Stringcompleto);
+				return array(true,$Stringcompleto);
+			}
+			else return array(false,"No Tipo");
+		}
+		else return array(false,"No Tamaño");	
+	}
+	else return array(false,"No Imagen");	
+}
 ?>
