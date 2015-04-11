@@ -38,7 +38,8 @@ else
 	$busseriepar = $busseriepar->read(false,1,array("id"));
 	
 	$nuevopersonaje->setnombre($_POST["nombrepersonaje"]);
-	$nuevopersonaje->setserie($busseriepar->getidserie());
+	$nuevopersonaje->setserie($busseriepar->getnombre());
+	$nuevopersonaje->setidserie($busseriepar->getidserie());
 	$archivo = uploadimage($_FILES["imagenpequepersonaje"]);
 	if($archivo[0])
 		$nuevopersonaje->setimagen($archivo[1]);
@@ -59,6 +60,6 @@ else
 	$nuevopersonajepar->setseiyuu($_POST["seiyuupersonaje"]);
 	$nuevopersonajepar->save();
 	$BG->close();
-	//Redireccionar("admin.php");
+	Redireccionar("admin.php");
 }
 ?>
