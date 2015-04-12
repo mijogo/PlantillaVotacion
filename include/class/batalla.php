@@ -2,7 +2,7 @@
 require_once "batallaBD.php";
 class batalla extends batallaBD
 {
-	function batalla($id="",$fecha="",$ronda="",$grupo="",$idtorneo="",$estado="",$numerovotos="",$ganador="")
+	function batalla($db,$id="",$fecha="",$ronda="",$grupo="",$idtorneo="",$estado="",$numerovotos="",$ganador="" )
 	{
 		$this->id = $id;
 		$this->fecha = $fecha;
@@ -12,6 +12,7 @@ class batalla extends batallaBD
 		$this->estado = $estado;
 		$this->numerovotos = $numerovotos;
 		$this->ganador = $ganador;
+		$this->con = $db;
 	}
 	function setid($id)
 	{

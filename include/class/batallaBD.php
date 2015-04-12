@@ -22,6 +22,7 @@ class batallaBD extends DataBase
 	{
 		$sql="SELECT * FROM batalla ";
 		if($consultaextra=="")
+		{
 			if($cantConsulta != 0)
 			{
 				$sql .= "WHERE ";
@@ -32,8 +33,9 @@ class batallaBD extends DataBase
 						$sql .= $Consulta[$i*2+1]." ";
 				}
 			}
+		}
 		else
-			$sql="WHERE ".$consultaextra;
+			$sql.="WHERE ".$consultaextra;
 		
 		if($cantOrden != 0)
 		{
@@ -47,12 +49,12 @@ class batallaBD extends DataBase
 		}
 		if($multi)
 		{
-			$result = $this->select($sql);
+			$result = $this->multiselect($sql);
 			$batallas = array();
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$batallas[]=new batalla($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$batallas[]=new batalla($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $batallas;
 		}
@@ -61,7 +63,7 @@ class batallaBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$batallas= new batalla($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$batallas= new batalla($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $batallas;
 		}
 	}

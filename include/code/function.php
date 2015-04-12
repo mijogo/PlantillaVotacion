@@ -391,4 +391,18 @@ function uploadimage($archivo)
 	}
 	else return array(false,"No Imagen");	
 }
+
+function cambiarletra($char,$aletra=true)
+{
+	$letras=array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O");	
+	if($aletra)
+		return $letras[$char-1];
+	else
+	{
+		for($i=0;$i<count($letras);$i++)
+			if($letras[$i]==$char)
+				return $i+1;
+	}
+	return 0;
+}
 ?>

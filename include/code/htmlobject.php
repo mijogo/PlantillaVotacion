@@ -332,4 +332,25 @@ function inputselected($id,$nombre,$valores,$opciones,$value="")
      </div>";
 	 return $text;
 }
+
+function inputcheckbox($id,$nombre,$activo=false)
+{
+	 $extra = "";
+	 if($activo)
+	 	$extra=" checked";
+	  $text = "<div class=\"checkbox\">
+        <label>
+          <input type=\"checkbox\" id=\"".$id."\" name=\"".$id."\" ".$extra."> ".$nombre."
+        </label>
+      </div>	";
+	  return  $text;
+}
+
+function ingresardatos($titulo,$contenido)
+{
+	$text = "
+    <label>".$titulo."</label>
+    <p>".$contenido."</p>";
+	return $text;
+}
 ?>

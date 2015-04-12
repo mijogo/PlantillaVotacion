@@ -11,6 +11,10 @@ $ElementosTablaL = array();
 //$NombreTablaL[0]="log";
 //$ElementosTablaL[0]=array("iduser","accion","fecha","estado","ip","accioncompleta");
 
+//batalla
+$NombreTablaL[]="batalla";
+$ElementosTablaL[]=array("id","fecha","ronda","grupo","idtorneo","estado","numerovotos","ganador");
+
 //menu
 $NombreTablaL[]="menu";
 $ElementosTablaL[]=array("id","dependencia","titulo","namepage","url","descripcion");
