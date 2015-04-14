@@ -353,4 +353,28 @@ function ingresardatos($titulo,$contenido)
     <p>".$contenido."</p>";
 	return $text;
 }
+
+function inputcalendar($id, $nombre, $value,$datetime=false)
+{
+	$formato = "yyyy-MM-dd";
+	if($datetime)
+		$formato = "yyyy-MM-dd hh:mm:ss";
+	
+	$text ="      <div class=\"form-group\">
+        <label for=\"".$id."\">".$nombre."</label>\n";
+	$text .= " <div id=\"".$id."general\" class=\"input-append date\">
+      <input type=\"text\" value=\"".$value."\" class=\"form-control\" id=\"".$id."\" name=\"".$id."\" ></input>
+      <span class=\"add-on\">
+        <i data-time-icon=\"icon-time\" data-date-icon=\"icon-calendar\"></i>
+      </span>
+ </div>
+    <script type=\"text/javascript\">
+      $('#".$id."general').datetimepicker({
+        format: '".$formato."'
+      });
+    </script>";
+	
+	$text .="</div>";
+	return $text;
+}
 ?>
