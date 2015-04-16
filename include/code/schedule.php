@@ -9,7 +9,7 @@ class Schedule
 		number ID
 		inscripcion 1,sorteo 2,activar Batalla 3, conteo votos 4,cambiar estado torneo 5,crear Batallas 6
 		*/
-		$process = new Schedule();
+		$process = new calendario();
 		$process ->sethecho(-1);
 		$process=$process->read(true,1,array("hecho"),1,array("fecha","ASC")); 
 		$fechaActual = fechaHoraActual();
@@ -37,7 +37,7 @@ class Schedule
 				}
 				if($process[$i]->getaccion()=="CHEVE")
 				{
-					$this->changeEvento($process[$i]->gettargetint());
+					$this->changeEvento($process[$i]->gettargetstring());
 				}
 				if($process[$i]->getaccion()=="CALPO")
 				{

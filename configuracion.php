@@ -38,7 +38,7 @@ else
 			{
 				$nuevabatalla = new batalla($BG->con);
 				$nuevabatalla->setfecha("2000-01-01");
-				$nuevabatalla->setronda($configuraciones[$i]->getnombre());
+				$nuevabatalla->setronda($configuraciones[$i]->getid());
 				$nuevabatalla->setgrupo($j+1);
 				$nuevabatalla->setidtorneo($torneoActual[0]->getid());
 				$nuevabatalla->setestado(-1);

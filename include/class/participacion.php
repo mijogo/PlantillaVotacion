@@ -2,10 +2,11 @@
 require_once "participacionBD.php";
 class participacion extends participacionBD
 {
-	function participacion($idpersonaje="",$idbatalla="")
+	function participacion($db,$idpersonaje="",$idbatalla="" )
 	{
 		$this->idpersonaje = $idpersonaje;
 		$this->idbatalla = $idbatalla;
+		$this->con = $db;
 	}
 	function setidpersonaje($idpersonaje)
 	{

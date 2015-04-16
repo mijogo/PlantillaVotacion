@@ -35,7 +35,7 @@ if($_GET['action']==0)
 		else
 			$estado = "finalizada";
 
-		$text .= inputcalendar("batalla-".$muchasBatallas[$i]->getid(),$muchasBatallas[$i]->getronda()." ".$muchasBatallas[$i]->getgrupo()."<p>Estado : ".$estado."</p>",$muchasBatallas[$i]->getfecha());
+		$text .= inputcalendar("batalla-".$muchasBatallas[$i]->getid(),$muchasBatallas[$i]->getronda()." ".$muchasBatallas[$i]->getgrupo()."<p>Estado : ".$estado."</p>".botones($muchasBatallas[$i]->getid()),$muchasBatallas[$i]->getfecha());
 	}
 	
 	$pagina = ingcualpag($pagina,"tabla_contenidos",$text);
@@ -62,4 +62,13 @@ else
 	}
 	$BG->close();
 	redireccionar("batalla.php");
+}
+function botones($idbatalla)
+{
+	$text ="
+<p>
+  <a href=\"selpersonaje.php?idbatalla=".$idbatalla."\" class=\"btn btn-default btn-sm\">Seleccionar Personajes</a>
+  <a href=\"batalla.php?action=2&idbatalla=".$idbatalla."\" class=\"btn btn-default btn-sm\">Eliminar Batalla</a>     
+</p>";	
+return $text;
 }

@@ -21,6 +21,7 @@ class calendarioBD extends DataBase
 	{
 		$sql="SELECT * FROM calendario ";
 		if($consultaextra=="")
+		{
 			if($cantConsulta != 0)
 			{
 				$sql .= "WHERE ";
@@ -31,8 +32,9 @@ class calendarioBD extends DataBase
 						$sql .= $Consulta[$i*2+1]." ";
 				}
 			}
+		}
 		else
-			$sql="WHERE ".$consultaextra;
+			$sql.="WHERE ".$consultaextra;
 		
 		if($cantOrden != 0)
 		{
@@ -46,12 +48,12 @@ class calendarioBD extends DataBase
 		}
 		if($multi)
 		{
-			$result = $this->select($sql);
+			$result = $this->multiselect($sql);
 			$calendarios = array();
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$calendarios[]=new calendario($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$calendarios[]=new calendario($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $calendarios;
 		}
@@ -60,7 +62,7 @@ class calendarioBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$calendarios= new calendario($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$calendarios= new calendario($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $calendarios;
 		}
 	}

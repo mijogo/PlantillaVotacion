@@ -15,13 +15,18 @@ $ElementosTablaL = array();
 $NombreTablaL[]="batalla";
 $ElementosTablaL[]=array("id","fecha","ronda","grupo","idtorneo","estado","numerovotos","ganador");
 
+//calendario
+$NombreTablaL[]="calendario";
+$ElementosTablaL[]=array("id","accion","fecha","hecho","targetstring","targetdate","targetint");
+
 //menu
 $NombreTablaL[]="menu";
 $ElementosTablaL[]=array("id","dependencia","titulo","namepage","url","descripcion");
 
-//participacionBD
-//$NombreTablaL[0]="participacion";
-//$ElementosTablaL[0]=array("idpersonaje","idbatalla");
+//participacion
+$NombreTablaL[]="participacion";
+$ElementosTablaL[]=array("idpersonaje","idbatalla");
+
 //pelea
 //$NombreTablaL[0]="pelea";
 //$ElementosTablaL[0]=array("idpersonaje","idbatalla","votos");

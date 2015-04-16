@@ -2,7 +2,7 @@
 require_once "calendarioBD.php";
 class calendario extends calendarioBD
 {
-	function calendario($id="",$accion="",$fecha="",$hecho="",$targetstring="",$targetdate="",$targetint="")
+	function calendario($db,$id="",$accion="",$fecha="",$hecho="",$targetstring="",$targetdate="",$targetint="" )
 	{
 		$this->id = $id;
 		$this->accion = $accion;
@@ -11,6 +11,7 @@ class calendario extends calendarioBD
 		$this->targetstring = $targetstring;
 		$this->targetdate = $targetdate;
 		$this->targetint = $targetint;
+		$this->con = $db;
 	}
 	function setid($id)
 	{

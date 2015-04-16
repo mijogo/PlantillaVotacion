@@ -16,6 +16,7 @@ class participacionBD extends DataBase
 	{
 		$sql="SELECT * FROM participacion ";
 		if($consultaextra=="")
+		{
 			if($cantConsulta != 0)
 			{
 				$sql .= "WHERE ";
@@ -26,8 +27,9 @@ class participacionBD extends DataBase
 						$sql .= $Consulta[$i*2+1]." ";
 				}
 			}
+		}
 		else
-			$sql="WHERE ".$consultaextra;
+			$sql.="WHERE ".$consultaextra;
 		
 		if($cantOrden != 0)
 		{
@@ -41,12 +43,12 @@ class participacionBD extends DataBase
 		}
 		if($multi)
 		{
-			$result = $this->select($sql);
+			$result = $this->multiselect($sql);
 			$participacions = array();
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$participacions[]=new participacion($row[$i++],$row[$i++]);
+				$participacions[]=new participacion($this->con,$row[$i++],$row[$i++]);
 			}
 			return $participacions;
 		}
@@ -55,7 +57,7 @@ class participacionBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$participacions= new participacion($row[$i++],$row[$i++]);
+			$participacions= new participacion($this->con,$row[$i++],$row[$i++]);
 			return $participacions;
 		}
 	}

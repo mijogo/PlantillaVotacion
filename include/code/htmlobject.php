@@ -363,7 +363,7 @@ function inputcalendar($id, $nombre, $value,$datetime=false)
 	$text ="      <div class=\"form-group\">
         <label for=\"".$id."\">".$nombre."</label>\n";
 	$text .= " <div id=\"".$id."general\" class=\"input-append date\">
-      <input type=\"text\" value=\"".$value."\" class=\"form-control\" id=\"".$id."\" name=\"".$id."\" ></input>
+      <input type=\"text\" value=\"".$value."\" class=\"form-control inputtext\" id=\"".$id."\" name=\"".$id."\" ></input>
       <span class=\"add-on\">
         <i data-time-icon=\"icon-time\" data-date-icon=\"icon-calendar\"></i>
       </span>
@@ -375,6 +375,28 @@ function inputcalendar($id, $nombre, $value,$datetime=false)
     </script>";
 	
 	$text .="</div>";
+	return $text;
+}
+
+function collapsecheckbox($idserie,$nombreserie,$idpersonaje,$nombrepersonaje)
+{
+		$text ="<button class=\"btn btn-primary\" type=\"button\" data-toggle=\"collapse\" data-target=\"#Serie".$idserie."\">
+	  $nombreserie
+	</button>
+	<div class=\"collapse\" id=\"Serie".$idserie."\">
+	  <div class=\"well\">";
+	
+		for($i=0;$i<count($idpersonaje);$i++)  
+		{
+				$text .="    <div class=\"btn-group\" data-toggle=\"buttons\">
+			  <label class=\"btn btn-default\">
+				<input type=\"checkbox\" name=\"personajes[]\" value=\"".$idpersonaje[$i]."\"> $nombrepersonaje[$i]
+			  </label>
+			</div>";
+		}
+			
+	  $text .="</div>
+	</div>";
 	return $text;
 }
 ?>
