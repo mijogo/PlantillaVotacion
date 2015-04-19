@@ -23,6 +23,7 @@ if($_GET['action']==0)
 		$opciones[] = $serie[$i]->getnombre();
 	}
 	$pagina = ingcualpag($pagina,"input_1",inputselected("serie","Serie de anime",$valores,$opciones));
+	$pagina = ingcualpag($pagina,"input_2",inputcheckbox("exhibicion","Este personaje participara solo en las exhibiciones"));
 	$ClaseMaestra->Pagina("",$pagina);
 	$BG->close();
 }
@@ -53,13 +54,16 @@ else
 	if($archivo[0])
 		$nuevopersonajepar->setimagenpeq($archivo[1]);
 	$torneoActual = new torneo($BG->con);
-	$torneoActual->setactivo(1);
+	if(isset($_POST["exhibicion"]))
+		$torneoActual->setactivo(2);
+	else	
+		$torneoActual->setactivo(1);
 	$torneoActual = $torneoActual->read(true,1,array("activo"));	
 	$nuevopersonajepar->setidtorneo($torneoActual[0]->getid());
 	$nuevopersonajepar->setestado(1);
 	$nuevopersonajepar->setseiyuu($_POST["seiyuupersonaje"]);
 	$nuevopersonajepar->save();
 	$BG->close();
-	Redireccionar("admin.php");
+	Redireccionar("revpersonaje.php");
 }
 ?>

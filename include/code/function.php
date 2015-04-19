@@ -329,7 +329,7 @@ function cambioGrupo($grupo,$nActual,$nSiguiente,$tipo)
 function arrayobjeto($arreglo,$tipoDato,$dato)
 {
 	$objeto = false;
-	for($i=0;i<count($arreglo);$i++)
+	for($i=0;$i<count($arreglo);$i++)
 		if($arreglo[$i]->$tipoDato == $dato)
 			$objeto = $arreglo[$i];
 	return $objeto;

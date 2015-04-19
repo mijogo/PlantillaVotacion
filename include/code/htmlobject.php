@@ -322,6 +322,7 @@ function inputselected($id,$nombre,$valores,$opciones,$value="")
 		  for($i=0;$i<count($valores);$i++)
 		  {
 			  $extra = "";
+			  
 			  if($valores[$i]==$value)
 			  	$extra = " selected";
 		  	$text .= "<option value=\"".$valores[$i]."\"".$extra.">".$opciones[$i]."</option>\n";
@@ -378,19 +379,27 @@ function inputcalendar($id, $nombre, $value,$datetime=false)
 	return $text;
 }
 
-function collapsecheckbox($idserie,$nombreserie,$idpersonaje,$nombrepersonaje)
+function collapsecheckbox($idserie,$nombreserie,$idpersonaje,$nombrepersonaje,$peronajesparticipando)
 {
 		$text ="<button class=\"btn btn-primary\" type=\"button\" data-toggle=\"collapse\" data-target=\"#Serie".$idserie."\">
 	  $nombreserie
 	</button>
 	<div class=\"collapse\" id=\"Serie".$idserie."\">
 	  <div class=\"well\">";
-	
+	 
 		for($i=0;$i<count($idpersonaje);$i++)  
 		{
+			$change="";
+			$change2="";
+			for($j=0;$j<count($peronajesparticipando);$j++)
+				if($peronajesparticipando[$j]==$idpersonaje[$i])
+				{
+					$change=" checked";
+					$change2=" active";
+				}
 				$text .="    <div class=\"btn-group\" data-toggle=\"buttons\">
-			  <label class=\"btn btn-default\">
-				<input type=\"checkbox\" name=\"personajes[]\" value=\"".$idpersonaje[$i]."\"> $nombrepersonaje[$i]
+			  <label class=\"btn btn-default".$change2."\">
+				<input type=\"checkbox\" name=\"personajes[]\" value=\"".$idpersonaje[$i]."\"".$change."> $nombrepersonaje[$i]
 			  </label>
 			</div>";
 		}
@@ -398,5 +407,30 @@ function collapsecheckbox($idserie,$nombreserie,$idpersonaje,$nombrepersonaje)
 	  $text .="</div>
 	</div>";
 	return $text;
+}
+
+function mostrarparticiapntes($id,$nombres)
+{
+	$text ="<div class=\"collapse\" id=\"".$id."\">
+	  <div class=\"well\">";
+	 
+		for($i=0;$i<count($nombres);$i++)  
+		{
+			$text.= $nombres[$i];
+			if($i<count($nombres)-1)
+				$text.= ", ";
+		}
+			
+	  $text .="</div>
+	</div>";
+	return $text;	
+}
+
+function botoncollapse($id,$nombre)
+{
+		$text ="<button class=\"btn btn-primary\" type=\"button\" data-toggle=\"collapse\" data-target=\"#".$id."\">
+	  ".$nombre."
+	</button>";
+	return $text;	
 }
 ?>

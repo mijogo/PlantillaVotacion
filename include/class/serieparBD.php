@@ -5,10 +5,11 @@ class serieparBD extends DataBase
 	function serieparBD(){}
 	
 	function save()
-	{		$sql = "INSERT INTO seriepar (id,nombre,imagen,idtorneo,idserie,ano,tipoformato,tcours,ncours) VALUES 
+	{		$sql = "INSERT INTO seriepar (id,nombre,nombrecorto,imagen,idtorneo,idserie,ano,tipoformato,tcours,ncours) VALUES 
 		(
 		'".$this->id."',
 		'".$this->nombre."',
+		'".$this->nombrecorto."',
 		'".$this->imagen."',
 		'".$this->idtorneo."',
 		'".$this->idserie."',
@@ -55,7 +56,7 @@ class serieparBD extends DataBase
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$seriepars[]=new seriepar($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$seriepars[]=new seriepar($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $seriepars;
 		}
@@ -64,7 +65,7 @@ class serieparBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$seriepars= new seriepar($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$seriepars= new seriepar($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $seriepars;
 		}
 	}

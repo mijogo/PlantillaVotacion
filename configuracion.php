@@ -16,6 +16,16 @@ if($_GET['action']==0)
 	$pagina = ingcualpag($pagina,"tabla_objetos_1",tablaobjetos("Configuraciones",arregloconfiguraciones()));
 	$ClaseMaestra->Pagina("",$pagina);
 }
+elseif($_GET['action']==2)
+{
+	$BG = new DataBase();
+	$BG->connect();
+	$configuracionelmi = new configuracion($BG->con);
+	$configuracionelmi->setid($_GET["idconfiguracion"]);
+	$configuracionelmi->delete(1,array("id"));
+	$BG->close();
+	Redireccionar("revpersonaje.php");	
+}
 else
 {
 	$BG = new DataBase();
@@ -82,7 +92,7 @@ function arregloconfiguraciones()
 	$configuraciones = $configuraciones->read(true,1,array("idtorneo"));
 	
 
-	$objetos[] = array("Nombre","Tipo","Siguiente","","");
+	$objetos[] = array("Nombre","Tipo","Siguiente","","","");
 		
 	for($i=0;$i<count($configuraciones);$i++)
 	{
@@ -102,7 +112,7 @@ function arregloconfiguraciones()
 				$siguiente=$configuraciones[$j]->getnombre();
 		}
 		
-		$objetos[] = array($configuraciones[$i]->getnombre(),$Tipo,$siguiente,"<a href=\"verconfiguracion.php?idconfiguracion=".$configuraciones[$i]->getid()."\">Ver</a>","<a href=\"modificarconfiguracion.php?idconfiguracion=".$configuraciones[$i]->getid()."\">Modificar</a>");
+		$objetos[] = array($configuraciones[$i]->getnombre(),$Tipo,$siguiente,"<a href=\"verconfiguracion.php?idconfiguracion=".$configuraciones[$i]->getid()."\">Ver</a>","<a href=\"modificarconfiguracion.php?idconfiguracion=".$configuraciones[$i]->getid()."\">Modificar</a>","<a href=\"configuracion.php?action=2&idconfiguracion=".$configuraciones[$i]->getid()."\">Eliminar</a>");
 			
 	}	
 	$BG->close();

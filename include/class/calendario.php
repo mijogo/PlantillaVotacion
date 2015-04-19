@@ -2,12 +2,13 @@
 require_once "calendarioBD.php";
 class calendario extends calendarioBD
 {
-	function calendario($db,$id="",$accion="",$fecha="",$hecho="",$targetstring="",$targetdate="",$targetint="" )
+	function calendario($db,$id="",$accion="",$fecha="",$hecho="",$idtorneo="",$targetstring="",$targetdate="",$targetint="" )
 	{
 		$this->id = $id;
 		$this->accion = $accion;
 		$this->fecha = $fecha;
 		$this->hecho = $hecho;
+		$this->idtorneo = $idtorneo;
 		$this->targetstring = $targetstring;
 		$this->targetdate = $targetdate;
 		$this->targetint = $targetint;
@@ -44,6 +45,14 @@ class calendario extends calendarioBD
 	function gethecho()
 	{
 		return $this->hecho;
+	}
+	function setidtorneo($idtorneo)
+	{
+		$this->idtorneo=$idtorneo;
+	}
+	function getidtorneo()
+	{
+		return $this->idtorneo;
 	}
 	function settargetstring($targetstring)
 	{

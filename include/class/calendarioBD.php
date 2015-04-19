@@ -5,12 +5,13 @@ class calendarioBD extends DataBase
 	function calendarioBD(){}
 	
 	function save()
-	{		$sql = "INSERT INTO calendario (id,accion,fecha,hecho,targetstring,targetdate,targetint) VALUES 
+	{		$sql = "INSERT INTO calendario (id,accion,fecha,hecho,idtorneo,targetstring,targetdate,targetint) VALUES 
 		(
 		'".$this->id."',
 		'".$this->accion."',
 		'".$this->fecha."',
 		'".$this->hecho."',
+		'".$this->idtorneo."',
 		'".$this->targetstring."',
 		'".$this->targetdate."',
 		'".$this->targetint."')";
@@ -53,7 +54,7 @@ class calendarioBD extends DataBase
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$calendarios[]=new calendario($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$calendarios[]=new calendario($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $calendarios;
 		}
@@ -62,7 +63,7 @@ class calendarioBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$calendarios= new calendario($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$calendarios= new calendario($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $calendarios;
 		}
 	}

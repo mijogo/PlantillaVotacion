@@ -2,10 +2,11 @@
 require_once "serieparBD.php";
 class seriepar extends serieparBD
 {
-	function seriepar($db,$id="",$nombre="",$imagen="",$idtorneo="",$idserie="",$ano="",$tipoformato="",$tcours="",$ncours="" )
+	function seriepar($db,$id="",$nombre="",$nombrecorto="",$imagen="",$idtorneo="",$idserie="",$ano="",$tipoformato="",$tcours="",$ncours="" )
 	{
 		$this->id = $id;
 		$this->nombre = $nombre;
+		$this->nombrecorto = $nombrecorto;
 		$this->imagen = $imagen;
 		$this->idtorneo = $idtorneo;
 		$this->idserie = $idserie;
@@ -30,6 +31,14 @@ class seriepar extends serieparBD
 	function getnombre()
 	{
 		return $this->nombre;
+	}
+	function setnombrecorto($nombrecorto)
+	{
+		$this->nombrecorto=$nombrecorto;
+	}
+	function getnombrecorto()
+	{
+		return $this->nombrecorto;
 	}
 	function setimagen($imagen)
 	{

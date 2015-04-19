@@ -25,6 +25,13 @@ if($_GET['action']==0)
 	$series->setidtorneo($torneoActual[0]->getid());
 	$series = $series->read(true,1,array("idtorneo"));
 	$text="";
+	
+	$participaciones = new participacion($BG->con);
+	$participaciones->setidbatalla($_GET["idbatalla"]);
+	$participaciones = $participaciones->read(true,1,array("idbatalla"));
+	$participacionesid = array("");
+	for($i=0;$i<count($participaciones);$i++)
+		$participacionesid[] = $participaciones[$i]->getidpersonaje();
 	for($i=0;$i<count($series);$i++)
 	{
 		$personajes = new personajepar($BG->con);	
@@ -37,7 +44,7 @@ if($_GET['action']==0)
 			$id[] = $personajes[$j]->getid();
 			$nombres[] = $personajes[$j]->getnombre();
 		}
-		$text.=collapsecheckbox($series[$i]->getid(),$series[$i]->getnombre(),$id,$nombres);
+		$text.=collapsecheckbox($series[$i]->getid(),$series[$i]->getnombre(),$id,$nombres,$participacionesid);
 	}
 	
 	$pagina = ingcualpag($pagina,"tabla_contenidos",$text);

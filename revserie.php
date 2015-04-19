@@ -37,21 +37,33 @@ function arregloseries()
 		$seriespar->setidtorneo($torneoActual[0]->getid());
 		$seriespar = $seriespar->read(true,1,array("idtorneo"),1,array("nombre","DESC"));
 	}
-	$objetos[] = array("Nombre","Nombre Corto","Actual Torneo","","");
+	$objetos[] = array("Nombre","Nombre Corto","Actual Torneo","participantes","exhibicion","","");
 		
 	for($i=0;$i<count($series);$i++)
 	{
 		$presenta=false;
+		$part = 0;
+		$exhpart = 0;
 		if(count($torneoActual)>0)
 			for($j=0;$j<count($seriespar);$j++)
 			{
 				if($seriespar[$j]->getidserie()==$series[$i]->getid())	
 				{
 					$presenta=true;
+					$perpart = new personajepar($BG->con);
+					$perpart->setidserie($seriespar[$j]->getid());
+					$perpart = $perpart->read(true,1,array("idserie"));
+					$part = count($perpart);
+					$perpart = new personajepar($BG->con);
+					$perpart->setidserie($seriespar[$j]->getid());
+					$perpart->setestado(2);
+					$perpart = $perpart->read(true,2,array("idserie","AND","estado"));
+					$exhpart = count($perpart);
+					
 				}
 			}
 		if($presenta)
-			$objetos[] = array($series[$i]->getnombre(),$series[$i]->getnombrecorto(),"Si","<a href=\"verserie.php?idserie=".$series[$i]->getid()."\">Ver</a>","<a href=\"modificarserie.php?idserie=".$series[$i]->getid()."\">Modificar</a>");
+			$objetos[] = array($series[$i]->getnombre(),$series[$i]->getnombrecorto(),"Si",$part,$exhpart,"<a href=\"verserie.php?idserie=".$series[$i]->getid()."\">Ver</a>","<a href=\"modificarserie.php?idserie=".$series[$i]->getid()."\">Modificar</a>");
 	}	
 	$BG->close();
 	return $objetos;

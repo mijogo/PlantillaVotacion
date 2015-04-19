@@ -18,6 +18,13 @@ if($_GET['action']==0)
 }
 else
 {
+	$BG = new DataBase();
+	$BG->connect();
+	$personaeeliminar = new personajepar($BG->con);
+	$personaeeliminar->setid($_GET["idpersonaje"]);
+	$personaeeliminar->delete(1,array("id"));
+	$BG->close();
+	Redireccionar("revpersonaje.php");
 }
 function arreglopersonaje()
 {
@@ -47,13 +54,14 @@ function arreglopersonaje()
 			{
 				if($personajespar[$j]->getidpersonaje()==$personajes[$i]->getid())	
 				{
+					$idpar = $j;
 					$presenta=true;
 				}
 			}
 		if($presenta)
-			$objetos[] = array($personajes[$i]->getnombre(),$personajes[$i]->getserie(),"Si","<a href=\"verpersonaje.php?idpersonaje=".$personajes[$i]->getid()."\">Ver</a>","<a href=\"modificarpersonaje.php?idpersonaje=".$personajes[$i]->getid()."\">Modificar</a>");
-		else
-			$objetos[] = array($personajes[$i]->getnombre(),$personajes[$i]->getserie(),"No","","");
+			$objetos[] = array($personajes[$i]->getnombre(),$personajes[$i]->getserie(),"Si","<a href=\"verpersonaje.php?idpersonaje=".$personajes[$i]->getid()."\">Ver</a>","<a href=\"modificarpersonaje.php?idpersonaje=".$personajes[$i]->getid()."\">Modificar</a>","<a href=\"revpersonaje.php?action=1&idpersonaje=".$personajespar[$idpar]->getid()."\">Eliminar</a>");
+		/*else
+			$objetos[] = array($personajes[$i]->getnombre(),$personajes[$i]->getserie(),"No","","");*/
 			
 	}	
 	$BG->close();

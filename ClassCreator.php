@@ -17,7 +17,7 @@ $ElementosTablaL[]=array("id","fecha","ronda","grupo","idtorneo","estado","numer
 
 //calendario
 $NombreTablaL[]="calendario";
-$ElementosTablaL[]=array("id","accion","fecha","hecho","targetstring","targetdate","targetint");
+$ElementosTablaL[]=array("id","accion","fecha","hecho","idtorneo","targetstring","targetdate","targetint");
 
 //menu
 $NombreTablaL[]="menu";
@@ -35,9 +35,9 @@ $ElementosTablaL[]=array("idpersonaje","idbatalla");
 $NombreTablaL[]="serie";
 $ElementosTablaL[]=array("id","nombre","imagen","nombrecorto");
 
-//serie
+//seriepar
 $NombreTablaL[]="seriepar";
-$ElementosTablaL[]=array("id","nombre","imagen","idtorneo","idserie","ano","tipoformato","tcours","ncours");
+$ElementosTablaL[]=array("id","nombre","nombrecorto","imagen","idtorneo","idserie","ano","tipoformato","tcours","ncours");
 
 //personaje
 $NombreTablaL[]="personaje";

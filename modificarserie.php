@@ -28,48 +28,24 @@ if($_GET['action']==0)
 	$torneoActual->setactivo(1);
 	$torneoActual = $torneoActual->read(true,1,array("activo"));	
 	$textextra="";
-	if(count($torneoActual)>0)
-	{
-		$seriespar = new seriepar($BG->con);
-		$seriespar->setidserie($serieactual->getid());
-		$seriespar->setidtorneo($torneoActual[0]->getid());
-		$seriespar = $seriespar->read(true,2,array("idserie","AND","idtorneo"));
-		if(count($seriespar)>0)
-		{
-			$pagina = ingcualpag($pagina,"input_4",inputform("Nombretemporada","Nombre de la termporada",$seriespar[0]->getnombre()));
-			$pagina = ingcualpag($pagina,"input_5",inputimage("imagentemporada","Imagen de la temporada","Introduzca una imagen que represente la temporada de laserie"));
-			$pagina = ingcualpag($pagina,"input_6",inputform("anoserie","Año",$seriespar[0]->getano()));
-			$valores = array("OVA","ONA","MOVIE","SERIE");
-			$opciones = array("OVA","ONA","Pelicula","Serie");
-			$pagina = ingcualpag($pagina,"input_7",inputselected("formatoserie","Formato en que salio dicho anime",$valores,$opciones,$seriespar[0]->gettipoformato()));
-			$valores = array("1","2","3","4");
-			$opciones = array("Invierno","Primavera","Verano","Otoño");
-			$pagina = ingcualpag($pagina,"input_8",inputselected("tcours","Temporada de salida del anime",$valores,$opciones,$seriespar[0]->gettcours()));
-			$valores = array("1","2","3","4","5");
-			$opciones = array("1","2","3","4","4+");
-			$pagina = ingcualpag($pagina,"input_9",inputselected("ncours","Duracion del anime en cours",$valores,$opciones,$seriespar[0]->getncours()));
-		}
-		else
-		{
-			$pagina = ingcualpag($pagina,"input_4","");
-			$pagina = ingcualpag($pagina,"input_5","");
-			$pagina = ingcualpag($pagina,"input_6","");
-			$pagina = ingcualpag($pagina,"input_7","");
-			$pagina = ingcualpag($pagina,"input_8","");
-			$pagina = ingcualpag($pagina,"input_9","");
-		}
-	}
-	else
-	{
-		$pagina = ingcualpag($pagina,"input_4","");
-		$pagina = ingcualpag($pagina,"input_5","");
-		$pagina = ingcualpag($pagina,"input_6","");
-		$pagina = ingcualpag($pagina,"input_7","");
-		$pagina = ingcualpag($pagina,"input_8","");
-		$pagina = ingcualpag($pagina,"input_9","");
-	}
+	$seriespar = new seriepar($BG->con);
+	$seriespar->setidserie($serieactual->getid());
+	$seriespar->setidtorneo($torneoActual[0]->getid());
+	$seriespar = $seriespar->read(true,2,array("idserie","AND","idtorneo"));
+	$pagina = ingcualpag($pagina,"input_4",inputform("Nombretemporada","Nombre de la termporada",$seriespar[0]->getnombre()));
+	$pagina = ingcualpag($pagina,"input_6",inputform("anoserie","Año",$seriespar[0]->getano()));
+	$valores = array("OVA","ONA","MOVIE","SERIE");
+	$opciones = array("OVA","ONA","Pelicula","Serie");
+	$pagina = ingcualpag($pagina,"input_7",inputselected("formatoserie","Formato en que salio dicho anime",$valores,$opciones,$seriespar[0]->gettipoformato()));
+	$valores = array("1","2","3","4");
+	$opciones = array("Invierno","Primavera","Verano","Otoño");
+	$pagina = ingcualpag($pagina,"input_8",inputselected("tcours","Temporada de salida del anime",$valores,$opciones,$seriespar[0]->gettcours()));
+	$valores = array("1","2","3","4","5");
+	$opciones = array("1","2","3","4","4+");
+	$pagina = ingcualpag($pagina,"input_9",inputselected("ncours","Duracion del anime en cours",$valores,$opciones,$seriespar[0]->getncours()));
 	$pagina = ingcualpag($pagina,"input_10",inputform("idserie","",$_GET["idserie"],"hidden"));
-		$BG->close();
+	$BG->close();
+	
 	$ClaseMaestra->Pagina("",$pagina);
 }
 else
@@ -85,28 +61,24 @@ else
 		$serieactual->setimagen($archivo[1]);
 	$serieactual->setnombrecorto($_POST["nombrecorto"]);
 	$serieactual->update(3,array("nombre","imagen","nombrecorto"),1,array("id"));
-		$torneoActual = new torneo($BG->con);
+	
+	$torneoActual = new torneo($BG->con);
 	$torneoActual->setactivo(1);
 	$torneoActual = $torneoActual->read(true,1,array("activo"));	
-	if(count($torneoActual)>0)
-	{
-		$seriespar = new seriepar($BG->con);
-		$seriespar->setidserie($serieactual->getid());
-		$seriespar->setidtorneo($torneoActual[0]->getid());
-		$seriespar = $seriespar->read(true,2,array("idserie","AND","idtorneo"));
-		if(count($seriespar)>0)
-		{
-			$seriespar[0]->setnombre($_POST["Nombretemporada"]);
-			$archivo = uploadimage($_FILES["imagentemporada"]);
-			if($archivo[0])
-				$seriespar[0]->setimagen($archivo[1]);
-			$seriespar[0]->setano($_POST["anoserie"]);
-			$seriespar[0]->settipoformato($_POST["formatoserie"]);
-			$seriespar[0]->settcours($_POST["tcours"]);
-			$seriespar[0]->setncours($_POST["ncours"]);
-			$seriespar[0]->update(6,array("nombre","imagen","ano","tipoformato","tcours","ncours"),1,array("id"));
-		}
-	}
+	
+	$seriespar = new seriepar($BG->con);
+	$seriespar->setidserie($serieactual->getid());
+	$seriespar->setidtorneo($torneoActual[0]->getid());
+	$seriespar = $seriespar->read(true,2,array("idserie","AND","idtorneo"));
+	$seriespar[0]->setnombre($_POST["Nombretemporada"]);
+	if($archivo[0])
+		$seriespar[0]->setimagen($archivo[1]);
+	$seriespar[0]->setano($_POST["anoserie"]);
+	$seriespar[0]->settipoformato($_POST["formatoserie"]);
+	$seriespar[0]->settcours($_POST["tcours"]);
+	$seriespar[0]->setncours($_POST["ncours"]);
+	$seriespar[0]->update(6,array("nombre","imagen","ano","tipoformato","tcours","ncours"),1,array("id"));
+	
 	$BG->close();
-	Redireccionar("admin.php");
+	Redireccionar("revserie.php");
 }
