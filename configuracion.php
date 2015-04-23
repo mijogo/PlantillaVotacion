@@ -47,7 +47,7 @@ else
 			for($j=0;$j<$numerogrupos;$j++)
 			{
 				$nuevabatalla = new batalla($BG->con);
-				$nuevabatalla->setfecha("2000-01-01");
+				$nuevabatalla->setfecha("2012-01-01");
 				$nuevabatalla->setronda($configuraciones[$i]->getid());
 				$nuevabatalla->setgrupo($j+1);
 				$nuevabatalla->setidtorneo($torneoActual[0]->getid());
@@ -64,9 +64,9 @@ else
 				for($k=0;$k<$numerobatallas;$k++)
 				{
 					$nuevabatalla = new batalla($BG->con);
-					$nuevabatalla->setfecha("2000-01-01 00:00:00");
-					$nuevabatalla->setronda($configuraciones[$i]->getnombre());
-					$nuevabatalla->setgrupo(cambiarletra($j+1)."-".$k+1);
+					$nuevabatalla->setfecha("2012-01-01");
+					$nuevabatalla->setronda($configuraciones[$i]->getid());
+					$nuevabatalla->setgrupo("".cambiarletra($j+1)."-".($k+1));
 					$nuevabatalla->setidtorneo($torneoActual[0]->getid());
 					$nuevabatalla->setestado(-1);
 					$nuevabatalla->save();

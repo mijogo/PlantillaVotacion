@@ -7,9 +7,10 @@ $ElementosTablaL = array();
 //ip
 //$NombreTablaL[0]="ip";
 //$ElementosTablaL[0]=array("fecha","ip","codepass","forumcode","user","idevento","tiempo","usada","uniquecode","mastercode","masterip","info");
+
 //log
-//$NombreTablaL[0]="log";
-//$ElementosTablaL[0]=array("iduser","accion","fecha","estado","ip","accioncompleta");
+$NombreTablaL[0]="log";
+$ElementosTablaL[0]=array("iduser","accion","fecha","estado","ip","accioncompleta");
 
 //batalla
 $NombreTablaL[]="batalla";
@@ -30,6 +31,10 @@ $ElementosTablaL[]=array("idpersonaje","idbatalla");
 //pelea
 //$NombreTablaL[0]="pelea";
 //$ElementosTablaL[0]=array("idpersonaje","idbatalla","votos");
+
+//voto
+$NombreTablaL[]="voto";
+$ElementosTablaL[]=array("fecha","idbatalla","idpersonaje","uniquecode","codepass","idevento");
 
 //serie
 $NombreTablaL[]="serie";
@@ -61,7 +66,7 @@ $ElementosTablaL[]=array("id","estado","idtorneo","fechainicio","fechatermino");
 
 //torneo
 $NombreTablaL[]="torneo";
-$ElementosTablaL[]=array("id","ano","version","nombre","activo","estado","duracionbatalla","extraconteo","nominaciones","intervalo","horainicio","duracionlive","maxmiembrosgraf","opcionpartida");
+$ElementosTablaL[]=array("id","ano","version","nombre","activo","estado","duracionbatalla","extraconteo","nominaciones","intervalo","horainicio","duracionlive","maxmiembrosgraf","opcionpartida","ponderacionprom");
 
 //usuario
 $NombreTablaL[]="usuario";

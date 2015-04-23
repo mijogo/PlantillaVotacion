@@ -2,7 +2,7 @@
 require_once "torneoBD.php";
 class torneo extends torneoBD
 {
-	function torneo($db,$id="",$ano="",$version="",$nombre="",$activo="",$estado="",$duracionbatalla="",$extraconteo="",$nominaciones="",$intervalo="",$horainicio="",$duracionlive="",$maxmiembrosgraf="",$opcionpartida="" )
+	function torneo($db,$id="",$ano="",$version="",$nombre="",$activo="",$estado="",$duracionbatalla="",$extraconteo="",$nominaciones="",$intervalo="",$horainicio="",$duracionlive="",$maxmiembrosgraf="",$opcionpartida="",$ponderacionprom="" )
 	{
 		$this->id = $id;
 		$this->ano = $ano;
@@ -18,6 +18,7 @@ class torneo extends torneoBD
 		$this->duracionlive = $duracionlive;
 		$this->maxmiembrosgraf = $maxmiembrosgraf;
 		$this->opcionpartida = $opcionpartida;
+		$this->ponderacionprom = $ponderacionprom;
 		$this->con = $db;
 	}
 	function setid($id)
@@ -131,6 +132,14 @@ class torneo extends torneoBD
 	function getopcionpartida()
 	{
 		return $this->opcionpartida;
+	}
+	function setponderacionprom($ponderacionprom)
+	{
+		$this->ponderacionprom=$ponderacionprom;
+	}
+	function getponderacionprom()
+	{
+		return $this->ponderacionprom;
 	}
 }?>
 

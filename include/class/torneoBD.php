@@ -5,7 +5,7 @@ class torneoBD extends DataBase
 	function torneoBD(){}
 	
 	function save()
-	{		$sql = "INSERT INTO torneo (id,ano,version,nombre,activo,estado,duracionbatalla,extraconteo,nominaciones,intervalo,horainicio,duracionlive,maxmiembrosgraf,opcionpartida) VALUES 
+	{		$sql = "INSERT INTO torneo (id,ano,version,nombre,activo,estado,duracionbatalla,extraconteo,nominaciones,intervalo,horainicio,duracionlive,maxmiembrosgraf,opcionpartida,ponderacionprom) VALUES 
 		(
 		'".$this->id."',
 		'".$this->ano."',
@@ -20,7 +20,8 @@ class torneoBD extends DataBase
 		'".$this->horainicio."',
 		'".$this->duracionlive."',
 		'".$this->maxmiembrosgraf."',
-		'".$this->opcionpartida."')";
+		'".$this->opcionpartida."',
+		'".$this->ponderacionprom."')";
 		return $this->insert($sql);
 	}
 
@@ -60,7 +61,7 @@ class torneoBD extends DataBase
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$torneos[]=new torneo($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$torneos[]=new torneo($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $torneos;
 		}
@@ -69,7 +70,7 @@ class torneoBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$torneos= new torneo($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$torneos= new torneo($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $torneos;
 		}
 	}

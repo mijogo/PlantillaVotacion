@@ -20,6 +20,7 @@ class logBD extends DataBase
 	{
 		$sql="SELECT * FROM log ";
 		if($consultaextra=="")
+		{
 			if($cantConsulta != 0)
 			{
 				$sql .= "WHERE ";
@@ -30,8 +31,9 @@ class logBD extends DataBase
 						$sql .= $Consulta[$i*2+1]." ";
 				}
 			}
+		}
 		else
-			$sql="WHERE ".$consultaextra;
+			$sql.="WHERE ".$consultaextra;
 		
 		if($cantOrden != 0)
 		{
@@ -45,12 +47,12 @@ class logBD extends DataBase
 		}
 		if($multi)
 		{
-			$result = $this->select($sql);
+			$result = $this->multiselect($sql);
 			$logs = array();
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$logs[]=new log($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$logs[]=new log($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $logs;
 		}
@@ -59,7 +61,7 @@ class logBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$logs= new log($row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$logs= new log($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $logs;
 		}
 	}

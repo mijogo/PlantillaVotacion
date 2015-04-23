@@ -2,7 +2,7 @@
 require_once "logBD.php";
 class log extends logBD
 {
-	function log($iduser="",$accion="",$fecha="",$estado="",$ip="",$accioncompleta="")
+	function log($db,$iduser="",$accion="",$fecha="",$estado="",$ip="",$accioncompleta="" )
 	{
 		$this->iduser = $iduser;
 		$this->accion = $accion;
@@ -10,6 +10,7 @@ class log extends logBD
 		$this->estado = $estado;
 		$this->ip = $ip;
 		$this->accioncompleta = $accioncompleta;
+		$this->con = $db;
 	}
 	function setiduser($iduser)
 	{
