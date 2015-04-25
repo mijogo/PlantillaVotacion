@@ -191,7 +191,7 @@ function menu_html($datos,$nivel,$existeusuario,$usuarioactual,$esadmin)
             <span class=\"icon-bar\"></span>
             <span class=\"icon-bar\"></span>
           </button>
-          <a class=\"navbar-brand\" href=\"home.php\">Project name</a>
+          <a class=\"navbar-brand\" href=\"home.php\">MSAT</a>
         </div>
         <div class=\"navbar-collapse collapse\">
 		  <ul class=\"nav navbar-nav\">";
@@ -245,7 +245,7 @@ function menu_html($datos,$nivel,$existeusuario,$usuarioactual,$esadmin)
 					$MenuAdmin="<li><a href=\"admin.php\">Administración</a></li>   ";
 				$text .=	"
 		  	<li class=\"dropdown\">
-		  	 <a href=\"perfil.php\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">".img("./image/".$usuarioactual->getimagen(),"20px","","","","perfil")."<b class=\"caret\"></b></a>
+		  	 <a href=\"perfil.php\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">".img("image/".$usuarioactual->getimagen(),"22px","","","img-rounded","perfil")."<b class=\"caret\"></b></a>
               	<ul class=\"dropdown-menu\">
 					<li><a href=\"perfil.php\">Perfil</a></li>   
 					<li><a href=\"configuracion.php\">Configuración</a></li> 

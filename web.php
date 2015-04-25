@@ -48,7 +48,7 @@ if($_GET['action']==0)
 					$primero=1;
 				}	
 			}
-			$valoresR[] =$menor;
+			$valoresR[] =$i;
 			$opcionesR[] =$dependencia."(Primario)";
 	}
 	
@@ -77,6 +77,7 @@ else
 	}
 	else
 		$nuevomenu->setdependencia($_POST["dependencia"]);
+	$nuevomenu->save();
 	$BG->close();
 	Redireccionar("web.php");
 	

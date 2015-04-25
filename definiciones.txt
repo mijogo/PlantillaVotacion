@@ -145,3 +145,34 @@ es el codigo maestro que tienen una serie de dispositivo, es el codepass del pri
 hace referencia a la ip del usuario que tiene el mastercode, esto sirve para encontrar relaciones de ip, entre dispoistivos
 [varchar info]
 almacena la info completa que da el ordenador, el sistema operativo y el navegador
+
+/////////////////////////////////////////////////[[log]]///////////////////////////////////////////////////////////
+Guarda las acciones que se realizan, esta puede contener la informacion y la fecha en que se realizo
+[int iduser]
+guarda la id del user que realiza el cambio
+[varchar accion]
+guarda el tipo de accion que se realizo
+[datetime fecha]
+guarda la fecha y la hora de la accion realizada
+[int estado]
+guarda el estado de la accion
+[varchar ip]
+guarda la ip o system si es realizada por el sistema
+[varchar accioncompleta]
+guarda toda la informacion de la accion realizada
+
+/////////////////////////////////////////////////[[menu]]///////////////////////////////////////////////////////////
+guarda los datos del menu, puede contener cosas nuevas
+[int id]
+guarda la id de un menu en particular
+[int dependencia]
+guarda la dependencia de un menu, puede ser a un menu principal o anclado a otro
+[varchar titulo]
+guarda el titulo que tendra el menu
+[varchar namepage]
+es el nombre con que se le llamara la pagina internamente
+[varchar url]
+es la url que tiene la pagina, esta url puede ser tanto interna como externa
+[varchar descripcion]
+guarda la descripcion que podria haber de la pagina
+
