@@ -43,16 +43,16 @@ var Script = function () {
         events: [
             {
                 title: 'Prueba',
-                start: new Date(y, m, 1)
+                start: new Date(2015, 6, 25)
             },
             {
-                title: 'Long Event',
+                title: 'otra pruba mas',
                 start: new Date(y, m, d-5),
                 end: new Date(y, m, d-2)
             },
             {
                 id: 999,
-                title: 'Repeating Event',
+                title: ':0',
                 start: new Date(y, m, d-3, 16, 0),
                 allDay: false
             },

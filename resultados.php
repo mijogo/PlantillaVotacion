@@ -4,10 +4,11 @@ if(!isset($_GET['action']))
 			$_GET['action']=0;
 if($_GET['action']==0)
 {
-	$ClaseMaestra = new MasterClass("calendario");
+	if($_GET['idronda']==12)
+		$ClaseMaestra = new MasterClass("preliminar");
 	if(!$ClaseMaestra->VerificacionIdentidad(1))
 		Redireccionar("home.php");
-	$file = fopen("calendario.html", "r") or exit("Unable to open file!");
+	$file = fopen("resultados.html", "r") or exit("Unable to open file!");
 	$pagina="";
 	while(!feof($file))
 	{
