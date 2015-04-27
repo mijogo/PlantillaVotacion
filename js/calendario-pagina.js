@@ -1,11 +1,7 @@
 var Script = function () {
-
-
     /* initialize the external events
      -----------------------------------------------------------------*/
-
     $('#external-events div.external-event').each(function() {
-
         // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
         // it doesn't need to have a start or end
         var eventObject = {
@@ -23,11 +19,8 @@ var Script = function () {
         });
 
     });
-
-
     /* initialize the calendar
      -----------------------------------------------------------------*/
-
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
@@ -41,51 +34,63 @@ var Script = function () {
         },
        
         events: [
+            
             {
-                title: 'Prueba',
-                start: new Date(2015, 6, 25)
+                title: 'Sorteo Preliminar 1'
+               	,start: new Date(2015,3,20,23,37)
+                
+                ,allDay: false
+            	
             },
             {
-                title: 'otra pruba mas',
-                start: new Date(y, m, d-5),
-                end: new Date(y, m, d-2)
+                title: 'Sorteo Preliminar 2'
+               	,start: new Date(2015,3,21,00,46)
+                
+                ,allDay: false
+            	
             },
             {
-                id: 999,
-                title: ':0',
-                start: new Date(y, m, d-3, 16, 0),
-                allDay: false
+                title: 'Sorteo Preliminar 3'
+               	,start: new Date(2015,3,21,00,46)
+                
+                ,allDay: false
+            	
             },
             {
-                id: 999,
-                title: 'Repeating Event',
-                start: new Date(y, m, d+4, 16, 0),
-                allDay: false
+                title: 'Sorteo Preliminar 4'
+               	,start: new Date(2015,3,21,00,48)
+                
+                ,allDay: false
+            	
             },
             {
-                title: 'Meeting',
-                start: new Date(y, m, d, 10, 30),
-                allDay: false
+                title: 'Sorteo Ronda 1 A'
+               	,start: new Date(2015,3,22,01,28)
+                
+                ,allDay: false
+            	
             },
             {
-                title: 'Lunch',
-                start: new Date(y, m, d, 12, 0),
-                end: new Date(y, m, d, 14, 0),
-                allDay: false
+                title: 'Sorteo Ronda 1 B'
+               	,start: new Date(2015,3,22,15,26)
+                
+                ,allDay: false
+            	
             },
             {
-                title: 'Birthday Party',
-                start: new Date(y, m, d+1, 19, 0),
-                end: new Date(y, m, d+1, 22, 30),
-                allDay: false
+                title: 'Sorteo Ronda 1 C'
+               	,start: new Date(2015,3,22,15,33)
+                
+                ,allDay: false
+            	
             },
             {
-                title: 'Click for Google',
-                start: new Date(y, m, 28),
-                end: new Date(y, m, 29),
-                url: 'http://google.com/'
+                title: 'Sorteo Ronda 1 D'
+               	,start: new Date(2015,3,22,15,36)
+                
+                ,allDay: false
+            	
             }
         ]
     });
-
 }();

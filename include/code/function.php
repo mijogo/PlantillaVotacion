@@ -405,4 +405,48 @@ function cambiarletra($char,$aletra=true)
 	}
 	return 0;
 }
+
+function agregarcalendario($titulo,$fechainicio,$url="",$fechafin="",$allday = true)
+{
+	$textallday ="";
+	if(!$allday)
+		$textallday=",allDay: false";
+	$texturl ="";
+	if($url!="")
+		$texturl=",url: '".$url."'";
+	$fecha1 = explode(" ",$fechainicio);
+	$fecha1[0] = explode("-",$fecha1[0]);
+	if(count($fecha1>1))
+	{
+		$fecha1[1] = explode(":",$fecha1[1]);
+		$tectdia1=",start: new Date(".$fecha1[0][0].",".($fecha1[0][1]-1).",".$fecha1[0][2].",".$fecha1[1][0].",".$fecha1[1][1].")";
+	}
+	else
+		$tectdia1=",start: new Date(".$fecha1[0][0].",".($fecha1[0][1]-1).",".$fecha1[0][2].",".$fecha1[1][0].",".$fecha1[1][1].")";
+	$tectdia2="";
+	if($fechafin!="")
+	{
+		$fecha2 = explode(" ",$fechafin);
+		$fecha2[0] = explode("-",$fecha2[0]);
+		if(count($fecha2>1))
+		{
+			$fecha2[1] = explode(":",$fecha2[1]);
+			$tectdia2=",end: new Date(".$fecha2[0][0].",".($fecha2[0][1]-1).",".$fecha2[0][2].",".$fecha2[1][0].",".$fecha2[1][1].")";
+		}
+		else
+			$tectdia2=",end: new Date(".$fecha2[0][0].",".($fecha2[0][1]-1).",".$fecha2[0][2].",".$fecha2[1][0].",".$fecha2[1][1].")";
+	}	
+	
+	
+	$text = "
+            {
+                title: '".$titulo."'
+               	".$tectdia1."
+                ".$tectdia2."
+                ".$textallday."
+            	".$texturl."
+            }";
+	
+	return $text;	
+}
 ?>

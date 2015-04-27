@@ -16,6 +16,82 @@ if($_GET['action']==0)
 	$pagina = ingcualpag($pagina,"tabla_objetos_1",tablaobjetos("Planificacion",arreglocalendario()));
 	$ClaseMaestra->Pagina("",$pagina);
 }
+//modifica los datos del calendario para meterlo al calendario.js
+elseif($_GET['action']==2)
+{
+	$BG = new DataBase();
+	$BG->connect();
+	
+	$torneoActual = new torneo($BG->con);
+	$torneoActual->setactivo(1);
+	$torneoActual = $torneoActual->read(false,1,array("activo"));	
+	
+	$leerdatocalen = new calendario($BG->con);
+	$leerdatocalen->setidtorneo($torneoActual->getid());
+	$leerdatocalen = $leerdatocalen->read(true,1,array("idtorneo"));
+	
+	$text="";
+	$j=0;
+	for($i=0;$i<count($leerdatocalen);$i++)
+	{
+		if($leerdatocalen[$i]->getaccion()=="SORTE")
+		{
+			$datosorteo = $leerdatocalen[$i]->gettargetstring();
+			$datosorteo = explode(",",$datosorteo);
+			
+			$rondausar = new configuracion($BG->con);
+			$rondausar->setid($datosorteo[0]);
+			$rondausar = $rondausar->read(false,1,array("id"));
+			if($j!=0)
+				$text.= ",";
+			$text.= agregarcalendario("Sorteo ".$rondausar->getnombre()." ".$datosorteo[1],$leerdatocalen[$i]->getfecha(),"","",false);
+			$j++;
+		}
+		
+		if($leerdatocalen[$i]->getaccion()=="ACTBA")
+		{
+			$datosorteo = $leerdatocalen[$i]->gettargetstring();
+			$datosorteo = explode(",",$datosorteo);
+			
+			$batallasusar = new batalla($BG->con);
+			$batallasusar->setfecha($leerdatocalen[$i]->gettargetdate());
+			$batallasusar = $batallasusar->read(true,1,array("fecha"));
+			
+			$rondausar = new configuracion($BG->con);
+			$rondausar->setid($batallasusar[0]->getronda());
+			$rondausar = $rondausar->read(false,1,array("id"));
+			
+			$tectbatallas = "";
+			foreach($batallaslistas as $batallasusar)
+			{
+				$tectbatallas .= $batallaslistas->getgrupo()." ";	
+			}
+			
+			$fechafin = cambioFecha($leerdatocalen[$i]->getfecha(),$torneoActual->getduracionbatalla());
+			
+			if($j!=0)
+				$text.= ",";
+			$text.= agregarcalendario("Enfrentamiento ".$rondausar->getnombre()." ".$tectbatallas,$leerdatocalen[$i]->getfecha(),"resultados.php?tipo=fecha&fecha=".$leerdatocalen[$i]->gettargetdate(),$fechafin);
+			$j++;
+		}
+	}
+	$file = fopen("js/calendario-base.js", "r") or exit("Unable to open file!");
+	$pagina="";
+	while(!feof($file))
+	{
+		$pagina .= fgets($file);
+	}
+	$nuevojs = ingcualpag($pagina,"contenido",$text);
+	
+	$fp = fopen("js/calendario-pagina.js", 'w');
+	fwrite($fp, $nuevojs);
+	fclose($fp);
+	
+	$BG->close();
+	
+	
+	Redireccionar("planificacion.php");
+}
 else
 {
 	$BG = new DataBase();
@@ -50,7 +126,7 @@ function arreglocalendario()
 		switch($mcalendario[$i]->getaccion())
 		{
 			case "SORTE":	$accion = "Sorteo";break;
-			case "ACTVA": 	$accion = "Activacion de la batalla";break;
+			case "ACTBA": 	$accion = "Activacion de la batalla";break;
 			case "CONVO": 	$accion = "Conteo de Votos";break;
 			case "CHTOR": 	$accion = "Cambio de estado del Torneo";break;
 			case "CHEVE": 	$accion = "Cambio de evento";break;
@@ -72,3 +148,4 @@ function arreglocalendario()
 	$BG->close();
 	return $objetos;
 }
+?>

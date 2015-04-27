@@ -1,4 +1,4 @@
-<form role="form" action="agregapersonaje.php?action=1" method="post">
+<form role="form" action="votacion.php?action=1" method="post">
 <div class="row pricing-table">
 			<div class="col-md-2">
                 <div class="panel panel-primary">
@@ -71,7 +71,7 @@
                 </div>
             </div>      
         </div>
-
+		<input type="hidden" id="evento124" name="evento124" value="">
       <button type="submit" class="btn btn-default">Votar</button>
     </form>
     
@@ -98,6 +98,14 @@
 		activado[4] = 0;
 		var maximo = 2;
 		
+		var ip = '127.0.0.1';
+		var idevento = 124;
+		var iduser = 341;
+		var idbatalla = 251;
+		var cantidadmatch = 1;
+		
+		
+		
 		function votoactivar(id) 
 		{
 			if(contaractivos()<maximo-1)
@@ -121,14 +129,21 @@
 					}
 				}
 			}
+			datospost();
 		}
 		
 		function votodesactivar(id)
 		{
+			if(contaractivos()==maximo)
+				for(var i=0;i<activado.length;i++)
+					if(activado[i]==0)
+				 		$("#idpersonaje"+personajes[i]).removeAttr("disabled");
+						
 			$("#idpersonaje"+id).removeClass("active");
 			$("#idpersonaje"+id).html("Votar")
 			activado[inversa[id]]=0;
 			$("#idpersonaje"+id).attr("onclick", "votoactivar("+id+")");
+			datospost();
 		}
 		
 		function contaractivos()
@@ -140,5 +155,18 @@
 						cantidadactivos++;
 			}	
 			return cantidadactivos;
+		}
+		
+		function datospost()
+		{
+			var eventocadena = iduser+"-"+idevento+"-"+ip+";";
+			
+			eventocadena += idbatalla+"-"+contaractivos()+"-"+maximo;
+			
+			for(var i=0;i<activado.length;i++)
+					if(activado[i]==1)
+						eventocadena += "-"+personajes[i];
+
+			$("#evento124").attr("value",eventocadena );
 		}
      </script>
