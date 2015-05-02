@@ -50,7 +50,7 @@ $ElementosTablaL[]=array("id","nombre","serie","imagen","idserie","nparticipacio
 
 //personajepar
 $NombreTablaL[]="personajepar";
-$ElementosTablaL[]=array("id","nombre","idpersonaje","idserie","imagenpeq","imagen","idtorneo","estado","grupo","ronda","seiyuu","ponderacion");
+$ElementosTablaL[]=array("id","nombre","idpersonaje","idserie","serie","imagenpeq","imagen","idtorneo","estado","grupo","ronda","seiyuu","ponderacion");
 
 //configuracion
 $NombreTablaL[]="configuracion";

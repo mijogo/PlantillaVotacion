@@ -16,6 +16,40 @@ if($_GET['action']==0)
 	$pagina = ingcualpag($pagina,"tabla_objetos_1",tablaobjetos("Personajes",arreglopersonaje()));
 	$ClaseMaestra->Pagina("",$pagina);
 }
+elseif($_GET['action']==2)
+{
+	$BG = new DataBase();
+	$BG->connect();
+	
+	$torneoActual = new torneo($BG->con);
+	$torneoActual->setactivo(1);
+	$torneoActual = $torneoActual->read(false,1,array("activo"));	
+	
+	$seriesactuales = new seriepar($BG->con);
+	$seriesactuales->setidtorneo($torneoActual->getid());
+	$seriesactuales = $seriesactuales->read(true,1,array("idtorneo"),1,array("nombre","ASC"));
+	$serietext ="";
+	foreach($seriesactuales as $serieelegir)
+	{
+		$personajevivos = new personajepar($BG->con);
+		$personajevivos = $personajevivos->read(true,0,"",1,array("nombre","ASC"),"idserie=".$serieelegir->getid()." AND (estado=1 OR estado=3) ");
+		if(count($personajevivos)>0)
+		{
+			$personajestext="";
+			foreach($personajevivos as $personajesusar)
+			{
+				$personajestext.=panelpersonaje($personajesusar->getnombre(),$personajesusar->getimagenpeq());
+			}
+			$serietext.=panelcollapse("serie".$serieelegir->getid(),$serieelegir->getnombre(),$personajestext);
+		}
+	}
+	
+	$fp = fopen("participantes.html", 'w');
+	fwrite($fp,$serietext);
+	fclose($fp);
+	$BG->close();
+	Redireccionar("revpersonaje.php");
+}
 else
 {
 	$BG = new DataBase();

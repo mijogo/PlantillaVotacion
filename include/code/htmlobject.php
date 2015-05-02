@@ -433,4 +433,72 @@ function botoncollapse($id,$nombre)
 	</button>";
 	return $text;	
 }
+
+function panelcollapse($id,$nombre,$contenido)
+
+{
+		$text ="<div class=\"panel panel-default\">
+	<div class=\"panel-heading\">
+		<h4 class=\"panel-title\">
+		".$nombre." 
+                <button class=\"btn btn-default pull-right btn-xs\" type=\"button\" data-toggle=\"collapse\" data-target=\"#".$id."\">
+                Ver Mas
+                </button>
+		</h4>
+	</div>
+    <div id=\"".$id."\" class=\"panel-collapse collapse\">
+    	<div class=\"panel-body\">   
+        ".$contenido."
+				</div>
+	</div>
+</div>";
+	return $text;	
+}
+
+function panelpersonaje($nombre,$img)
+{
+	$text ="            <div class=\"col-md-2\">
+                <div class=\"panel panel-default\">
+                    <div class=\"panel-heading\"><h3 class=\"text-center\">".$nombre."</h3></div>
+                    <div class=\"panel-body text-center\">
+        					<img src=\"perimage".$img."\" ALT=\"Imagen\" width=100 class=\"img-rounded\">
+                    </div>
+                </div>
+            </div>  ";
+			return $text;
+}
+function panelvotar($nombre,$id,$img,$serie)
+{
+	$text ="			<div class=\"col-md-2\">
+                <div class=\"panel panel-default\">
+                    <div class=\"panel-heading\"><h3 class=\"text-center\">".$nombre."</h3></div>
+                    <div class=\"panel-body text-center\">
+        					<img src=\"perimage/".$img."\" ALT=\"Imagen\" width=100 class=\"img-rounded\">
+                    </div>
+                    <ul class=\"list-group list-group-flush text-center\">
+                        <li class=\"list-group-item\"> ".$serie."</li>
+                    </ul>
+                    <div class=\"panel-footer\">
+                    	<button id=\"idpersonaje".$id."\" type=\"button\" class=\"btn btn-lg btn-block btn-default\" onclick=\"votacion.votoactivar(".$id.")\">Votar</button>
+                    </div>
+                </div>
+            </div>     ";
+			return $text;
+}
+
+function lugarvotacion($titulo,$contenido)
+{
+	$text = "
+<div class=\"panel panel-default\">
+	<div class=\"panel-heading\">
+		<h4 class=\"panel-title\">
+		".$titulo." 
+		</h4>
+	</div>
+    <div class=\"panel-body\"> 
+	".$contenido."
+	</div>
+</div>";	
+return $text;
+}
 ?>

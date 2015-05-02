@@ -449,4 +449,26 @@ function agregarcalendario($titulo,$fechainicio,$url="",$fechafin="",$allday = t
 	
 	return $text;	
 }
+
+function ordenarpersonajes($arreglo)
+{
+	for($i=0;$i<count($arreglo);$i++);	
+		for($j=0;$j<count($arreglo)-1;$j++);	
+		{
+			if(strcmp($arreglo[$j]->getserie(),$arreglo[$j+1]->getserie())==1)
+			{
+				$temp = $arreglo[$j];
+				$arreglo[$j] = $arreglo[$j+1];
+				$arreglo[$j+1] = $temp;
+			}
+			elseif(strcmp($arreglo[$j]->getserie(),$arreglo[$j+1]->getserie())==0)
+				if(strcmp($arreglo[$j]->getnombre(),$arreglo[$j+1]->getnombre())==1)
+				{
+					$temp = $arreglo[$j];
+					$arreglo[$j] = $arreglo[$j+1];
+					$arreglo[$j+1] = $temp;
+				}
+		}
+	return $arreglo;
+}
 ?>
