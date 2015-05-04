@@ -467,8 +467,14 @@ function panelpersonaje($nombre,$img)
             </div>  ";
 			return $text;
 }
-function panelvotar($nombre,$id,$img,$serie)
+function panelvotar($nombre,$id,$img,$serie,$boton=true)
 {
+	$agregar = "";
+	if($boton)
+		$agregar = "
+                    <div class=\"panel-footer\">
+                    	<button id=\"idpersonaje".$id."\" type=\"button\" class=\"btn btn-lg btn-block btn-default\" onclick=\"votacion.votoactivar(".$id.")\">Votar</button>
+                    </div>";
 	$text ="			<div class=\"col-md-2\">
                 <div class=\"panel panel-default\">
                     <div class=\"panel-heading\"><h3 class=\"text-center\">".$nombre."</h3></div>
@@ -478,9 +484,7 @@ function panelvotar($nombre,$id,$img,$serie)
                     <ul class=\"list-group list-group-flush text-center\">
                         <li class=\"list-group-item\"> ".$serie."</li>
                     </ul>
-                    <div class=\"panel-footer\">
-                    	<button id=\"idpersonaje".$id."\" type=\"button\" class=\"btn btn-lg btn-block btn-default\" onclick=\"votacion.votoactivar(".$id.")\">Votar</button>
-                    </div>
+                   ".$agregar."
                 </div>
             </div>     ";
 			return $text;

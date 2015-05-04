@@ -30,6 +30,9 @@ function votajs(arrayidpersonaje,inmaximo,inip,inidevento,iniduser,arrayidbatall
 	this.votoactivar = function(id) 
 	{
 		var batallapersonaje = this.inversabatalla[id];
+		if(this.contartotal()==0)
+			$("#botonvoto").removeAttr("disabled");
+		
 		if(this.contaractivos(batallapersonaje)<this.maximo-1)
 		{
 			$("#idpersonaje"+id).addClass("active");
@@ -56,6 +59,8 @@ function votajs(arrayidpersonaje,inmaximo,inip,inidevento,iniduser,arrayidbatall
 	
 	this.votodesactivar = function(id)
 	{
+		if(this.contartotal()==1)
+			$("#botonvoto").attr("disabled","disabled");
 		var batallapersonaje = this.inversabatalla[id];
 		if(this.contaractivos(batallapersonaje)==this.maximo)
 			for(var i=0;i<this.activado[batallapersonaje].length;i++)
@@ -79,9 +84,19 @@ function votajs(arrayidpersonaje,inmaximo,inip,inidevento,iniduser,arrayidbatall
 		return cantidadactivos;
 	}
 	
+	this.contartotal = function()
+	{
+		var cantidadactivos = 0;
+		for(var i=0;i<this.activado.length;i++)
+			for(var j=0;j<this.activado[i].length;i++)
+				if(this.activado[i][j]==1)
+					cantidadactivos++;
+		return cantidadactivos;	
+	}
+	
 	this.datospost = function()
 	{
-		var eventocadena = this.iduser+"-"+this.idevento+"-"+this.ip;
+		var eventocadena = this.iduser+"-"+this.idevento+"-"+this.ip+"-"+this.cantidadmatch;
 		for(var j=0;j<this.cantidadmatch;j++)
 		{
 			eventocadena += ";";

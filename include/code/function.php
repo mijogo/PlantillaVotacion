@@ -471,4 +471,26 @@ function ordenarpersonajes($arreglo)
 		}
 	return $arreglo;
 }
+
+function arrvoto($voto)
+{
+	$arrayvoto = array();
+	$stringvoto = explode(";",$voto);
+	$metadatos = explode("-",$stringvoto[0]);
+	$arrayvoto["metadatos"]["iduser"]=$metadatos[0];
+	$arrayvoto["metadatos"]["idevento"]=$metadatos[0];
+	$arrayvoto["metadatos"]["ip"]=$metadatos[0];
+	$arrayvoto["metadatos"]["cantidadmatch"]=$metadatos[0];
+	
+	for($i=1;$i<=$arrayvoto["metadatos"]["cantidadmatch"];$i++)
+	{
+		$matchdatos = explode("-",$stringvoto[$i]);
+		$arrayvoto["metadatosbatalla".$i]["idbatalla"]=$matchdatos[0];
+		$arrayvoto["metadatosbatalla".$i]["votosemitidos"]=$matchdatos[1];
+		$arrayvoto["metadatosbatalla".$i]["maximo"]=$matchdatos[2];
+		for($j=3;$j<=$arrayvoto["metadatosbatalla".$i]["maximo"]+3;$j++)
+			$arrayvoto["votos".$i][]=$matchdatos[$j];
+	}
+	return $arrayvoto;
+}
 ?>

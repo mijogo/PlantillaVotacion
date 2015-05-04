@@ -5,12 +5,13 @@ class personajeparBD extends DataBase
 	function personajeparBD(){}
 	
 	function save()
-	{		$sql = "INSERT INTO personajepar (id,nombre,idpersonaje,idserie,imagenpeq,imagen,idtorneo,estado,grupo,ronda,seiyuu,ponderacion) VALUES 
+	{		$sql = "INSERT INTO personajepar (id,nombre,idpersonaje,idserie,serie,imagenpeq,imagen,idtorneo,estado,grupo,ronda,seiyuu,ponderacion) VALUES 
 		(
 		'".$this->id."',
 		'".$this->nombre."',
 		'".$this->idpersonaje."',
 		'".$this->idserie."',
+		'".$this->serie."',
 		'".$this->imagenpeq."',
 		'".$this->imagen."',
 		'".$this->idtorneo."',
@@ -58,7 +59,7 @@ class personajeparBD extends DataBase
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$personajepars[]=new personajepar($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$personajepars[]=new personajepar($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $personajepars;
 		}
@@ -67,7 +68,7 @@ class personajeparBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$personajepars= new personajepar($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$personajepars= new personajepar($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $personajepars;
 		}
 	}

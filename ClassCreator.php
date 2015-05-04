@@ -9,7 +9,7 @@ $ElementosTablaL = array();
 //$ElementosTablaL[0]=array("fecha","ip","codepass","forumcode","user","idevento","tiempo","usada","uniquecode","mastercode","masterip","info");
 
 //log
-$NombreTablaL[0]="log";
+$NombreTablaL[0]="reg";
 $ElementosTablaL[0]=array("iduser","accion","fecha","estado","ip","accioncompleta");
 
 //batalla

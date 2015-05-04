@@ -2,12 +2,13 @@
 require_once "personajeparBD.php";
 class personajepar extends personajeparBD
 {
-	function personajepar($db,$id="",$nombre="",$idpersonaje="",$idserie="",$imagenpeq="",$imagen="",$idtorneo="",$estado="",$grupo="",$ronda="",$seiyuu="",$ponderacion="" )
+	function personajepar($db,$id="",$nombre="",$idpersonaje="",$idserie="",$serie="",$imagenpeq="",$imagen="",$idtorneo="",$estado="",$grupo="",$ronda="",$seiyuu="",$ponderacion="" )
 	{
 		$this->id = $id;
 		$this->nombre = $nombre;
 		$this->idpersonaje = $idpersonaje;
 		$this->idserie = $idserie;
+		$this->serie = $serie;
 		$this->imagenpeq = $imagenpeq;
 		$this->imagen = $imagen;
 		$this->idtorneo = $idtorneo;
@@ -49,6 +50,14 @@ class personajepar extends personajeparBD
 	function getidserie()
 	{
 		return $this->idserie;
+	}
+	function setserie($serie)
+	{
+		$this->serie=$serie;
+	}
+	function getserie()
+	{
+		return $this->serie;
 	}
 	function setimagenpeq($imagenpeq)
 	{

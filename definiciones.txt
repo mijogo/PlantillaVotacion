@@ -27,7 +27,7 @@ es el identificador del evento programado
 [varchar accion]
 identifica el tipo de accion que realiza
 SORTE: se refiere a los sorteos que se pueden realizar
-ACTVA: se refiere a la activacion de alguna batalla
+ACTBA: se refiere a la activacion de alguna batalla
 CONVO: se refiere al contro de votos de alguna batalla
 CHTOR: se refiere al cambio del estado del torneo
 CHEVE: se refiere a la creacion o el termino de un evento en particular

@@ -10,7 +10,7 @@ class MasterClass
 		$a_menu = new menu($BG->con);
 		$a_menu->setnamepage($NamePage);
 		$a_menu = $a_menu->read(true,1,array("namepage"));
-		
+		$this->ipcontext="";
 
 		if(count($a_menu) == 0 && $Esta_Menu)
 			Redireccionar("home.php");
@@ -49,6 +49,21 @@ class MasterClass
 		{
 			$this->BG->close();
 			return false;
+		}
+	}
+	
+	function devip()
+	{
+		if(isset($_COOKIE['uniqueCode']))
+		{
+			$this->BG = new DataBase();
+			$this->BG->connect();
+			
+			$ipactual = new ip($this->BG->con);
+			$ipactual->setuniquecode($_COOKIE['uniqueCode']);
+			$ipactual = $ipactual->read(false,1,array("uniquecode"));
+			$this->ipcontext = $ipactual;
+			$this->BG->close();
 		}
 	}
 	
@@ -196,6 +211,7 @@ class MasterClass
 						$estaIp->settiempo(0);
 						$estaIp->setuser($this->user->getidusuario());
 						$estaIp->update(1,array("tiempo","user"),1,array("uniquecode"));
+						
 					}
 				}
 			}

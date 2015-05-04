@@ -1,24 +1,24 @@
 <?php
 require_once "DataBase.php";
-class votoBD extends DataBase
+class regBD extends DataBase
 {
-	function votoBD(){}
+	function regBD(){}
 	
 	function save()
-	{		$sql = "INSERT INTO voto (fecha,idbatalla,idpersonaje,uniquecode,codepass,idevento) VALUES 
+	{		$sql = "INSERT INTO reg (iduser,accion,fecha,estado,ip,accioncompleta) VALUES 
 		(
+		'".$this->iduser."',
+		'".$this->accion."',
 		'".$this->fecha."',
-		'".$this->idbatalla."',
-		'".$this->idpersonaje."',
-		'".$this->uniquecode."',
-		'".$this->codepass."',
-		'".$this->idevento."')";
+		'".$this->estado."',
+		'".$this->ip."',
+		'".$this->accioncompleta."')";
 		return $this->insert($sql);
 	}
 
 	function read($multi=true , $cantConsulta = 0 , $Consulta = "" , $cantOrden = 0 , $Orden = "" , $consultaextra="")
 	{
-		$sql="SELECT * FROM voto ";
+		$sql="SELECT * FROM reg ";
 		if($consultaextra=="")
 		{
 			if($cantConsulta != 0)
@@ -48,27 +48,27 @@ class votoBD extends DataBase
 		if($multi)
 		{
 			$result = $this->multiselect($sql);
-			$votos = array();
+			$regs = array();
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$votos[]=new voto($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$regs[]=new reg($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
-			return $votos;
+			return $regs;
 		}
 		else
 		{
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$votos= new voto($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
-			return $votos;
+			$regs= new reg($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			return $regs;
 		}
 	}
 	
 	function update($cantSet = 0 , $Set = "" , $cantConsulta = 0 , $Consulta= "")
 	{
-		$sql="UPDATE voto ";
+		$sql="UPDATE reg ";
 		if($cantSet != 0)
 		{
 			$sql .= "SET ";
@@ -95,7 +95,7 @@ class votoBD extends DataBase
 	
 	function delete($cantConsulta = 0 , $Consulta = "")
 	{
-		$sql = "DELETE FROM voto ";
+		$sql = "DELETE FROM reg ";
 		if($cantConsulta != 0)
 		{
 			$sql .= "WHERE ";

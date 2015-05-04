@@ -52,7 +52,7 @@ class Schedule
 				}			
 				$process[$i]->setHecho(1);
 				$process[$i]->update(1,array("hecho"),1,array("id"));
-				$lognew = new log($this->BG->con,-10,$process[$i]->getaccion(),$fechaActual,1,"system",$process[$i]->gettargetstring()." ".$process[$i]->gettargetdate()." ".$process[$i]->gettargetint());
+				$lognew = new reg($this->BG->con,-10,$process[$i]->getaccion(),$fechaActual,1,"system",$process[$i]->gettargetstring()." ".$process[$i]->gettargetdate()." ".$process[$i]->gettargetint());
 				$lognew->save(); 
 			}
 			else

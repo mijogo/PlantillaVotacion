@@ -2,13 +2,15 @@
 require_once "votoBD.php";
 class voto extends votoBD
 {
-	function voto($fecha="",$idbatalla="",$idpersonaje="",$uniquecode="",$codepass="")
+	function voto($db,$fecha="",$idbatalla="",$idpersonaje="",$uniquecode="",$codepass="",$idevento="" )
 	{
 		$this->fecha = $fecha;
 		$this->idbatalla = $idbatalla;
 		$this->idpersonaje = $idpersonaje;
 		$this->uniquecode = $uniquecode;
 		$this->codepass = $codepass;
+		$this->idevento = $idevento;
+		$this->con = $db;
 	}
 	function setfecha($fecha)
 	{
@@ -50,5 +52,13 @@ class voto extends votoBD
 	{
 		return $this->codepass;
 	}
-}
-?>
+	function setidevento($idevento)
+	{
+		$this->idevento=$idevento;
+	}
+	function getidevento()
+	{
+		return $this->idevento;
+	}
+}?>
+
