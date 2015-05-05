@@ -505,4 +505,39 @@ function lugarvotacion($titulo,$contenido)
 </div>";	
 return $text;
 }
+
+function panelvotos($titulo,$arrcontenido)
+{
+	$text ="<section class=\"panel\">
+                          <div class=\"panel-body progress-panel\">
+                            <div class=\"row\">
+                              <div class=\"col-lg-8 task-progress pull-left\">
+                                  <h1>".$titulo."</h1>                                  
+                              </div>
+                            </div>
+                          </div>
+						  <table class=\"table table-hover personal-task\">
+                              <tbody>";
+							  
+	foreach($arrcontenido as $individual)
+	{
+		$text.="<tr>";
+		$text."<td>".$individual["pos"]."</td>";
+		$text."<td><div class=\"avatar\">
+                          <img src=\"perimage/".$individual["img"]."\" alt=""/>
+                        </div></td>";
+		$text."<td>".$individual["nombre"]."</td>";
+		$text."<td>".$individual["serie"]."</td>";
+		$text."<td>".$individual["color"]."</td>";
+		$text."<td>".$individual["voto"]."</td>";
+		$text.="</tr>";	
+	}
+	
+	$text.= "
+                              </tbody>
+                          </table>
+                      </section>";
+					  
+	return $text;
+}
 ?>
