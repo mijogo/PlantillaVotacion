@@ -524,7 +524,7 @@ function panelvotos($titulo,$arrcontenido)
 		$text.="<tr>";
 		$text."<td>".$individual["pos"]."</td>";
 		$text."<td><div class=\"avatar\">
-                          <img src=\"perimage/".$individual["img"]."\" alt=""/>
+                          <img src=\"perimage/".$individual["img"]."\" alt=\"\"/>
                         </div></td>";
 		$text."<td>".$individual["nombre"]."</td>";
 		$text."<td>".$individual["serie"]."</td>";

@@ -65,6 +65,7 @@ if($_GET['action']==0)
 					$text .=panelcollapse("grupo".$estado,"Grupo ".$estado,$datos);
 					$datos="";
 				}
+				$todospersonajes = array();
 				if($estabatalla->getestado == 1)
 				{
 					$cuentavotos = new pelea($BG->con);
@@ -82,9 +83,77 @@ if($_GET['action']==0)
 						$datospersonaje["serie"]=$personaje->getserie();
 						$datospersonaje["color"]="#SADASDA";
 						$datospersonaje["voto"]=$votoparticipante->getvotos();
+						$todospersonajes[] = $datospersonaje;
 					}
+					
 				}
-				$datos.=panelvotos($rondarev->getnombre." ".$estabatalla->getgrupo(),$datospersonaje);
+				else if($estabatalla->getestado == 0)
+				{
+					$participantes = new participacion($BG->con);
+					$participantes->setidbatalla($estabatalla->getid());
+					$participantes = $participantes->read(true,1,array("idbatalla"));
+					
+					$i=1;
+					foreach($participantes as $revisarpersonaje)
+					{
+						$datospersonaje = array();
+						$personaje = arrayobjeto($revisarpersonaje,"id",$votoparticipante->idpersonaje());
+						$datospersonaje["pos"]=$i;
+						$i++;
+						$datospersonaje["img"]=$personaje->getimagenpeq();
+						$datospersonaje["nombre"]=$personaje->getnombre();
+						$datospersonaje["serie"]=$personaje->getserie();
+						$datospersonaje["color"]="#SADASDA";
+						
+						$votocontar = new voto($BG->con);
+						$votocontar->setidbatalla($estabatalla->getid());
+						$votocontar->setidpersonaje($personaje->getid());
+						$votocontar = $votocontar->read(true,2,array("idbatalla","AND","idpersonaje"));
+						
+						$datospersonaje["voto"]=count($votocontar);
+						$todospersonajes[] = $datospersonaje;
+					}
+					
+					for($i=0;$i<count($todospersonajes);$i++)
+						for($j=0;$j<count($todospersonajes)-1;$j++);
+						{
+							if($todospersonajes[$j]["voto"]<$todospersonajes[$j+1]["voto"])
+							{
+								$temp = $todospersonajes[$j];
+								$todospersonajes[$j] = $todospersonajes[$j+1];
+								$todospersonajes[$j+1] = $temp;
+							}
+						}
+					
+				}
+				else
+				{
+					$participantes = new participacion($BG->con);
+					$participantes->setidbatalla($estabatalla->getid());
+					$participantes = $participantes->read(true,1,array("idbatalla"),1,array("serie","ASC","nombre","ASC"));
+					
+					$i=1;
+					foreach($participantes as $revisarpersonaje)
+					{
+						$datospersonaje = array();
+						$personaje = arrayobjeto($revisarpersonaje,"id",$votoparticipante->idpersonaje());
+						$datospersonaje["pos"]=$i;
+						$i++;
+						$datospersonaje["img"]=$personaje->getimagenpeq();
+						$datospersonaje["nombre"]=$personaje->getnombre();
+						$datospersonaje["serie"]=$personaje->getserie();
+						$datospersonaje["color"]="#SADASDA";
+						
+						$votocontar = new voto($BG->con);
+						$votocontar->setidbatalla($estabatalla->getid());
+						$votocontar->setidpersonaje($personaje->getid());
+						$votocontar = $votocontar->read(true,2,array("idbatalla","AND","idpersonaje"));
+						
+						$datospersonaje["voto"]="";
+						$todospersonajes[] = $datospersonaje;
+					}	
+				}
+				$datos.=panelvotos($rondarev->getnombre." ".$estabatalla->getgrupo(),$todospersonajes);
 				if($estabatalla->estado()!=-1);
 				{
 					$script.="<script src=\"charts/graph-batalla".$estabatalla->getid().".js\"></script>";
@@ -103,7 +172,7 @@ if($_GET['action']==0)
 		
 		
 		
-		$pagina = ingcualpag($pagina,"enfrentamientos",$text)
+		$pagina = ingcualpag($pagina,"enfrentamientos",$text);
 		$ClaseMaestra->Pagina($script,$pagina);
 		
 	}

@@ -58,6 +58,8 @@ class Schedule
 			else
 				$sigue=false;
 		}
+		grafoenvivo();
+		
 		$this->BG->close();
 	}
 	function sorteo($instancia="",$numeroGrupo="")
@@ -592,6 +594,12 @@ class Schedule
 			$BatallasActivas[$i]->setnumerovotos($votosTotales);
 			$BatallasActivas[$i]->setganador($idGanador);
 			$BatallasActivas[$i]->update(3,array("estado","numerovotos","ganador"),1,array("id"));
+			
+			$fechalimite = $BatallasActivas[$i]->getfecha()." ".$torneoActual->gethorainicio();
+			$fechalimite = cambioFecha($fechalimite,$torneoActual->getduracionbatalla());
+			
+			$horaLimite = sacarhora($fechalimite).":00";
+			creargrafo($BatallasActivas[$i]->getid(),$torneoActual->getintervalo(),$torneoActual->getihorainicio(),$horaLimite,$torneoActual->getmaxmiembrosgraf());
 		}
 		changeEvento("KILL");
 	}//fin funcion conteo votos
@@ -678,6 +686,131 @@ class Schedule
 		$torneoActual = $torneoActual->read(false,1,array("activo"));
 		$torneoActual->setponderacionprom(round($totalponderacion/count($personajesutil)));
 		$torneoActual->update(1,array("ponderacionprom"),1,array("id"));
+	}
+	
+	function creargrafo($idbatalla,$intervalo,$horaInicio,$horaLimite,$limitePersonaje)
+	{
+		$text = "var lineChartData = {
+			labels :[";
+		$sigue = true;
+		$batallaactual = new batalla($this->BG->con);
+		$batallaactual->setid($idbatalla);
+		$batallaactual = $batallaactual->read(false,1,array("id"));
+		
+		$arreglofecha = array();
+		$fecha = $batallaactual->getfecha()." ".$horaInicio;
+		$fechafinal = $batallaactual->getfecha()." ".$horaLimite;
+		while(FechaMayor($fecha,$fechafinal)!=1)
+		{
+			$arreglofecha[] = $fecha;
+			$fecha = cambioFecha($fecha,$intervalo);
+		}
+		for($i=0;$i<count($arreglofecha);$i++)
+		{
+			if($i!=0)
+				$text .= ",";
+			$text .= "\"".sacarhora($arreglofecha[$i])."\"";
+		}
+		$text .= "],";
+		
+		$verparticipacion = new participacion($this->BG->con);
+		$verparticipacion->setidbatalla($idbatalla);
+		$verparticipacion = $verparticipacion->read(true,1,array("idbatalla"));
+		
+		$revisarpersonaje = new personajepar($BG->con);
+		$revisarpersonaje = $revisarpersonaje->read();
+		$todospersonajes=array();
+		foreach($verparticipacion as $votoparticipante)
+		{
+			$datospersonaje = array();
+			$personaje = arrayobjeto($revisarpersonaje,"id",$votoparticipante->idpersonaje());
+
+			$datospersonaje["personaje"]=$personaje;
+						
+			$votocontar = new voto($BG->con);
+			$votocontar->setidbatalla($estabatalla->getid());
+			$votocontar->setidpersonaje($personaje->getid());
+			$votocontar = $votocontar->read(true,0,"",0,"","idpersonaje=".$personaje->getid()." AND fecha<=".$arreglofecha[count($arreglofecha)-1]." idbatalla=".$estabatalla->getid());
+						
+			$datospersonaje["voto"]=count($votocontar);
+			$todospersonajes[] = $datospersonaje;
+		}
+					
+		for($i=0;$i<count($todospersonajes);$i++)
+			for($j=0;$j<count($todospersonajes)-1;$j++);
+			{
+				if($todospersonajes[$j]["voto"]<$todospersonajes[$j+1]["voto"])
+				{
+					$temp = $todospersonajes[$j];
+					$todospersonajes[$j] = $todospersonajes[$j+1];
+					$todospersonajes[$j+1] = $temp;
+				}
+			}
+		$text .= "			datasets : [";
+		for($i=0;$i<$limitePersonaje && $i<count($todospersonajes);$i++)
+		{
+			if($i!=0)
+				$text .=",";		
+			$text .= "				{
+					fillColor : \"rgba(".coloresgraf($i).",0.1)\",
+					strokeColor : \"rgba(".coloresgraf($i).",1)\",
+					pointColor : \"rgba(".coloresgraf($i).",1)\",
+					pointStrokeColor : \"#fff\",
+					data : [";		
+			$conteovotos = 0;
+			$votocontar = new voto($BG->con);
+			$votocontar->setidbatalla($idbatalla);
+			$votocontar->setidpersonaje($todospersonajes[$i]["personaje"]->getid());
+			$votocontar = $votocontar->read(true,2,array("idbatalla","AND","idpersonaje"),1,array("fecha","ASC"));
+			$text .=$conteovotos;
+			for($j=1;$j<count($arreglofecha);$j++)
+			{
+				$text .=",";
+				while(FechaMayor($arreglofecha[$j],$votocontar[$conteovotos])!=-1)
+				{
+					$conteovotos++;
+				}
+				$text .=$conteovotos;
+			}
+			$text .= "]
+				}";
+		}
+		$text .= "				]
+		}";
+		$text .= "var myLine = new Chart(document.getElementById(\"graphbatalla".$idbatalla."\").getContext(\"2d\")).Line(lineChartData);";
+		$fp = fopen("../charts/graph-batalla".$idbatalla.".js", 'w');
+		fwrite($fp, $text);
+		fclose($fp);
+	}
+	
+	function grafoenvivo()
+	{
+		$torneoActual = new torneo($this->BG->con);
+		$torneoActual->setactivo(1);
+		$torneoActual = $torneoActual->read(false,1,array("activo"));
+		
+		$evetoActual = new evento($this->BG->con);
+		$evetoActual->setestado(1);
+		$evetoActual = $evetoActual->read(true,1,array("estado"));
+		
+		if(count($evetoActual)>0)
+		{
+			$batallaactiva = new batalla($this->BG->con);	
+			$batallaactiva->setestado(0);
+			$batallaactiva = $batallaactiva->read(true,1,array("estado"));
+			for($i=0;$i<count($batallaactiva);$i++)
+			{
+				$fechalimite = $batallaactiva[$i]->getfecha()." ".$torneoActual->gethorainicio();
+				$fechalimite = cambioFecha($fechalimite,$torneoActual->getduracionlive());
+				$fechaactual = fechaHoraActual();
+				if(FechaMayor($fechaactual,$fechalimite)==1)
+					$horaLimite = $fechalimite;
+				else
+					$horaLimite = $fechaactual;
+				$horaLimite = sacarhora($horaLimite).":00";
+				creargrafo($batallaactiva[$i]->getid(),$torneoActual->getintervalo(),$torneoActual->gethorainicio(),$horaLimite,$torneoActual->getmaxmiembrosgraf());
+			}
+		}
 	}
 }
 ?>

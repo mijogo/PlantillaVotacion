@@ -260,6 +260,14 @@ function cambioFecha($actual,$min)
     return date('Y-m-d H:i:s', $timestamp);
 }
 
+function sacarhora($actual)
+{
+	$actual = explode(" ",$actual);
+	$fecha1 = explode("-",$actual[0]);
+	$fecha2 = explode(":",$actual[1]);
+	return $fecha2[0]+":"$fecha2[1];
+}
+
 function getRealIP() 
 {
         if (!empty($_SERVER['HTTP_CLIENT_IP']))
@@ -452,8 +460,8 @@ function agregarcalendario($titulo,$fechainicio,$url="",$fechafin="",$allday = t
 
 function ordenarpersonajes($arreglo)
 {
-	for($i=0;$i<count($arreglo);$i++);	
-		for($j=0;$j<count($arreglo)-1;$j++);	
+	for($i=0;$i<count($arreglo);$i++)
+		for($j=0;$j<count($arreglo)-1;$j++)
 		{
 			if(strcmp($arreglo[$j]->getserie(),$arreglo[$j+1]->getserie())==1)
 			{
@@ -471,6 +479,7 @@ function ordenarpersonajes($arreglo)
 		}
 	return $arreglo;
 }
+
 
 function arrvoto($voto)
 {
@@ -492,5 +501,21 @@ function arrvoto($voto)
 			$arrayvoto["votos".$i][]=$matchdatos[$j];
 	}
 	return $arrayvoto;
+}
+
+function coloresgraf($pos)
+{
+	$text ="";
+	switch($pos)
+	{
+		case 1:
+			$text = "";
+			break;
+		default:
+			$text = "";
+			break;
+			
+	}	
+	return $text;
 }
 ?>
