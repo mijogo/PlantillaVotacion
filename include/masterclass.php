@@ -31,6 +31,7 @@ class MasterClass
 			$this->id_pagina=-1;
 		}
 		$BG->close();
+		$this->useradmin ="";
 	}
 	// id numero pagina, tipo a que pagina se refiere, action, tipo de accion
 	
@@ -79,7 +80,12 @@ class MasterClass
 		}
 		//$logicaU = new logicv();
 		//$datos = $logicaU->logicaView($this->id_pagina,$this->tipo);
-		echo ingPagina($masterpagina,$this->menu_u(),$script,$pagina,widget());
+		$msg="";
+		if(isset($_GET["msg"]))
+		{
+			$msg = "<div class=\"alert alert-info\">".$_GET["msg"]."</div>";
+		}
+		echo ingPagina($masterpagina,$this->menu_u(),$script,$pagina,widget(),$msg);
 		$this->BG->close();
 	}
 	

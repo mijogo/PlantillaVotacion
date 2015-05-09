@@ -1,23 +1,53 @@
-<div id="cuerpo">
-    <div class="container">
+
         <div class="row">
-            <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <h1 class="text-center login-title"></h1>
-            <div class="account-wall">
-            <form class="form-signin" action="login.php?action=1" method="post">
-                <input type="text" class="form-control" placeholder="usuario" name="user" required autofocus>
-                <input type="password" class="form-control" placeholder="contraseña" name="pass" required>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">
-                Iniciar Sesión</button>
-                <label class="checkbox pull-left">
-                <input type="checkbox" value="remember-me" name="recordar">
-                No cerrar sesión
-                </label>
-                <a href="#" class="pull-right need-help"></a><span class="clearfix"></span>
-            </form>
+            <div class="col-sm-7 col-md-5">
+            	<h3> Inicio de Sesión</h3>
+              <form class="login-form" action="login.php?action=1" method="post">        
+                <div class="login-wrap">
+                    <p class="login-img"><i class="icon_lock_alt"></i></p>
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="icon_profile"></i></span>
+                      <input type="text" class="form-control" placeholder="usuario"  name="user" autofocus>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                        <input type="password" class="form-control" placeholder="contraseña"  name="pass" >
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" value="remember-me"  name="recordar">No cerrar sesión
+                        <span class="pull-right"> <a href="recrodarpass.php"> Olvidaste tu contraseña?</a></span>
+                    </label>
+                    <button class="btn btn-default btn-lg btn-block" type="submit">Iniciar Sesión</button>
+        	</div>
+              </form>
+        	</div>
+            <div class="col-sm-1 col-md-1">
             </div>
-            <a href="registro.php" class="text-center new-account">Registrarse</a>
+            <div class="col-sm-7 col-md-5">
+            	<h3> Registro</h3>
+            	<form class="login-form" action="login.php?action=2" method="post">        
+                <div class="login-wrap">
+                    <div class="input-group">
+                      <span class="input-group-addon"></span>
+                      <input type="text" class="form-control" placeholder="usuario"  name="username" autofocus>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        <input type="password" class="form-control" placeholder="contraseña"  name="password" >
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        <input type="password" class="form-control" placeholder="repita la contraseña"  name="reppassword" >
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon"></span>
+                      <input type="text" class="form-control" placeholder="e-mail"  name="email" autofocus>
+                    </div>
+                    <label>
+                    <br>
+                    </label>
+                    <button class="btn btn-default btn-lg btn-block" type="submit">Registrar</button>
+        	</div>
+             	 </form>
             </div>
         </div>
-    </div> 
-</div>

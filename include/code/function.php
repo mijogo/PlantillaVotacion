@@ -265,7 +265,7 @@ function sacarhora($actual)
 	$actual = explode(" ",$actual);
 	$fecha1 = explode("-",$actual[0]);
 	$fecha2 = explode(":",$actual[1]);
-	return $fecha2[0]+":"$fecha2[1];
+	return $fecha2[0].":".$fecha2[1];
 }
 
 function getRealIP() 
@@ -361,6 +361,8 @@ function ingPagina($estructura,$menu,$script,$body,$widget,$extra="")
 	$estructura = $estructura[0].$body.$estructura[1];
 	$estructura = explode("[[widget]]",$estructura);
 	$estructura = $estructura[0].$widget.$estructura[1];
+	$estructura = explode("[[info]]",$estructura);
+	$estructura = $estructura[0].$extra.$estructura[1];
 	return $estructura;
 }
 

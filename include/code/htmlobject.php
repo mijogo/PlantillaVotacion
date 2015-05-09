@@ -248,7 +248,7 @@ function menu_html($datos,$nivel,$existeusuario,$usuarioactual,$esadmin)
 		  	 <a href=\"perfil.php\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">".img("image/".$usuarioactual->getimagen(),"22px","","","img-rounded","perfil")."<b class=\"caret\"></b></a>
               	<ul class=\"dropdown-menu\">
 					<li><a href=\"perfil.php\">Perfil</a></li>   
-					<li><a href=\"configuracion.php\">Configuración</a></li> 
+					<li><a href=\"datouser.php\">Configuración</a></li> 
 					".$MenuAdmin."  
 					<li><a href=\"logout.php\">Cerrar Sesión</a></li>              
 				</ul>
