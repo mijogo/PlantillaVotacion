@@ -245,7 +245,7 @@ function menu_html($datos,$nivel,$existeusuario,$usuarioactual,$esadmin)
 					$MenuAdmin="<li><a href=\"admin.php\">Administración</a></li>   ";
 				$text .=	"
 		  	<li class=\"dropdown\">
-		  	 <a href=\"perfil.php\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">".img("image/".$usuarioactual->getimagen(),"22px","","","img-rounded","perfil")."<b class=\"caret\"></b></a>
+		  	 <a href=\"perfil.php\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">".img($usuarioactual->getimagen(),"22px","","","img-rounded","perfil")."<b class=\"caret\"></b></a>
               	<ul class=\"dropdown-menu\">
 					<li><a href=\"perfil.php\">Perfil</a></li>   
 					<li><a href=\"datouser.php\">Configuración</a></li> 
@@ -302,6 +302,13 @@ function inputform($id,$nombre,$value="",$type="text",$placeholder="")
 	return $text;
 }
 
+function inputalone($id,$value="",$type="text",$placeholder="")
+{
+	$text ="";
+	$text .="<input type=\"".$type."\" class=\"form-control\" id=\"".$id."\" name=\"".$id."\" placeholder=\"".$placeholder."\" value=\"".$value."\">\n";
+	return $text;
+}
+
 function inputimage($id,$nombre,$help)
 {
 	$text = "      <div class=\"form-group\">
@@ -309,6 +316,14 @@ function inputimage($id,$nombre,$help)
         <input type=\"file\" id=\"".$id."\" name=\"".$id."\">
         <p class=\"help-block\">".$help."</p>
       </div>";	
+	  return $text;
+}
+
+function inputimagealone($id,$help)
+{
+	$text = "
+        <input type=\"file\" id=\"".$id."\" name=\"".$id."\">
+        <p class=\"help-block\">".$help."</p>";
 	  return $text;
 }
 
@@ -331,6 +346,26 @@ function inputselected($id,$nombre,$valores,$opciones,$value="")
 		  $text .= "
             </select>
      </div>";
+	 return $text;
+}
+
+function inputselectedalone($id,$valores,$opciones,$value="")
+{
+		 $text = "
+          <select class=\"form-control\" name=\"".$id."\" id=\"".$id."\">
+		  ";
+		  
+		  for($i=0;$i<count($valores);$i++)
+		  {
+			  $extra = "";
+			  
+			  if($valores[$i]==$value)
+			  	$extra = " selected";
+		  	$text .= "<option value=\"".$valores[$i]."\"".$extra.">".$opciones[$i]."</option>\n";
+		  }
+		  
+		  $text .= "
+            </select>";
 	 return $text;
 }
 
@@ -539,5 +574,76 @@ function panelvotos($titulo,$arrcontenido)
                       </section>";
 					  
 	return $text;
+}
+
+function agregaelem($titulo,$contenido)
+{
+	   $text = " <div class=\"form-group\">
+                                      <label class=\"col-sm-2 control-label\">".$titulo."</label>
+                                      <div class=\"col-sm-10\">
+									  <p>".$contenido."</p>
+                                      </div>
+                                  </div>	";
+		return $text;
+}
+
+function panelperfil($datos,$actividad)
+{
+	$text="
+	<div class=\"row\">
+	<div class=\"col-lg-12\">
+		<div class=\"profile-widget profile-widget-info\">
+			<div class=\"panel-body\">
+				<div class=\"col-lg-2 col-sm-2\">
+					<h4>".$datos["user"]."</h4>               
+					<div class=\"follow-ava\">
+						<img src=\"".$datos["imgavatar"]."\" width=\"120\" class=\"img-thumbnail\" alt=\"\">
+					</div>
+					<h6>".$datos["nivel"]."</h6>
+				</div>
+               	<div class=\"col-lg-2 col-sm-2 follow-info\">
+                	<br>
+                    <p>".$datos["sexo"]."</p>
+                    <p>".$datos["edad"]."</p>
+                    <p>".$datos["pais"]."</p>
+                    <p>".$datos["linkperfil"]."</p>
+               	</div>
+                <div class=\"col-lg-3 col-sm-8\">
+					<img src=\"".$datos["banner"]."\" height=\"200\" class=\"img-rounded\" alt=\"\">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class=\"row\">
+	<div class=\"col-lg-12\">
+		<section class=\"panel panel-default\">
+			<div class=\"panel-heading\">
+              	Actividad
+            </div>
+        	<div class=\"panel-body\">
+			";
+			
+			for($i=0;$i<count($actividad);$i++)
+			{
+				if($i!=0)
+					$text .= "<hr>";	
+				
+				$text .= "<div>
+					<p>".$actividad[$i]["datos"]."</p>
+					<p>";
+					for($j=0;$j<count($actividad[$i]["imagenes"]);$j++)
+						$text .= "<img class=\"avatar img-rounded\" height=\"80\" src=\"".$actividad[$i]["imagenes"][$j]."\" alt=\"\">";
+				$text .= "</p>
+           			<p><a href=\"".$actividad[$i]["link"]."\" class=\"btn btn-default btn-block\">Ver votacion</a></p>
+				</div>";
+			}
+				
+  			$text .= "</div>
+      	</section>
+   	</div>
+</div>
+            ";
+			return $text;                    	
 }
 ?>

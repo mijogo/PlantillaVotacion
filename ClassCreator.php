@@ -36,6 +36,10 @@ $ElementosTablaL[]=array("idpersonaje","idbatalla");
 $NombreTablaL[]="voto";
 $ElementosTablaL[]=array("fecha","idbatalla","idpersonaje","uniquecode","codepass","idevento");
 
+//votouser
+$NombreTablaL[]="votouser";
+$ElementosTablaL[]=array("iduser","idbatalla","idpersonaje","fecha");
+
 //serie
 $NombreTablaL[]="serie";
 $ElementosTablaL[]=array("id","nombre","imagen","nombrecorto");
@@ -70,7 +74,7 @@ $ElementosTablaL[]=array("id","ano","version","nombre","activo","estado","duraci
 
 //usuario
 $NombreTablaL[]="usuario";
-$ElementosTablaL[]=array("id","username","password","email","verificacion","fechacumpleano","sexo","pais","fecharegistro","imagen","poder","facecode","facecodeex","twittercode","twittercodeex","extracode","extracodeex");
+$ElementosTablaL[]=array("id","username","password","email","verificacion","sexo","pais","fecharegistro","imagen","poder","facecode","facecodeex","twittercode","twittercodeex","extracode","extracodeex","edad");
 for($mn =0; $mn < count($NombreTablaL);$mn++)
 {
 $NombreTabla = $NombreTablaL[$mn];

@@ -5,14 +5,13 @@ class usuarioBD extends DataBase
 	function usuarioBD(){}
 	
 	function save()
-	{		$sql = "INSERT INTO usuario (id,username,password,email,verificacion,fechacumpleano,sexo,pais,fecharegistro,imagen,poder,facecode,facecodeex,twittercode,twittercodeex,extracode,extracodeex) VALUES 
+	{		$sql = "INSERT INTO usuario (id,username,password,email,verificacion,sexo,pais,fecharegistro,imagen,poder,facecode,facecodeex,twittercode,twittercodeex,extracode,extracodeex,edad) VALUES 
 		(
 		'".$this->id."',
 		'".$this->username."',
 		'".$this->password."',
 		'".$this->email."',
 		'".$this->verificacion."',
-		'".$this->fechacumpleano."',
 		'".$this->sexo."',
 		'".$this->pais."',
 		'".$this->fecharegistro."',
@@ -23,7 +22,8 @@ class usuarioBD extends DataBase
 		'".$this->twittercode."',
 		'".$this->twittercodeex."',
 		'".$this->extracode."',
-		'".$this->extracodeex."')";
+		'".$this->extracodeex."',
+		'".$this->edad."')";
 		return $this->insert($sql);
 	}
 

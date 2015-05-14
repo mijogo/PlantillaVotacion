@@ -345,7 +345,7 @@ function arrayobjeto($arreglo,$tipoDato,$dato)
 function comprobararray($arreglo,$tipoDato,$dato)
 {
 	$objeto = false;
-	for($i=0;i<count($arreglo);$i++)
+	for($i=0;$i<count($arreglo);$i++)
 		if($arreglo[$i]->$tipoDato == $dato)
 			$objeto = true;
 	return $objeto;
@@ -372,7 +372,7 @@ function ingcualpag($pagina,$posicion,$ingresar)
 	return $estructura[0].$ingresar.$estructura[1];
 }
 
-function uploadimage($archivo)
+function uploadimage($archivo,$carpeta="perimage")
 {
 	if($archivo[ 'tmp_name' ] !="" )
 	{
@@ -386,7 +386,7 @@ function uploadimage($archivo)
 		$tamaño_max="50000000000";
 		if( $tamano < $tamaño_max)
 		{ 
-			$destino = 'perimage' ;
+			$destino = $carpeta ;
 			$sep=explode('image/',$archivo["type"]);
 			$tipo=$sep[1];
 			$Stringcompleto =  $destino . '/' .$cad.'.'.$tipo;

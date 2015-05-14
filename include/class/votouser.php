@@ -2,12 +2,13 @@
 require_once "votouserBD.php";
 class votouser extends votouserBD
 {
-	function votouser($iduser="",$idbatalla="",$idpersonaje="",$fecha="")
+	function votouser($db,$iduser="",$idbatalla="",$idpersonaje="",$fecha="" )
 	{
 		$this->iduser = $iduser;
 		$this->idbatalla = $idbatalla;
 		$this->idpersonaje = $idpersonaje;
 		$this->fecha = $fecha;
+		$this->con = $db;
 	}
 	function setiduser($iduser)
 	{

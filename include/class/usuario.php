@@ -2,14 +2,13 @@
 require_once "usuarioBD.php";
 class usuario extends usuarioBD
 {
-	function usuario($db,$id="",$username="",$password="",$email="",$verificacion="",$fechacumpleano="",$sexo="",$pais="",$fecharegistro="",$imagen="",$poder="",$facecode="",$facecodeex="",$twittercode="",$twittercodeex="",$extracode="",$extracodeex="" )
+	function usuario($db,$id="",$username="",$password="",$email="",$verificacion="",$sexo="",$pais="",$fecharegistro="",$imagen="",$poder="",$facecode="",$facecodeex="",$twittercode="",$twittercodeex="",$extracode="",$extracodeex="",$edad="" )
 	{
 		$this->id = $id;
 		$this->username = $username;
 		$this->password = $password;
 		$this->email = $email;
 		$this->verificacion = $verificacion;
-		$this->fechacumpleano = $fechacumpleano;
 		$this->sexo = $sexo;
 		$this->pais = $pais;
 		$this->fecharegistro = $fecharegistro;
@@ -21,6 +20,7 @@ class usuario extends usuarioBD
 		$this->twittercodeex = $twittercodeex;
 		$this->extracode = $extracode;
 		$this->extracodeex = $extracodeex;
+		$this->edad = $edad;
 		$this->con = $db;
 	}
 	function setid($id)
@@ -62,14 +62,6 @@ class usuario extends usuarioBD
 	function getverificacion()
 	{
 		return $this->verificacion;
-	}
-	function setfechacumpleano($fechacumpleano)
-	{
-		$this->fechacumpleano=$fechacumpleano;
-	}
-	function getfechacumpleano()
-	{
-		return $this->fechacumpleano;
 	}
 	function setsexo($sexo)
 	{
@@ -158,6 +150,14 @@ class usuario extends usuarioBD
 	function getextracodeex()
 	{
 		return $this->extracodeex;
+	}
+	function setedad($edad)
+	{
+		$this->edad=$edad;
+	}
+	function getedad()
+	{
+		return $this->edad;
 	}
 }?>
 

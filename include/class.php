@@ -32,5 +32,7 @@ include_once "Class/serie.php";
 include_once "Class/seriepar.php";
 include_once "Class/serieBD.php";
 include_once "Class/serieparBD.php";
+include_once "Class/votouserBD.php";
+include_once "Class/votouser.php";
 
 ?>

@@ -14,10 +14,11 @@ class votouserBD extends DataBase
 		return $this->insert($sql);
 	}
 
-	function read($multi=true , $cantConsulta = 0 , $Consulta = "" , $cantOrden = 0 , $Orden = "" , , $consultaextra="")
+	function read($multi=true , $cantConsulta = 0 , $Consulta = "" , $cantOrden = 0 , $Orden = "" , $consultaextra="")
 	{
 		$sql="SELECT * FROM votouser ";
 		if($consultaextra=="")
+		{
 			if($cantConsulta != 0)
 			{
 				$sql .= "WHERE ";
@@ -28,8 +29,9 @@ class votouserBD extends DataBase
 						$sql .= $Consulta[$i*2+1]." ";
 				}
 			}
+		}
 		else
-			$sql="WHERE ".$consultaextra;
+			$sql.="WHERE ".$consultaextra;
 		
 		if($cantOrden != 0)
 		{
@@ -43,12 +45,12 @@ class votouserBD extends DataBase
 		}
 		if($multi)
 		{
-			$result = $this->select($sql);
+			$result = $this->multiselect($sql);
 			$votousers = array();
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$votousers[]=new votouser($row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$votousers[]=new votouser($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $votousers;
 		}
@@ -57,7 +59,7 @@ class votouserBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$votousers= new votouser($row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$votousers= new votouser($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $votousers;
 		}
 	}
