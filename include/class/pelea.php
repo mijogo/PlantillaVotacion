@@ -2,11 +2,14 @@
 require_once "peleaBD.php";
 class pelea extends peleaBD
 {
-	function pelea($idpersonaje="",$idbatalla="",$votos="")
+	function pelea($db,$idpersonaje="",$idbatalla="",$votos="",$posicion="",$clasifico="" )
 	{
 		$this->idpersonaje = $idpersonaje;
 		$this->idbatalla = $idbatalla;
 		$this->votos = $votos;
+		$this->posicion = $posicion;
+		$this->clasifico = $clasifico;
+		$this->con = $db;
 	}
 	function setidpersonaje($idpersonaje)
 	{
@@ -31,6 +34,22 @@ class pelea extends peleaBD
 	function getvotos()
 	{
 		return $this->votos;
+	}
+	function setposicion($posicion)
+	{
+		$this->posicion=$posicion;
+	}
+	function getposicion()
+	{
+		return $this->posicion;
+	}
+	function setclasifico($clasifico)
+	{
+		$this->clasifico=$clasifico;
+	}
+	function getclasifico()
+	{
+		return $this->clasifico;
 	}
 }?>
 

@@ -29,8 +29,8 @@ $NombreTablaL[]="participacion";
 $ElementosTablaL[]=array("idpersonaje","idbatalla");
 
 //pelea
-//$NombreTablaL[0]="pelea";
-//$ElementosTablaL[0]=array("idpersonaje","idbatalla","votos");
+$NombreTablaL[]="pelea";
+$ElementosTablaL[]=array("idpersonaje","idbatalla","votos","posicion","clasifico");
 
 //voto
 $NombreTablaL[]="voto";
@@ -71,6 +71,10 @@ $ElementosTablaL[]=array("id","estado","idtorneo","fechainicio","fechatermino");
 //torneo
 $NombreTablaL[]="torneo";
 $ElementosTablaL[]=array("id","ano","version","nombre","activo","estado","duracionbatalla","extraconteo","nominaciones","intervalo","horainicio","duracionlive","maxmiembrosgraf","opcionpartida","ponderacionprom");
+
+//seguimiento
+$NombreTablaL[]="seguimiento";
+$ElementosTablaL[]=array("iduser","idtorneo","idpersonaje");
 
 //usuario
 $NombreTablaL[]="usuario";

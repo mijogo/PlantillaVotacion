@@ -34,5 +34,7 @@ include_once "Class/serieBD.php";
 include_once "Class/serieparBD.php";
 include_once "Class/votouserBD.php";
 include_once "Class/votouser.php";
+include_once "Class/seguimientoBD.php";
+include_once "Class/seguimiento.php";
 
 ?>

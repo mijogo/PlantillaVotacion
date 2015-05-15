@@ -1,23 +1,21 @@
 <?php
 require_once "DataBase.php";
-class peleaBD extends DataBase
+class seguimientoBD extends DataBase
 {
-	function peleaBD(){}
+	function seguimientoBD(){}
 	
 	function save()
-	{		$sql = "INSERT INTO pelea (idpersonaje,idbatalla,votos,posicion,clasifico) VALUES 
+	{		$sql = "INSERT INTO seguimiento (iduser,idtorneo,idpersonaje) VALUES 
 		(
-		'".$this->idpersonaje."',
-		'".$this->idbatalla."',
-		'".$this->votos."',
-		'".$this->posicion."',
-		'".$this->clasifico."')";
+		'".$this->iduser."',
+		'".$this->idtorneo."',
+		'".$this->idpersonaje."')";
 		return $this->insert($sql);
 	}
 
 	function read($multi=true , $cantConsulta = 0 , $Consulta = "" , $cantOrden = 0 , $Orden = "" , $consultaextra="")
 	{
-		$sql="SELECT * FROM pelea ";
+		$sql="SELECT * FROM seguimiento ";
 		if($consultaextra=="")
 		{
 			if($cantConsulta != 0)
@@ -47,27 +45,27 @@ class peleaBD extends DataBase
 		if($multi)
 		{
 			$result = $this->multiselect($sql);
-			$peleas = array();
+			$seguimientos = array();
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$peleas[]=new pelea($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$seguimientos[]=new seguimiento($this->con,$row[$i++],$row[$i++],$row[$i++]);
 			}
-			return $peleas;
+			return $seguimientos;
 		}
 		else
 		{
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$peleas= new pelea($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
-			return $peleas;
+			$seguimientos= new seguimiento($this->con,$row[$i++],$row[$i++],$row[$i++]);
+			return $seguimientos;
 		}
 	}
 	
 	function update($cantSet = 0 , $Set = "" , $cantConsulta = 0 , $Consulta= "")
 	{
-		$sql="UPDATE pelea ";
+		$sql="UPDATE seguimiento ";
 		if($cantSet != 0)
 		{
 			$sql .= "SET ";
@@ -94,7 +92,7 @@ class peleaBD extends DataBase
 	
 	function delete($cantConsulta = 0 , $Consulta = "")
 	{
-		$sql = "DELETE FROM pelea ";
+		$sql = "DELETE FROM seguimiento ";
 		if($cantConsulta != 0)
 		{
 			$sql .= "WHERE ";
