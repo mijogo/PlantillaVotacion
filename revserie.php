@@ -59,7 +59,7 @@ function arregloseries()
 					$perpart->setestado(2);
 					$perpart = $perpart->read(true,2,array("idserie","AND","estado"));
 					$exhpart = count($perpart);
-					
+					$part = $part - $exhpart;
 				}
 			}
 		if($presenta)

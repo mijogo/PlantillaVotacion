@@ -55,46 +55,49 @@ else
 	$nuevabatalla->setestado(-1);
 	$nuevabatalla->save();
 	
+	$otroconteo = $nuevabatalla->read(true,2,array("fecha","AND","idtorneo"));
+	if(count($otroconteo)>1)
+	{
 	$fecha = $_POST["fechabatalla"]." ".$torneoActual[0]->gethorainicio();
 	
-	$nuevoschedule = new calendario($BG->con);
-	$nuevoschedule->setaccion("CHTOR");
-	$nuevoschedule->setfecha($fecha);
-	$nuevoschedule->sethecho(-1);
-	$nuevoschedule->settargetint(2);
-	$nuevoschedule->save();
-	
-	$nuevoschedule = new calendario($BG->con);
-	$nuevoschedule->setaccion("ACTBA");
-	$nuevoschedule->setfecha($fecha);
-	$nuevoschedule->sethecho(-1);
-	$nuevoschedule->settargetdate($_POST["fechabatalla"]);
-	$nuevoschedule->save();
-	
-	$nuevoschedule = new calendario($BG->con);
-	$nuevoschedule->setaccion("CHEVE");
-	$nuevoschedule->setfecha($fecha);
-	$nuevoschedule->sethecho(-1);
-	$nuevoschedule->settargetstring("CREAR");
-	$nuevoschedule->save();
-	
-	$fecha = cambioFecha($fecha,$torneoActual[0]->getduracionbatalla());
-	
-	$nuevoschedule = new calendario($BG->con);
-	$nuevoschedule->setaccion("CHTOR");
-	$nuevoschedule->setfecha($fecha);
-	$nuevoschedule->sethecho(-1);
-	$nuevoschedule->settargetint(1);
-	$nuevoschedule->save();
-	
-	$fecha = cambioFecha($fecha,$torneoActual[0]->getextraconteo());
+		$nuevoschedule = new calendario($BG->con);
+		$nuevoschedule->setaccion("CHTOR");
+		$nuevoschedule->setfecha($fecha);
+		$nuevoschedule->sethecho(-1);
+		$nuevoschedule->settargetint(2);
+		$nuevoschedule->save();
 		
-	$nuevoschedule = new calendario($BG->con);
-	$nuevoschedule->setaccion("CONVO");
-	$nuevoschedule->setfecha($fecha);
-	$nuevoschedule->sethecho(-1);
-	$nuevoschedule->save();	
-	
+		$nuevoschedule = new calendario($BG->con);
+		$nuevoschedule->setaccion("ACTBA");
+		$nuevoschedule->setfecha($fecha);
+		$nuevoschedule->sethecho(-1);
+		$nuevoschedule->settargetdate($_POST["fechabatalla"]);
+		$nuevoschedule->save();
+		
+		$nuevoschedule = new calendario($BG->con);
+		$nuevoschedule->setaccion("CHEVE");
+		$nuevoschedule->setfecha($fecha);
+		$nuevoschedule->sethecho(-1);
+		$nuevoschedule->settargetstring("CREAR");
+		$nuevoschedule->save();
+		
+		$fecha = cambioFecha($fecha,$torneoActual[0]->getduracionbatalla());
+		
+		$nuevoschedule = new calendario($BG->con);
+		$nuevoschedule->setaccion("CHTOR");
+		$nuevoschedule->setfecha($fecha);
+		$nuevoschedule->sethecho(-1);
+		$nuevoschedule->settargetint(1);
+		$nuevoschedule->save();
+		
+		$fecha = cambioFecha($fecha,$torneoActual[0]->getextraconteo());
+			
+		$nuevoschedule = new calendario($BG->con);
+		$nuevoschedule->setaccion("CONVO");
+		$nuevoschedule->setfecha($fecha);
+		$nuevoschedule->sethecho(-1);
+		$nuevoschedule->save();	
+	}
 	$BG->close();
 	redireccionar("batalla.php");
 }

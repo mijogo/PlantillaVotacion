@@ -66,7 +66,7 @@ if($_GET['action']==0)
 					$datos="";
 				}
 				$todospersonajes = array();
-				if($estabatalla->getestado == 1)
+				if($estabatalla->getestado() == 1)
 				{
 					$cuentavotos = new pelea($BG->con);
 					$cuentavotos->setidbatalla($estabatalla->getid());
@@ -87,7 +87,7 @@ if($_GET['action']==0)
 					}
 					
 				}
-				else if($estabatalla->getestado == 0)
+				else if($estabatalla->getestado() == 0)
 				{
 					$participantes = new participacion($BG->con);
 					$participantes->setidbatalla($estabatalla->getid());
@@ -130,31 +130,25 @@ if($_GET['action']==0)
 				{
 					$participantes = new participacion($BG->con);
 					$participantes->setidbatalla($estabatalla->getid());
-					$participantes = $participantes->read(true,1,array("idbatalla"),1,array("serie","ASC","nombre","ASC"));
+					$participantes = $participantes->read(true,1,array("idbatalla"));
 					
 					$i=1;
-					foreach($participantes as $revisarpersonaje)
+					foreach($participantes as $seleccpersonaje)
 					{
 						$datospersonaje = array();
-						$personaje = arrayobjeto($revisarpersonaje,"id",$votoparticipante->idpersonaje());
+						$personaje = arrayobjeto($revisarpersonaje,"id",$seleccpersonaje->getidpersonaje());
 						$datospersonaje["pos"]=$i;
 						$i++;
 						$datospersonaje["img"]=$personaje->getimagenpeq();
 						$datospersonaje["nombre"]=$personaje->getnombre();
 						$datospersonaje["serie"]=$personaje->getserie();
 						$datospersonaje["color"]="#SADASDA";
-						
-						$votocontar = new voto($BG->con);
-						$votocontar->setidbatalla($estabatalla->getid());
-						$votocontar->setidpersonaje($personaje->getid());
-						$votocontar = $votocontar->read(true,2,array("idbatalla","AND","idpersonaje"));
-						
 						$datospersonaje["voto"]="";
 						$todospersonajes[] = $datospersonaje;
 					}	
 				}
-				$datos.=panelvotos($rondarev->getnombre." ".$estabatalla->getgrupo(),$todospersonajes);
-				if($estabatalla->estado()!=-1);
+				$datos.=panelvotos($rondarev->getnombre()." ".$estabatalla->getgrupo(),$todospersonajes);
+				if($estabatalla->getestado()!=-1);
 				{
 					$script.="<script src=\"charts/graph-batalla".$estabatalla->getid().".js\"></script>";
 					$datos.= "<canvas id=\"graphbatalla".$estabatalla->getid()."\" height=\"400\" width=\"1200\"></canvas>";

@@ -82,7 +82,7 @@ if($_GET['action']==0)
 				$batallasactivas = $batallasactivas->read(true,1,array("estado"));
 				$cantidadBatallas = count($batallasactivas);
 				
-				$eventoactivo = new evento($this->BG->con);
+				$eventoactivo = new evento($BG->con);
 				$eventoactivo->setestado(1);
 				$eventoactivo = $eventoactivo->read(false,1,array("estado"));
 				
@@ -111,11 +111,11 @@ if($_GET['action']==0)
 					}
 					$arrawpersonaje = ordenarpersonajes($arrawpersonaje);
 					foreach($arrawpersonaje as $participante)
-						$datos.=panelvotar($arrawpersonaje->getnombre(),$arrawpersonaje->getid(),$arrawpersonaje->getimagenpeq(),$arrawpersonaje->getserie());	
+						$datos.=panelvotar($participante->getnombre(),$participante->getid(),$participante->getimagenpeq(),$participante->getserie());	
 					$text .= lugarvotacion($configuracionuso->getnombre()." ".$batallasactivas[$i]->getgrupo(),$datos);
 					$personajesarray[] = $arraysolabatalla;
 				}
-				$text.= input("evento".$eventoactivo->getid(),"","hidden");
+				$text.= input("evento".$eventoactivo->getid(),"hidden");
 				$text = "<form role=\"form\" action=\"votacion.php?action=1\" method=\"post\">".$text."      <button type=\"submit\" id=\"botonvoto\" class=\"btn btn-default\" disabled=\"disabled\">Votar</button>
     </form>";
 				$pagina = ingcualpag($pagina,"votacion",$text);

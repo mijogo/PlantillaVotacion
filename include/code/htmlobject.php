@@ -514,7 +514,7 @@ function panelvotar($nombre,$id,$img,$serie,$boton=true)
                 <div class=\"panel panel-default\">
                     <div class=\"panel-heading\"><h3 class=\"text-center\">".$nombre."</h3></div>
                     <div class=\"panel-body text-center\">
-        					<img src=\"perimage/".$img."\" ALT=\"Imagen\" width=100 class=\"img-rounded\">
+        					<img src=\"".$img."\" ALT=\"Imagen\" width=100 class=\"img-rounded\">
                     </div>
                     <ul class=\"list-group list-group-flush text-center\">
                         <li class=\"list-group-item\"> ".$serie."</li>
@@ -557,14 +557,14 @@ function panelvotos($titulo,$arrcontenido)
 	foreach($arrcontenido as $individual)
 	{
 		$text.="<tr>";
-		$text."<td>".$individual["pos"]."</td>";
-		$text."<td><div class=\"avatar\">
-                          <img src=\"perimage/".$individual["img"]."\" alt=\"\"/>
+		$text.="<td>".$individual["pos"]."</td>";
+		$text.="<td><div class=\"avatar\">
+                          <img src=\"".$individual["img"]."\" width=\"50\" class=\"img-rounded\" alt=\"\"/>
                         </div></td>";
-		$text."<td>".$individual["nombre"]."</td>";
-		$text."<td>".$individual["serie"]."</td>";
-		$text."<td>".$individual["color"]."</td>";
-		$text."<td>".$individual["voto"]."</td>";
+		$text.="<td>".$individual["nombre"]."</td>";
+		$text.="<td>".$individual["serie"]."</td>";
+		$text.="<td>".$individual["color"]."</td>";
+		$text.="<td>".$individual["voto"]."</td>";
 		$text.="</tr>";	
 	}
 	
@@ -645,5 +645,87 @@ function panelperfil($datos,$actividad)
 </div>
             ";
 			return $text;                    	
+}
+
+function tablaseguimiento($segpersonajes,$agrega=false,$listapersonaje="")
+{
+	$text="";
+	
+	$text .="
+	<section class=\"panel\">
+                          <header class=\"panel-heading\">
+                              Seguimiento
+                          </header>
+                          
+                          <table class=\"table table-striped table-advance table-hover\">
+                           <tbody>
+                              <tr>
+                                 <th>Nombre</th>
+                                 <th>Serie</th>
+                                 <th>Preliminar</th>
+                                 <th>Primera Ronda</th>
+                                 <th>Segunda Ronda</th>
+                                 <th>Tercera Ronda</th>
+                                 <th>Final de Grupo</th>
+                                 <th>Cuartos de Final</th>
+                                 <th>Semifinal</th>
+                                 <th>Final</th>
+                                 <th></th>
+                              </tr>";
+							  
+							  for($i=0;$i<count($segpersonajes);$i++)
+							  {
+								  $text .= "                              <tr>
+                                 <td>".$segpersonajes[$i]["nombre"]."</td>
+                                 <td>".$segpersonajes[$i]["serie"]."</td>
+                                 <td>".$segpersonajes[$i][1]."</i></td>
+                                 <td>".$segpersonajes[$i][2]."</i></td>
+                                 <td>".$segpersonajes[$i][3]."</i></td>
+                                 <td>".$segpersonajes[$i][4]."</td>
+                                 <td>".$segpersonajes[$i][5]."</td>
+                                 <td>".$segpersonajes[$i][6]."</td>
+                                 <td>".$segpersonajes[$i][7]."</td>
+                                 <td>".$segpersonajes[$i][8]."</td>
+                                 <td><div class=\"btn-group\"> <a class=\"btn btn-danger\" href=\"seguimiento.php?action=1&idperonaje=".$segpersonajes[$i]["idpersonaje"]."\"><i class=\"icon_close_alt2\"></i></a></div></td>
+                              </tr>";
+								
+								}
+		if($agrega)
+		{
+			$text .="                              
+							<tr>
+							<form role=\"form\" action=\"seguimiento.php?action=2\" method=\"post\">
+                                 <td>                                          
+                                 		<select class=\"form-control m-bot15\" name=\"nuevoseguimiento\">";
+										for($i=0;$i<count($listapersonaje);$i++)
+											$text .="<option value=\"".$listapersonaje[$i]["id"]."\">".$listapersonaje[$i]["nombre"]."</option>";
+                                      	$text .=" </select>
+                                 </td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td></td>
+                                 <td>
+								  <button class=\"btn btn-default btn-lg btn-block\" type=\"submit\"><i class=\"icon_plus_alt2\"></i></button>
+                                 </td>
+								 </form>
+                              </tr>";
+		
+		
+		
+		}
+	$text .=" 
+                                                
+                           </tbody>
+                        </table>
+                      </section>
+	";
+	
+	return $text;	
 }
 ?>

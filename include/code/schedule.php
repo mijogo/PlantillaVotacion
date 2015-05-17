@@ -58,7 +58,7 @@ class Schedule
 			else
 				$sigue=false;
 		}
-		grafoenvivo();
+		$this->grafoenvivo();
 		
 		$this->BG->close();
 	}
@@ -370,8 +370,8 @@ class Schedule
 		$vamosBatallas = $vamosBatallas->read(true,2,array("estado","AND","fecha"));
 		for($i=0;$i<count($vamosBatallas);$i++)
 		{
-			$vamosBatallas[$i]->setActiva(0);
-			$vamosBatallas[$i]->update(1,array("activa"),1,array("id"));
+			$vamosBatallas[$i]->setestado(0);
+			$vamosBatallas[$i]->update(1,array("estado"),1,array("id"));
 		}	
 	}
 	function ConteoVotos()
@@ -735,20 +735,20 @@ class Schedule
 		$verparticipacion->setidbatalla($idbatalla);
 		$verparticipacion = $verparticipacion->read(true,1,array("idbatalla"));
 		
-		$revisarpersonaje = new personajepar($BG->con);
+		$revisarpersonaje = new personajepar($this->BG->con);
 		$revisarpersonaje = $revisarpersonaje->read();
 		$todospersonajes=array();
 		foreach($verparticipacion as $votoparticipante)
 		{
 			$datospersonaje = array();
-			$personaje = arrayobjeto($revisarpersonaje,"id",$votoparticipante->idpersonaje());
+			$personaje = arrayobjeto($revisarpersonaje,"id",$votoparticipante->getidpersonaje());
 
 			$datospersonaje["personaje"]=$personaje;
 						
-			$votocontar = new voto($BG->con);
-			$votocontar->setidbatalla($estabatalla->getid());
+			$votocontar = new voto($this->BG->con);
+			$votocontar->setidbatalla($batallaactual->getid());
 			$votocontar->setidpersonaje($personaje->getid());
-			$votocontar = $votocontar->read(true,0,"",0,"","idpersonaje=".$personaje->getid()." AND fecha<=".$arreglofecha[count($arreglofecha)-1]." idbatalla=".$estabatalla->getid());
+			$votocontar = $votocontar->read(true,0,"",0,""," idpersonaje=".$personaje->getid()." AND fecha<=".$arreglofecha[count($arreglofecha)-1]." idbatalla=".$batallaactual->getid()." ");
 						
 			$datospersonaje["voto"]=count($votocontar);
 			$todospersonajes[] = $datospersonaje;
@@ -776,7 +776,7 @@ class Schedule
 					pointStrokeColor : \"#fff\",
 					data : [";		
 			$conteovotos = 0;
-			$votocontar = new voto($BG->con);
+			$votocontar = new voto($this->BG->con);
 			$votocontar->setidbatalla($idbatalla);
 			$votocontar->setidpersonaje($todospersonajes[$i]["personaje"]->getid());
 			$votocontar = $votocontar->read(true,2,array("idbatalla","AND","idpersonaje"),1,array("fecha","ASC"));
@@ -826,7 +826,7 @@ class Schedule
 				else
 					$horaLimite = $fechaactual;
 				$horaLimite = sacarhora($horaLimite).":00";
-				creargrafo($batallaactiva[$i]->getid(),$torneoActual->getintervalo(),$torneoActual->gethorainicio(),$horaLimite,$torneoActual->getmaxmiembrosgraf());
+				$this->creargrafo($batallaactiva[$i]->getid(),$torneoActual->getintervalo(),$torneoActual->gethorainicio(),$horaLimite,$torneoActual->getmaxmiembrosgraf());
 			}
 		}
 	}

@@ -50,17 +50,18 @@ else
 	
 	$nuevopersonajepar->setnombre($_POST["nombrepersonaje"]);
 	$nuevopersonajepar->setidpersonaje($nuevopersonaje->getid());
+	$nuevopersonajepar->setserie($busseriepar->getnombre());
 	$nuevopersonajepar->setidserie($busseriepar->getid());
 	if($archivo[0])
 		$nuevopersonajepar->setimagenpeq($archivo[1]);
 	$torneoActual = new torneo($BG->con);
-	if(isset($_POST["exhibicion"]))
-		$torneoActual->setactivo(2);
-	else	
-		$torneoActual->setactivo(1);
+	$torneoActual->setactivo(1);
 	$torneoActual = $torneoActual->read(true,1,array("activo"));	
 	$nuevopersonajepar->setidtorneo($torneoActual[0]->getid());
-	$nuevopersonajepar->setestado(1);
+	if(isset($_POST["exhibicion"]))
+		$nuevopersonajepar->setestado(2);
+	else	
+		$nuevopersonajepar->setestado(1);
 	$nuevopersonajepar->setseiyuu($_POST["seiyuupersonaje"]);
 	$nuevopersonajepar->save();
 	$BG->close();
