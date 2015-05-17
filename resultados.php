@@ -46,8 +46,8 @@ if($_GET['action']==0)
 		$script = "";
 		$datos = "";
 		
-		$revisarpersonaje = new personajepar($BG->con);
-		$revisarpersonaje = $revisarpersonaje->read();
+		$todopersonaje = new personajepar($BG->con);
+		$todopersonaje = $todopersonaje->read();
 		if(count($batallasusar)>0)
 		{
 			$rondarev = new configuracion($BG->con);
@@ -75,7 +75,7 @@ if($_GET['action']==0)
 					foreach($cuentavotos as $votoparticipante)
 					{
 						$datospersonaje = array();
-						$personaje = arrayobjeto($revisarpersonaje,"id",$votoparticipante->idpersonaje());
+						$personaje = arrayobjeto($todopersonaje,"id",$votoparticipante->idpersonaje());
 						$datospersonaje["pos"]=$i;
 						$i++;
 						$datospersonaje["img"]=$personaje->getimagenpeq();
@@ -97,7 +97,7 @@ if($_GET['action']==0)
 					foreach($participantes as $revisarpersonaje)
 					{
 						$datospersonaje = array();
-						$personaje = arrayobjeto($revisarpersonaje,"id",$votoparticipante->idpersonaje());
+						$personaje = arrayobjeto($todopersonaje,"id",$revisarpersonaje->getidpersonaje());
 						$datospersonaje["pos"]=$i;
 						$i++;
 						$datospersonaje["img"]=$personaje->getimagenpeq();
@@ -113,9 +113,8 @@ if($_GET['action']==0)
 						$datospersonaje["voto"]=count($votocontar);
 						$todospersonajes[] = $datospersonaje;
 					}
-					
 					for($i=0;$i<count($todospersonajes);$i++)
-						for($j=0;$j<count($todospersonajes)-1;$j++);
+						for($j=0;$j<count($todospersonajes)-1;$j++)
 						{
 							if($todospersonajes[$j]["voto"]<$todospersonajes[$j+1]["voto"])
 							{
@@ -136,7 +135,7 @@ if($_GET['action']==0)
 					foreach($participantes as $seleccpersonaje)
 					{
 						$datospersonaje = array();
-						$personaje = arrayobjeto($revisarpersonaje,"id",$seleccpersonaje->getidpersonaje());
+						$personaje = arrayobjeto($todopersonaje,"id",$seleccpersonaje->getidpersonaje());
 						$datospersonaje["pos"]=$i;
 						$i++;
 						$datospersonaje["img"]=$personaje->getimagenpeq();

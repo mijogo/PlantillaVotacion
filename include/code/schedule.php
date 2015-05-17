@@ -59,7 +59,6 @@ class Schedule
 				$sigue=false;
 		}
 		$this->grafoenvivo();
-		
 		$this->BG->close();
 	}
 	function sorteo($instancia="",$numeroGrupo="")
@@ -378,7 +377,7 @@ class Schedule
 	{
 		$BatallasActivas=new batalla($this->BG->con);
 		$BatallasActivas->setestado(0);
-		$BatallasActivas = $BatallasActivas->read(true,1,array(estado));
+		$BatallasActivas = $BatallasActivas->read(true,1,array("estado"));
 		
 		$evetoActual = new evento($this->BG->con);
 		$evetoActual->setestado(1);
@@ -387,7 +386,7 @@ class Schedule
 		$ipVotantes = new ip($this->BG->con);
 		$ipVotantes->setidevento($evetoActual->getid());
 		$ipVotantes->setusada(1);
-		$ipVotantes = $ipVotantes->read(true,2,array("evento","AND","usada"));
+		$ipVotantes = $ipVotantes->read(true,2,array("idevento","AND","usada"));
 		$votosTotales = count($ipVotantes);
 		
 		for($i=0;$i<count($BatallasActivas);$i++)
@@ -424,7 +423,7 @@ class Schedule
 					$votosDelPersonaje = $votosDelPersonaje->read(true,2,array("idbatalla","AND","idpersonaje","AND","idevento"),1,array("fecha","ASC"));
 					
 					$fechaInicio = $BatallasActivas[$i]->getfecha()." ".$torneoActual->gethorainicio();
-					$fechaFinal = $cambioFecha($fechaInicio,$torneoActual->getduracionbatalla());
+					$fechaFinal = cambioFecha($fechaInicio,$torneoActual->getduracionbatalla());
 					
 					$estadisticasListas = new estadistica($this->BG->con);
 					$estadisticasListas->setidpersonaje($partBat[$j]->getidpersonaje());
@@ -435,20 +434,21 @@ class Schedule
 						$k=$estadisticasListas[count($estadisticasListas)-1]->getvotos();
 					else
 						$k=0;
-					for($j=0;$sigueLoop;$j++)
+					for($l=0;$sigueLoop;$l++)
 					{
-						if(count($estadisticasListas)<=$j)
+						if(count($estadisticasListas)<=$l)
 						{
-							while(FechaMayor($fechaInicio,$votosDelPersonaje[$k]->getfecha())==1)
+							while($k<count($votosDelPersonaje)&&FechaMayor($fechaInicio,$votosDelPersonaje[$k]->getfecha())==1)
 								$k++;
 							$estadisticaNueva = new estadistica($this->BG->con,$partBat[$j]->getidpersonaje(),$BatallasActivas[$i]->getid(),$fechaInicio,$k);
 							$estadisticaNueva->save();
 						}
-						cambioFecha($fechaInicio,$torneoActual->getintervalo());
+						$fechaInicio=cambioFecha($fechaInicio,$torneoActual->getintervalo());
+						
 						if(FechaMayor($fechaInicio,$fechaFinal)==1)
 							$sigueLoop=false;
 					}
-					$guardarPelea = new pelea($this->BG->con,$partBat[$j]->getidpersonaje(),$BatallasActivas[$j]->getid(),count($votosDelPersonaje));
+					$guardarPelea = new pelea($this->BG->con,$partBat[$j]->getidpersonaje(),$BatallasActivas[$i]->getid(),count($votosDelPersonaje));
 					$guardarPelea->save();
 				}
 			}
@@ -460,12 +460,12 @@ class Schedule
 			$configuracionUsar = new configuracion($this->BG->con);
 			$configuracionUsar->setid($BatallasActivas[$i]->getronda());
 			$configuracionUsar->setidtorneo($torneoActual->getid());
-			$configuracionUsar = $configuracionUsar->read(false,2,array("nombre","AND","idtorneo"));
+			$configuracionUsar = $configuracionUsar->read(false,2,array("id","AND","idtorneo"));
 			
 			$configuracionSig = new configuracion($this->BG->con);
 			$configuracionSig->setid($configuracionUsar->getprimproxronda());
 			$configuracionSig->setidtorneo($torneoActual->getid());
-			$configuracionSig = $configuracionSig->read(false,2,array("nombre","AND","idtorneo"));
+			$configuracionSig = $configuracionSig->read(false,2,array("id","AND","idtorneo"));
 			
 			$primeraPos = true;
 			$primPos = $configuracionUsar->getprimclas();
@@ -617,7 +617,7 @@ class Schedule
 			$fechalimite = cambioFecha($fechalimite,$torneoActual->getduracionbatalla());
 			
 			$horaLimite = sacarhora($fechalimite).":00";
-			creargrafo($BatallasActivas[$i]->getid(),$torneoActual->getintervalo(),$torneoActual->getihorainicio(),$horaLimite,$torneoActual->getmaxmiembrosgraf());
+			$this->creargrafo($BatallasActivas[$i]->getid(),$torneoActual->getintervalo(),$torneoActual->getihorainicio(),$horaLimite,$torneoActual->getmaxmiembrosgraf());
 		}
 		changeEvento("KILL");
 	}//fin funcion conteo votos
@@ -708,7 +708,7 @@ class Schedule
 	
 	function creargrafo($idbatalla,$intervalo,$horaInicio,$horaLimite,$limitePersonaje)
 	{
-		$text = "var lineChartData = {
+		$text = "var lineChartData".$idbatalla." = {
 			labels :[";
 		$sigue = true;
 		$batallaactual = new batalla($this->BG->con);
@@ -748,14 +748,14 @@ class Schedule
 			$votocontar = new voto($this->BG->con);
 			$votocontar->setidbatalla($batallaactual->getid());
 			$votocontar->setidpersonaje($personaje->getid());
-			$votocontar = $votocontar->read(true,0,"",0,""," idpersonaje=".$personaje->getid()." AND fecha<=".$arreglofecha[count($arreglofecha)-1]." idbatalla=".$batallaactual->getid()." ");
+			$votocontar = $votocontar->read(true,0,"",0,""," idpersonaje=".$personaje->getid()." AND fecha <= \"".$arreglofecha[count($arreglofecha)-1]."\" AND idbatalla=".$batallaactual->getid()." ");
 						
 			$datospersonaje["voto"]=count($votocontar);
 			$todospersonajes[] = $datospersonaje;
 		}
 					
 		for($i=0;$i<count($todospersonajes);$i++)
-			for($j=0;$j<count($todospersonajes)-1;$j++);
+			for($j=0;$j<count($todospersonajes)-1;$j++)
 			{
 				if($todospersonajes[$j]["voto"]<$todospersonajes[$j+1]["voto"])
 				{
@@ -784,7 +784,7 @@ class Schedule
 			for($j=1;$j<count($arreglofecha);$j++)
 			{
 				$text .=",";
-				while(FechaMayor($arreglofecha[$j],$votocontar[$conteovotos])!=-1)
+				while($conteovotos<count($votocontar)&&FechaMayor($arreglofecha[$j],$votocontar[$conteovotos]->getfecha())!=-1)
 				{
 					$conteovotos++;
 				}
@@ -795,7 +795,8 @@ class Schedule
 		}
 		$text .= "				]
 		}";
-		$text .= "var myLine = new Chart(document.getElementById(\"graphbatalla".$idbatalla."\").getContext(\"2d\")).Line(lineChartData);";
+		$text .= "var myLine = new Chart(document.getElementById(\"graphbatalla".$idbatalla."\").getContext(\"2d\")).Line(lineChartData".$idbatalla.");";
+
 		$fp = fopen("../charts/graph-batalla".$idbatalla.".js", 'w');
 		fwrite($fp, $text);
 		fclose($fp);

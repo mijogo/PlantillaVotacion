@@ -14,7 +14,7 @@ class MasterClass
 		$a_menu->setnamepage($NamePage);
 		$a_menu = $a_menu->read(true,1,array("namepage"));
 		$this->ipcontext="";
-
+		$this->ip = getRealIP();
 		if(count($a_menu) == 0 && $Esta_Menu)
 			Redireccionar("home.php");
 		elseif($Esta_Menu)
@@ -218,8 +218,8 @@ class MasterClass
 					if($this->useractivo && $estaIp->gettiempo()>0)
 					{
 						$estaIp->settiempo(0);
-						$estaIp->setuser($this->user->getidusuario());
-						$estaIp->update(1,array("tiempo","user"),1,array("uniquecode"));
+						$estaIp->setuser($this->user->getid());
+						$estaIp->update(2,array("tiempo","user"),1,array("uniquecode"));
 						
 					}
 				}
@@ -227,7 +227,7 @@ class MasterClass
 			if(!$ipcreada)
 			{
 				$this->newUniqueCode = $this->cookies."-".$this->evetoActual->getid();
-				$this->ip = getRealIP();
+			
 				$this->crearIp();
 			}
 			//analizar datos anteriores
@@ -309,8 +309,8 @@ class MasterClass
 		else
 			$creaIp->setUsada($tipoUsada);
 
+		$creaIp->setidevento($this->evetoActual->getid());	
 		$creaIp->setCodePass($this->cookies);	
-			
 		if($MasterCode=="")
 			$creaIp->setMasterCode($this->cookies);
 		else

@@ -2,15 +2,15 @@
 //estadistica
 $NombreTablaL = array();
 $ElementosTablaL = array();
-//$NombreTablaL[0]="estadistica";
-//$ElementosTablaL[0]=array("idpersonaje","idbatalla","fecha","votos");
+$NombreTablaL[]="estadistica";
+$ElementosTablaL[]=array("idpersonaje","idbatalla","fecha","votos");
 //ip
 //$NombreTablaL[0]="ip";
 //$ElementosTablaL[0]=array("fecha","ip","codepass","forumcode","user","idevento","tiempo","usada","uniquecode","mastercode","masterip","info");
 
 //log
-$NombreTablaL[0]="reg";
-$ElementosTablaL[0]=array("iduser","accion","fecha","estado","ip","accioncompleta");
+$NombreTablaL[]="reg";
+$ElementosTablaL[]=array("iduser","accion","fecha","estado","ip","accioncompleta");
 
 //batalla
 $NombreTablaL[]="batalla";

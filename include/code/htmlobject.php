@@ -63,11 +63,13 @@ function table($datos,$width="")
 	$text .="</table>\n";
 	return $text;
 }
-function input($nombre,$tipo,$value="",$class="",$extra="")
+function input($nombre,$tipo,$value="",$class="",$id="",$extra="")
 {
 	$text = "<input type=\"".$tipo."\" name=\"".$nombre."\"";
 	if($value != "")
 		$text .= " value=\"".$value."\"";
+	if($id != "")
+		$text .= " id=\"".$id."\"";
 	if($class!= "")
 		$text .= " class=\"".$class."\"";
 	$text .=" ".$extra.">";

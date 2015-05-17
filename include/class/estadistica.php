@@ -2,12 +2,13 @@
 require_once "estadisticaBD.php";
 class estadistica extends estadisticaBD
 {
-	function estadistica($idpersonaje="",$idbatalla="",$fecha="",$votos="")
+	function estadistica($db,$idpersonaje="",$idbatalla="",$fecha="",$votos="" )
 	{
 		$this->idpersonaje = $idpersonaje;
 		$this->idbatalla = $idbatalla;
 		$this->fecha = $fecha;
 		$this->votos = $votos;
+		$this->con = $db;
 	}
 	function setidpersonaje($idpersonaje)
 	{

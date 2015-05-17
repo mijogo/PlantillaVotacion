@@ -18,6 +18,7 @@ class estadisticaBD extends DataBase
 	{
 		$sql="SELECT * FROM estadistica ";
 		if($consultaextra=="")
+		{
 			if($cantConsulta != 0)
 			{
 				$sql .= "WHERE ";
@@ -28,8 +29,9 @@ class estadisticaBD extends DataBase
 						$sql .= $Consulta[$i*2+1]." ";
 				}
 			}
+		}
 		else
-			$sql="WHERE ".$consultaextra;
+			$sql.="WHERE ".$consultaextra;
 		
 		if($cantOrden != 0)
 		{
@@ -43,12 +45,12 @@ class estadisticaBD extends DataBase
 		}
 		if($multi)
 		{
-			$result = $this->select($sql);
+			$result = $this->multiselect($sql);
 			$estadisticas = array();
 			while($row = $this->fetch($result))
 			{
 				$i=0;
-				$estadisticas[]=new estadistica($row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+				$estadisticas[]=new estadistica($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			}
 			return $estadisticas;
 		}
@@ -57,7 +59,7 @@ class estadisticaBD extends DataBase
 			$result = $this->select($sql);
 			$row = $this->fetch($result);
 			$i=0;
-			$estadisticas= new estadistica($row[$i++],$row[$i++],$row[$i++],$row[$i++]);
+			$estadisticas= new estadistica($this->con,$row[$i++],$row[$i++],$row[$i++],$row[$i++]);
 			return $estadisticas;
 		}
 	}

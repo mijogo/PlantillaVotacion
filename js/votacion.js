@@ -45,7 +45,7 @@ function votajs(arrayidpersonaje,inmaximo,inip,inidevento,iniduser,arrayidbatall
 			$("#idpersonaje"+id).addClass("active");
 			$("#idpersonaje"+id).html("Listo")
 			this.activado[batallapersonaje][this.inversapersonaje[id]]=1;
-			$("#idpersonaje"+id).attr("onclick", "votodesactivar("+id+")");
+			$("#idpersonaje"+id).attr("onclick", "votacion.votodesactivar("+id+")");
 			for(var i=0;i<this.activado[batallapersonaje].length;i++)
 			{
 				if(this.activado[batallapersonaje][i]==0)
@@ -69,7 +69,7 @@ function votajs(arrayidpersonaje,inmaximo,inip,inidevento,iniduser,arrayidbatall
 		$("#idpersonaje"+id).removeClass("active");
 		$("#idpersonaje"+id).html("Votar")
 		this.activado[batallapersonaje][this.inversapersonaje[id]]=0;
-		$("#idpersonaje"+id).attr("onclick", "votoactivar("+id+")");
+		$("#idpersonaje"+id).attr("onclick", "votacion.votoactivar("+id+")");
 		this.datospost();
 	}
 	
@@ -88,9 +88,11 @@ function votajs(arrayidpersonaje,inmaximo,inip,inidevento,iniduser,arrayidbatall
 	{
 		var cantidadactivos = 0;
 		for(var i=0;i<this.activado.length;i++)
-			for(var j=0;j<this.activado[i].length;i++)
+		{
+			for(var j=0;j<this.activado[i].length;j++)
 				if(this.activado[i][j]==1)
 					cantidadactivos++;
+		}
 		return cantidadactivos;	
 	}
 	

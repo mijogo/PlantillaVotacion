@@ -64,10 +64,10 @@ if($_GET['action']==0)
 						$arrawpersonaje[] = arrayobjeto($peronajesparticipantes,"id",$participante->getidpersonaje());
 					}
 					$arrawpersonaje = ordenarpersonajes($arrawpersonaje);
-					foreach($arrawpersonaje as $participante)
-						$datos.=panelvotar($arrawpersonaje->getnombre(),$arrawpersonaje->getid(),$arrawpersonaje->getimagenpeq(),$arrawpersonaje->getserie(),false);	
+					foreach($arrawpersonaje as $verpartpers)
+						$datos.=panelvotar($verpartpers->getnombre(),$verpartpers->getid(),$verpartpers->getimagenpeq(),$verpartpers->getserie(),false);	
 					$text .= lugarvotacion($configuracionuso->getnombre()." ".$batallasactivas[$i]->getgrupo(),$datos);
-					$personajesarray[] = $arraysolabatalla;
+					
 				}
 				$pagina = ingcualpag($pagina,"votacion",$text);
 				$ClaseMaestra->Pagina("",$pagina);
@@ -115,7 +115,7 @@ if($_GET['action']==0)
 					$text .= lugarvotacion($configuracionuso->getnombre()." ".$batallasactivas[$i]->getgrupo(),$datos);
 					$personajesarray[] = $arraysolabatalla;
 				}
-				$text.= input("evento".$eventoactivo->getid(),"hidden");
+				$text.= input("evento".$eventoactivo->getid(),"hidden","","","evento".$eventoactivo->getid());
 				$text = "<form role=\"form\" action=\"votacion.php?action=1\" method=\"post\">".$text."      <button type=\"submit\" id=\"botonvoto\" class=\"btn btn-default\" disabled=\"disabled\">Votar</button>
     </form>";
 				$pagina = ingcualpag($pagina,"votacion",$text);
@@ -157,17 +157,17 @@ if($_GET['action']==0)
 					
 				$votoactual = new voto($BG->con);
 				$votoactual->setidbatalla($batallasactivas[$i]->getid());
-				$votoactual->setcodepass($ipvotante->getcodepass());
+				$votoactual->setcodepass($ipvotante[0]->getcodepass());
 				$votoactual = $votoactual->read(true,2,array("idbatalla","AND","codepass"));
 				foreach($votoactual as $participante)
 				{
 					$arrawpersonaje[] = arrayobjeto($peronajesparticipantes,"id",$participante->getidpersonaje());
 				}
 				$arrawpersonaje = ordenarpersonajes($arrawpersonaje);
-				foreach($arrawpersonaje as $participante)
-					$datos.=panelvotar($arrawpersonaje->getnombre(),$arrawpersonaje->getid(),$arrawpersonaje->getimagenpeq(),$arrawpersonaje->getserie());	
+				foreach($arrawpersonaje as $verpartpersonaje)
+					$datos.=panelvotar($verpartpersonaje->getnombre(),$verpartpersonaje->getid(),$verpartpersonaje->getimagenpeq(),$verpartpersonaje->getserie(),false);	
 				$text .= lugarvotacion($configuracionuso->getnombre()." ".$batallasactivas[$i]->getgrupo(),$datos);
-				$personajesarray[] = $arraysolabatalla;
+
 			}
 			$pagina = ingcualpag($pagina,"votacion",$text);
 			$ClaseMaestra->Pagina("",$pagina);
@@ -240,7 +240,7 @@ else
 	$torneoActual = $torneoActual->read(false,1,array("activo"));
 	if($torneoActual->getestado()==2)
 	{
-		$eventoactivo = new evento($this->BG->con);
+		$eventoactivo = new evento($BG->con);
 		$eventoactivo->setestado(1);
 		$eventoactivo = $eventoactivo->read(false,1,array("estado"));
 		
@@ -284,7 +284,7 @@ else
 			$nuevolog->save();
 		}
 	}
-	
+	Redireccionar("votacion.php");
 }
 
 function scriptvotacion($personaje,$batalla,$maximo,$idevento,$iduser)
