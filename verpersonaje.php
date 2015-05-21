@@ -16,17 +16,14 @@ if($_GET['action']==0)
 	
 	$BG = new DataBase();
 	$BG->connect();
-	$personajeantiguo = new personaje($BG->con);
-	$personajeantiguo->setid($_GET["idpersonaje"]);
-	$personajeantiguo = $personajeantiguo->read(false,1,array("id"));
 	
 	$personajeactual = new personajepar($BG->con);
-	$personajeactual->setidpersonaje($personajeantiguo->getid());
-	$personajeactual = $personajeactual->read(false,1,array("idpersonaje"));
+	$personajeactual->setid($_GET["idpersonaje"]);
+	$personajeactual = $personajeactual->read(false,1,array("id"));
 	
 	$pagina = ingcualpag($pagina,"imagen",$personajeactual->getimagenpeq());
 	$pagina = ingcualpag($pagina,"nombre_personaje",$personajeactual->getnombre());
-	$pagina = ingcualpag($pagina,"nombre_serie",$personajeantiguo->getserie());
+	$pagina = ingcualpag($pagina,"nombre_serie",$personajeactual->getserie());
 	if($personajeactual->getestado()==1)
 		$pagina = ingcualpag($pagina,"estado","Participando");
 	else

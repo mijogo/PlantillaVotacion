@@ -270,6 +270,7 @@ else
 					$nuevovotousar->setfecha(fechaHoraActual());
 					$nuevovotousar->setuniquecode($_COOKIE['uniqueCode']);
 					$nuevovotousar->setcodepass($_COOKIE['CodePassVote']);
+					$nuevovotousar->setidevento($torneoActual->getid());
 					$nuevovotousar->save();					
 				}
 			}

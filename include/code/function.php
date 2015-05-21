@@ -504,19 +504,59 @@ function arrvoto($voto)
 	return $arrayvoto;
 }
 
-function coloresgraf($pos)
-{
-	$text ="";
-	switch($pos)
+function coloresgraf($primdato,$tipo=true)
 	{
-		case 1:
+		if($tipo)
+		{
+			switch($primdato)
+			{
+				case 0:return "993333";break;
+				case 1:return "6071ae";break;
+				case 2:return "52a068";break;
+				case 3:return "65acaa";break;
+				case 4:return "d664ab";break;
+				case 5:return "825f9d";break;
+				case 6:return "91b75a";break;
+				case 7:return "cc9966";break;
+				case 8:return "509e4c";break;
+				case 9:return "999966";break;
+				default:return "aaaaaa";break;	
+			}	
+		}
+		else
+		{
 			$text = "";
-			break;
-		default:
-			$text = "";
-			break;
-			
-	}	
-	return $text;
-}
+			$color=substr($primdato,0,2); 
+			$number=hexadecitoint($color);
+			$text.=$number.",";
+			$color=substr($primdato,2,2); 
+			$number=hexadecitoint($color);
+			$text.=$number.",";
+			$color=substr($primdato,4,2); 
+			$number=hexadecitoint($color);
+			$text.=$number;		
+			return $text;
+		}
+	}
+	
+	function hexadecitoint($valor)
+	{
+		$valores["0"]=0;
+		$valores["1"]=1;
+		$valores["2"]=2;
+		$valores["3"]=3;
+		$valores["4"]=4;
+		$valores["5"]=5;
+		$valores["6"]=6;
+		$valores["7"]=7;
+		$valores["8"]=8;
+		$valores["9"]=9;
+		$valores["a"]=10;
+		$valores["b"]=11;
+		$valores["c"]=12;
+		$valores["d"]=13;
+		$valores["e"]=14;
+		$valores["f"]=15;
+		return $valores[$valor[0]]*16+$valores[$valor[1]];
+	}
 ?>

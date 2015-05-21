@@ -38,5 +38,7 @@ include_once "Class/votoBD.php";
 include_once "Class/voto.php";
 include_once "Class/seguimientoBD.php";
 include_once "Class/seguimiento.php";
+include_once "Class/coloresBD.php";
+include_once "Class/colores.php";
 
 ?>

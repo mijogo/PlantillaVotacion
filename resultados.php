@@ -17,6 +17,8 @@ if($_GET['action']==0)
 		{
 			if($_GET['idronda']==12)
 				$ClaseMaestra = new MasterClass("preliminar");
+			if($_GET['idronda']==1)
+				$ClaseMaestra = new MasterClass("exhibicion");
 			if(!$ClaseMaestra->VerificacionIdentidad(1))
 				Redireccionar("home.php");
 			
@@ -59,6 +61,9 @@ if($_GET['action']==0)
 			
 			foreach($batallasusar as $estabatalla)
 			{
+				$coloresbatalla = new colores($BG->con);
+				$coloresbatalla->setidbatalla($estabatalla->getid());
+				$coloresbatalla = $coloresbatalla->read(true,1,array("idbatalla"));
 				if($rondarev->gettipo()=="ELGRU" && $estado != substr($estabatalla->getgrupo(),0,1))
 				{
 					$estado = substr($estabatalla->getgrupo(),0,1);
@@ -75,13 +80,16 @@ if($_GET['action']==0)
 					foreach($cuentavotos as $votoparticipante)
 					{
 						$datospersonaje = array();
-						$personaje = arrayobjeto($todopersonaje,"id",$votoparticipante->idpersonaje());
+						$personaje = arrayobjeto($todopersonaje,"id",$votoparticipante->getidpersonaje());
 						$datospersonaje["pos"]=$i;
 						$i++;
 						$datospersonaje["img"]=$personaje->getimagenpeq();
 						$datospersonaje["nombre"]=$personaje->getnombre();
 						$datospersonaje["serie"]=$personaje->getserie();
-						$datospersonaje["color"]="#SADASDA";
+						if(comprobararray($coloresbatalla,"idpersonaje",$votoparticipante->getidpersonaje()))
+							$datospersonaje["color"]="<div style=\"border-radius: 4px; background-color:#".arrayobjeto($coloresbatalla,"idpersonaje",$votoparticipante->getidpersonaje())->getcolor().";\">&nbsp;</div>";
+						else
+							$datospersonaje["color"]="";
 						$datospersonaje["voto"]=$votoparticipante->getvotos();
 						$todospersonajes[] = $datospersonaje;
 					}
@@ -94,7 +102,7 @@ if($_GET['action']==0)
 					$participantes = $participantes->read(true,1,array("idbatalla"));
 					
 					$i=1;
-					foreach($participantes as $revisarpersonaje)
+					foreach($participantes as $votoparticipante)
 					{
 						$datospersonaje = array();
 						$personaje = arrayobjeto($todopersonaje,"id",$revisarpersonaje->getidpersonaje());
@@ -103,7 +111,10 @@ if($_GET['action']==0)
 						$datospersonaje["img"]=$personaje->getimagenpeq();
 						$datospersonaje["nombre"]=$personaje->getnombre();
 						$datospersonaje["serie"]=$personaje->getserie();
-						$datospersonaje["color"]="#SADASDA";
+						if(comprobararray($coloresbatalla,"idpersonaje",$seleccpersonaje->getidpersonaje()))
+							$datospersonaje["color"]="<div style=\"border-radius: 4px; background-color:#".arrayobjeto($coloresbatalla,"idpersonaje",$seleccpersonaje->getidpersonaje())->getcolor().";\">&nbsp;</div>";
+						else
+							$datospersonaje["color"]="";
 						
 						$votocontar = new voto($BG->con);
 						$votocontar->setidbatalla($estabatalla->getid());
@@ -141,7 +152,11 @@ if($_GET['action']==0)
 						$datospersonaje["img"]=$personaje->getimagenpeq();
 						$datospersonaje["nombre"]=$personaje->getnombre();
 						$datospersonaje["serie"]=$personaje->getserie();
-						$datospersonaje["color"]="#SADASDA";
+						
+						if(comprobararray($coloresbatalla,"idpersonaje",$seleccpersonaje->getidpersonaje()))
+							$datospersonaje["color"]="<div style=\"border-radius: 4px; background-color:#".arrayobjeto($coloresbatalla,"idpersonaje",$seleccpersonaje->getidpersonaje())->getcolor().";\">&nbsp;</div>";
+						else
+							$datospersonaje["color"]="";
 						$datospersonaje["voto"]="";
 						$todospersonajes[] = $datospersonaje;
 					}	
@@ -149,8 +164,9 @@ if($_GET['action']==0)
 				$datos.=panelvotos($rondarev->getnombre()." ".$estabatalla->getgrupo(),$todospersonajes);
 				if($estabatalla->getestado()!=-1);
 				{
-					$script.="<script src=\"charts/graph-batalla".$estabatalla->getid().".js\"></script>";
-					$datos.= "<canvas id=\"graphbatalla".$estabatalla->getid()."\" height=\"400\" width=\"1200\"></canvas>";
+					$script.="<script src=\"charts/graph-batalla".$estabatalla->getid().".js\"></script><script>
+					var myLine = new Chart(document.getElementById(\"graphbatalla".$estabatalla->getid()."\").getContext(\"2d\")).Line(lineChartData".$estabatalla->getid().");</script>";
+					$datos.= "<canvas id=\"graphbatalla".$estabatalla->getid()."\" height=\"500\" width=\"1100\"></canvas>";
 				}
 			}
 			if($_GET['tipo']=="fecha" || ($_GET['tipo']=="ronda" && ($rondarev->gettipo()=="ELGRU" || $rondarev->gettipo()=="EXHIB")))

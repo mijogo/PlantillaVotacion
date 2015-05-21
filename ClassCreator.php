@@ -76,6 +76,10 @@ $ElementosTablaL[]=array("id","ano","version","nombre","activo","estado","duraci
 $NombreTablaL[]="seguimiento";
 $ElementosTablaL[]=array("iduser","idtorneo","idpersonaje");
 
+//colores
+$NombreTablaL[]="colores";
+$ElementosTablaL[]=array("idpersonaje","idbatalla","color");
+
 //usuario
 $NombreTablaL[]="usuario";
 $ElementosTablaL[]=array("id","username","password","email","verificacion","sexo","pais","fecharegistro","imagen","poder","facecode","facecodeex","twittercode","twittercodeex","extracode","extracodeex","edad");
