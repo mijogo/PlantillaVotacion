@@ -498,7 +498,7 @@ function panelpersonaje($nombre,$img)
                 <div class=\"panel panel-default\">
                     <div class=\"panel-heading\"><h3 class=\"text-center\">".$nombre."</h3></div>
                     <div class=\"panel-body text-center\">
-        					<img src=\"perimage".$img."\" ALT=\"Imagen\" width=100 class=\"img-rounded\">
+        					<img src=\"".$img."\" ALT=\"Imagen\" width=100 class=\"img-rounded\">
                     </div>
                 </div>
             </div>  ";
@@ -729,5 +729,35 @@ function tablaseguimiento($segpersonajes,$agrega=false,$listapersonaje="")
 	";
 	
 	return $text;	
+}
+
+function tablalinda($nombre,$arreglo)
+{
+	$text="";
+	
+	$text .="
+	<section class=\"panel\">
+                          <header class=\"panel-heading\">
+                              ".$nombre."
+                          </header>
+                          
+                          <table class=\"table table-striped table-advance table-hover\">
+                           <tbody>";
+						   $i=0;
+	foreach($arreglo as $fila)
+	{
+		$text.="<tr>";
+		$con ="td";
+		if($i==0)
+			$con ="th";
+		foreach($fila as $columna)
+			$text.="<".$con.">".$columna."</".$con.">";				
+		$text.="</tr>";	
+		$i++;	   
+	}
+     $text.="</tbody>
+	 </table>
+	  </section>";
+	  return $text;
 }
 ?>

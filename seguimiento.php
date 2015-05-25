@@ -26,7 +26,6 @@ if($_GET['action']==0)
 	else
 		$useranalizar=$ClaseMaestra->user;
 		
-	$rondapos[14]=1;
 	
 	$torneoActual = new torneo($BG->con);
 	$torneoActual->setactivo(1);
@@ -60,7 +59,7 @@ if($_GET['action']==0)
 			$datosoersonaje[$j]="";
 		for($j=0;$j<count($participacionesrev);$j++)
 		{
-			$estabatalla = arrayobjeto($batallascap,"id",$participacionesrev[$i]->getidbatalla());
+			$estabatalla = arrayobjeto($batallascap,"id",$participacionesrev[$j]->getidbatalla());
 			$estaronda = arrayobjeto($ronda,"id",$estabatalla->getronda());
 			if($estabatalla->getestado()==1)
 			{
@@ -71,11 +70,11 @@ if($_GET['action']==0)
 				$icono = "icon_close_alt2";
 				if($peleaver->clasifico()==1)
 					$icono = "icon_check_alt2";
-				$datosoersonaje[$rondapos[$estabatalla->getronda()]]=$estabatalla[$i]->getgrupo()." <br>".$peleaver->getvotos()."(".$peleaver->getposicion().")<i class=\"".$icono."\">";
+				$datosoersonaje[rondapos($estabatalla->getronda())]=$estabatalla->getgrupo()." <br>".$peleaver->getvotos()."(".$peleaver->getposicion().")<i class=\"".$icono."\">";
 			}
 			else
 			{
-				$datosoersonaje[$rondapos[$estabatalla->getronda()]]=$estabatalla->getgrupo();
+				$datosoersonaje[rondapos($estabatalla->getronda())]=$estabatalla->getgrupo();
 			}
 		}
 		$arrayseguimiento[]=$datosoersonaje;
@@ -85,14 +84,18 @@ if($_GET['action']==0)
 	$listapersonaje = array();
 	if(count($todoseguimiento)<10)
 	{
+		
 		$agregar = true;
 		foreach($todospersonajes as $esteper)
 		{
-			$odenamiento = array();
-			//$estepersonaje = arrayobjeto($todospersonajes,"id",$esteper->getidpersonaje());
-			$odenamiento["nombre"]=$esteper->getnombre()." (".$esteper->getserie().")";
-			$odenamiento["id"]=$esteper->getid();
-			$listapersonaje[]=$odenamiento;
+			if(!comprobararray($todoseguimiento,"idpersonaje",$esteper->getid()))
+			{
+				$odenamiento = array();
+				//$estepersonaje = arrayobjeto($todospersonajes,"id",$esteper->getidpersonaje());
+				$odenamiento["nombre"]=$esteper->getnombre()." (".$esteper->getserie().")";
+				$odenamiento["id"]=$esteper->getid();
+				$listapersonaje[]=$odenamiento;
+			}
 		}
 	}
 	$pagina=ingcualpag($pagina,"tablapersonaje",tablaseguimiento($arrayseguimiento,$agregar,$listapersonaje));

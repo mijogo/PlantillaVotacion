@@ -4,7 +4,7 @@ if(!isset($_GET['action']))
 			$_GET['action']=0;
 if($_GET['action']==0)
 {
-	$ClaseMaestra = new MasterClass("vervotacionusuario");
+	$ClaseMaestra = new MasterClass("vervotacionusuario",false,-2);
 	if(!$ClaseMaestra->VerificacionIdentidad(1))
 		Redireccionar("home.php");
 	$file = fopen("vervotacionusuario.html", "r") or exit("Unable to open file!");
@@ -58,9 +58,9 @@ if($_GET['action']==0)
 		}
 		$arrawpersonaje = ordenarpersonajes($arrawpersonaje);
 		foreach($arrawpersonaje as $participante)
-			$datos.=panelvotar($arrawpersonaje->getnombre(),$arrawpersonaje->getid(),$arrawpersonaje->getimagenpeq(),$arrawpersonaje->getserie());	
+			$datos.=panelvotar($participante->getnombre(),$participante->getid(),$participante->getimagenpeq(),$participante->getserie(),false);	
 		$text .= lugarvotacion($configuracionuso->getnombre()." ".$batallasactivas[$i]->getgrupo(),$datos);
-		$personajesarray[] = $arraysolabatalla;
+
 	}
 	$pagina = ingcualpag($pagina,"votausuario",$text);
 	$ClaseMaestra->Pagina("",$pagina);

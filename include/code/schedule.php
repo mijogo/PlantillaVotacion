@@ -43,7 +43,8 @@ class Schedule
 				}
 				if($process[$i]->getaccion()=="CALPO")
 				{
-					$this->calcularPonderacion();
+					$target = explode(",",$process[$i]->gettargetstring());
+					$this->calcularPonderacion($target[0],$target[1]);
 				}
 				
 				if($process[$i]->getaccion()=="INMAT")
@@ -422,7 +423,7 @@ class Schedule
 					$peleas[$j]["listo"]=1;
 				}
 				
-				echo " id del personaje: ".$peleas[$j]["id"]." estan listos ".$peleas[$j]["listo"]." votos ".$peleas[$j]["votos"]."<br>";
+				//echo " id del personaje: ".$peleas[$j]["id"]." estan listos ".$peleas[$j]["listo"]." votos ".$peleas[$j]["votos"]."<br>";
 				
 				if($peleas[$j]["listo"]==0)
 				{
@@ -431,34 +432,34 @@ class Schedule
 					$votosDelPersonaje->setidpersonaje($partBat[$j]->getidpersonaje());
 					$votosDelPersonaje = $votosDelPersonaje->read(true,2,array("idbatalla","AND","idpersonaje"),1,array("fecha","ASC"));
 					
-					echo "votos totales del personaje ".count($votosDelPersonaje)."<br>";
+					//echo "votos totales del personaje ".count($votosDelPersonaje)."<br>";
 					
-					$fechaInicio = $BatallasActivas[$i]->getfecha()." ".$torneoActual->gethorainicio();
-					$fechaFinal = cambioFecha($fechaInicio,$torneoActual->getduracionbatalla());
+					//$fechaInicio = $BatallasActivas[$i]->getfecha()." ".$torneoActual->gethorainicio();
+					//$fechaFinal = cambioFecha($fechaInicio,$torneoActual->getduracionbatalla());
 					
-					$estadisticasListas = new estadistica($this->BG->con);
-					$estadisticasListas->setidpersonaje($partBat[$j]->getidpersonaje());
-					$estadisticasListas->setidbatalla($BatallasActivas[$i]->getid());
-					$estadisticasListas = $estadisticasListas->read(true,2,array("idpersonaje","AND","idbatalla"),1,array("fecha","ASC"));
-					$sigueLoop = true;
-					if(count($estadisticasListas)>0)
-						$k=$estadisticasListas[count($estadisticasListas)-1]->getvotos();
-					else
-						$k=0;
-					for($l=0;$sigueLoop;$l++)
-					{
-						if(count($estadisticasListas)<=$l)
-						{
-							while($k<count($votosDelPersonaje)&&FechaMayor($fechaInicio,$votosDelPersonaje[$k]->getfecha())==1)
-								$k++;
-							$estadisticaNueva = new estadistica($this->BG->con,$partBat[$j]->getidpersonaje(),$BatallasActivas[$i]->getid(),$fechaInicio,$k);
-							$estadisticaNueva->save();
-						}
-						$fechaInicio=cambioFecha($fechaInicio,$torneoActual->getintervalo());
-						
-						if(FechaMayor($fechaInicio,$fechaFinal)==1)
-							$sigueLoop=false;
-					}
+					//$estadisticasListas = new estadistica($this->BG->con);
+					//$estadisticasListas->setidpersonaje($partBat[$j]->getidpersonaje());
+					//$estadisticasListas->setidbatalla($BatallasActivas[$i]->getid());
+					//$estadisticasListas = $estadisticasListas->read(true,2,array("idpersonaje","AND","idbatalla"),1,array("fecha","ASC"));
+					//$sigueLoop = true;
+					//if(count($estadisticasListas)>0)
+					//	$k=$estadisticasListas[count($estadisticasListas)-1]->getvotos();
+					//else
+					//	$k=0;
+					//for($l=0;$sigueLoop;$l++)
+					//{
+					//	if(count($estadisticasListas)<=$l)
+					//	{
+					//		while($k<count($votosDelPersonaje)&&FechaMayor($fechaInicio,$votosDelPersonaje[$k]->getfecha())==1)
+					//			$k++;
+					//		$estadisticaNueva = new estadistica($this->BG->con,$partBat[$j]->getidpersonaje(),$BatallasActivas[$i]->getid(),$fechaInicio,$k);
+					//		$estadisticaNueva->save();
+					//	}
+					//	$fechaInicio=cambioFecha($fechaInicio,$torneoActual->getintervalo());
+					//	
+					//	if(FechaMayor($fechaInicio,$fechaFinal)==1)
+					//		$sigueLoop=false;
+					//}
 					$guardarPelea = new pelea($this->BG->con,$partBat[$j]->getidpersonaje(),$BatallasActivas[$i]->getid(),count($votosDelPersonaje));
 					$guardarPelea->save();
 				}
@@ -484,15 +485,15 @@ class Schedule
 			if($configuracionSig->getsorteo()==0&&$configuracionUsar->gettipo()!="EXHIB")
 			{
 				if($configuracionSig->gettipo()=="ELIMI")
-					$siggrupo = cambioGrupo($personajeCambiar->getgrupo(),$configuracionUsar->getnumerogrupos(),$configuracionSig->getnumerogrupos(),"ELIMI");
+					$siggrupo = cambioGrupo($BatallasActivas[$i]->getgrupo(),$configuracionUsar->getnumerogrupos(),$configuracionSig->getnumerogrupos(),"ELIMI");
 				elseif($configuracionSig->gettipo()=="ELGRU")
-					$siggrupo = cambioGrupo($personajeCambiar->getgrupo(),$configuracionUsar->getnumerobatallas(),$configuracionSig->getnumerobatallas(),"ELGRU");
+					$siggrupo = cambioGrupo($BatallasActivas[$i]->getgrupo(),$configuracionUsar->getnumerobatallas(),$configuracionSig->getnumerobatallas(),"ELGRU");
 			
 				$sigbatalla = new batalla($this->BG->con);
 				$sigbatalla->setronda($configuracionSig->getid());
 				$sigbatalla->setgrupo($siggrupo);
 				$sigbatalla->setidtorneo($torneoActual->getid());
-				$sigbatalla = $sigbatalla->read(true,3,array("ronda","AND","grupo","AND","idtorneo"));
+				$sigbatalla = $sigbatalla->read(false,3,array("ronda","AND","grupo","AND","idtorneo"));
 			}
 			
 			
@@ -504,18 +505,19 @@ class Schedule
 				$configuracionSigSeg->setidtorneo($torneoActual->getid());
 				$configuracionSigSeg = $configuracionSigSeg->read(false,2,array("nombre","AND","idtorneo"));	
 				
-				
+				$sigseggrupo="N";
 				if($configuracionSig->getsorteo()==0&&$configuracionSig->gettipo()=="ELIMI")
-					$sigseggrupo = cambioGrupo($personajeCambiar->getgrupo(),$configuracionUsar->getnumerogrupos(),$configuracionSig->getnumerogrupos(),"ELIMI");
+					$sigseggrupo = cambioGrupo($BatallasActivas[$i]->getgrupo(),$configuracionUsar->getnumerogrupos(),$configuracionSig->getnumerogrupos(),"ELIMI");
 				elseif($configuracionSig->getsorteo()==0&&$configuracionSig->gettipo()=="ELGRU")
-					$sigseggrupo = cambioGrupo($personajeCambiar->getgrupo(),$configuracionUsar->getnumerobatallas(),$configuracionSig->getnumerobatallas(),"ELGRU");		
+					$sigseggrupo = cambioGrupo($BatallasActivas[$i]->getgrupo(),$configuracionUsar->getnumerobatallas(),$configuracionSig->getnumerobatallas(),"ELGRU");		
 					
 				
 				$sigsegbatalla = new batalla($this->BG->con);
 				$sigsegbatalla->setronda($configuracionSigSeg->getid());
 				$sigsegbatalla->setgrupo($sigseggrupo);
 				$sigsegbatalla->setidtorneo($torneoActual->getid());
-				$sigsegbatalla = $sigsegbatalla->read(3,array("ronda","AND","grupo","AND","idtorneo"));	
+				if($sigseggrupo!="N")
+					$sigsegbatalla = $sigsegbatalla->read(false,3,array("ronda","AND","grupo","AND","idtorneo"));	
 			}
 			$idGanador="";
 			$r=0;
@@ -607,7 +609,7 @@ class Schedule
 							$r=$j+1;
 						$peleaBatalla[$j]->setposicion($r);
 						$peleaBatalla[$j]->setclasifico(0);
-						$peleaBatalla[$j]->update(2,array("posicion","clasifico"),2,array("idpersonaje","idbatalla"));
+						$peleaBatalla[$j]->update(2,array("posicion","clasifico"),2,array("idpersonaje","AND","idbatalla"));
 					}
 				
 			}

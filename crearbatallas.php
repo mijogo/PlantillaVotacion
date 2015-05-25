@@ -65,6 +65,7 @@ else
 		$nuevoschedule->setfecha($fecha);
 		$nuevoschedule->sethecho(-1);
 		$nuevoschedule->settargetint(2);
+		$nuevoschedule->setidtorneo($torneoActual[0]->getid());
 		$nuevoschedule->save();
 		
 		$nuevoschedule = new calendario($BG->con);
@@ -72,6 +73,7 @@ else
 		$nuevoschedule->setfecha($fecha);
 		$nuevoschedule->sethecho(-1);
 		$nuevoschedule->settargetdate($_POST["fechabatalla"]);
+		$nuevoschedule->setidtorneo($torneoActual[0]->getid());
 		$nuevoschedule->save();
 		
 		$nuevoschedule = new calendario($BG->con);
@@ -79,6 +81,7 @@ else
 		$nuevoschedule->setfecha($fecha);
 		$nuevoschedule->sethecho(-1);
 		$nuevoschedule->settargetstring("CREAR");
+		$nuevoschedule->setidtorneo($torneoActual[0]->getid());
 		$nuevoschedule->save();
 		
 		$fecha = cambioFecha($fecha,$torneoActual[0]->getduracionbatalla());
@@ -88,6 +91,7 @@ else
 		$nuevoschedule->setfecha($fecha);
 		$nuevoschedule->sethecho(-1);
 		$nuevoschedule->settargetint(1);
+		$nuevoschedule->setidtorneo($torneoActual[0]->getid());
 		$nuevoschedule->save();
 		
 		$fecha = cambioFecha($fecha,$torneoActual[0]->getextraconteo());
@@ -96,6 +100,7 @@ else
 		$nuevoschedule->setaccion("CONVO");
 		$nuevoschedule->setfecha($fecha);
 		$nuevoschedule->sethecho(-1);
+		$nuevoschedule->setidtorneo($torneoActual[0]->getid());
 		$nuevoschedule->save();	
 	}
 	$BG->close();

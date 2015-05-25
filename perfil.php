@@ -57,7 +57,8 @@ if($_GET['action']==0)
 	
 	$todasactividad = new calendario($BG->con);
 	$todasactividad->setaccion("ACTBA");
-	$todasactividad=$todasactividad->read(true,1,array("accion"),1,array("targetdate","DESC"));
+	$todasactividad->sethecho(1);
+	$todasactividad=$todasactividad->read(true,2,array("accion","AND","hecho"),1,array("targetdate","DESC"));
 	
 	$rondarev = new configuracion($BG->con);
 	$rondarev = $rondarev->read();
@@ -69,7 +70,7 @@ if($_GET['action']==0)
 	{
 		$leerbatallas = new batalla($BG->con);	
 		$leerbatallas->setfecha($todasactividad[$i]->gettargetdate());
-		$leerbatallas = $leerbatallas->read(true);
+		$leerbatallas = $leerbatallas->read(true,1,array("fecha"));
 		
 		$usados = 0;
 		$personajes = array();
@@ -89,7 +90,8 @@ if($_GET['action']==0)
 			for($k=0;$k<count($votos);$k++)
 			{
 				$estepersonaje = arrayobjeto($revisarpersonaje,"id",$votos[$k]->getidpersonaje());
-				$personajes[]=$estepersonaje->getimagen();
+				//echo $estepersonaje->getimagenpeq();
+				$personajes[]=$estepersonaje->getimagenpeq();
 			}
 			$usados+=count($votos);
 		}

@@ -37,6 +37,7 @@ if($_GET['action']==0)
 	$pagina = ingcualpag($pagina,"input_8",$text);		
 	$text ="<input type=\"text\" class=\"form-control\" id=\"maximagrafico\"  name=\"maximagrafico\" placeholder=\"Introduzca la maxima cantidad de participantes en el grafico\" value=\"".$torneoleer->getmaxmiembrosgraf()."\">";
 	$pagina = ingcualpag($pagina,"input_9",$text);		
+	
 	$text ="<input type=\"text\" class=\"form-control\" id=\"opcionpartida\"  name=\"opcionpartida\" placeholder=\"Introduzca la primera ronda del torneo\" value=\"".$torneoleer->getopcionpartida()."\">";
 	$pagina = ingcualpag($pagina,"input_10",$text);		
 	

@@ -48,6 +48,6 @@ else
 	$calendarioactual->save();
 	$BG->close();
 	
-	Redireccionar("calendario.php");
+	Redireccionar("planificacion.php");
 	
 }

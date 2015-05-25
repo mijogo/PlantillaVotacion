@@ -62,7 +62,7 @@ elseif($_GET['action']==2)
 			$rondausar = $rondausar->read(false,1,array("id"));
 			
 			$tectbatallas = "";
-			foreach($batallaslistas as $batallasusar)
+			foreach($batallasusar as $batallaslistas)
 			{
 				$tectbatallas .= $batallaslistas->getgrupo()." ";	
 			}

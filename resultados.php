@@ -17,6 +17,10 @@ if($_GET['action']==0)
 		{
 			if($_GET['idronda']==12)
 				$ClaseMaestra = new MasterClass("preliminar");
+			if($_GET['idronda']==10)
+				$ClaseMaestra = new MasterClass("primeraronda");
+			if($_GET['idronda']==9)
+				$ClaseMaestra = new MasterClass("segundaronda");
 			if($_GET['idronda']==1)
 				$ClaseMaestra = new MasterClass("exhibicion");
 			if(!$ClaseMaestra->VerificacionIdentidad(1))
@@ -64,10 +68,10 @@ if($_GET['action']==0)
 				$coloresbatalla = new colores($BG->con);
 				$coloresbatalla->setidbatalla($estabatalla->getid());
 				$coloresbatalla = $coloresbatalla->read(true,1,array("idbatalla"));
-				if($rondarev->gettipo()=="ELGRU" && $estado != substr($estabatalla->getgrupo(),0,1))
+				if($rondarev->gettipo()=="ELGRU" && $estado != substr($estabatalla->getgrupo(),0,1)&&$_GET['tipo']=="ronda")
 				{
-					$estado = substr($estabatalla->getgrupo(),0,1);
 					$text .=panelcollapse("grupo".$estado,"Grupo ".$estado,$datos);
+					$estado = substr($estabatalla->getgrupo(),0,1);
 					$datos="";
 				}
 				$todospersonajes = array();
@@ -101,28 +105,42 @@ if($_GET['action']==0)
 					$participantes->setidbatalla($estabatalla->getid());
 					$participantes = $participantes->read(true,1,array("idbatalla"));
 					
-					$i=1;
+					$posvar=1;
+					$pos = $posvar;
+					$votoanterior=0;
 					foreach($participantes as $votoparticipante)
 					{
 						$datospersonaje = array();
-						$personaje = arrayobjeto($todopersonaje,"id",$revisarpersonaje->getidpersonaje());
-						$datospersonaje["pos"]=$i;
-						$i++;
+						$personaje = arrayobjeto($todopersonaje,"id",$votoparticipante->getidpersonaje());
 						$datospersonaje["img"]=$personaje->getimagenpeq();
 						$datospersonaje["nombre"]=$personaje->getnombre();
 						$datospersonaje["serie"]=$personaje->getserie();
-						if(comprobararray($coloresbatalla,"idpersonaje",$seleccpersonaje->getidpersonaje()))
-							$datospersonaje["color"]="<div style=\"border-radius: 4px; background-color:#".arrayobjeto($coloresbatalla,"idpersonaje",$seleccpersonaje->getidpersonaje())->getcolor().";\">&nbsp;</div>";
+						if(comprobararray($coloresbatalla,"idpersonaje",$votoparticipante->getidpersonaje()))
+							$datospersonaje["color"]="<div style=\"border-radius: 4px; background-color:#".arrayobjeto($coloresbatalla,"idpersonaje",$votoparticipante->getidpersonaje())->getcolor().";\">&nbsp;</div>";
 						else
 							$datospersonaje["color"]="";
 						
 						$votocontar = new voto($BG->con);
 						$votocontar->setidbatalla($estabatalla->getid());
 						$votocontar->setidpersonaje($personaje->getid());
-						$votocontar = $votocontar->read(true,2,array("idbatalla","AND","idpersonaje"));
+						//$votocontar = $votocontar->read(true,2,array("idbatalla","AND","idpersonaje"));
+						$fechahoraactual = fechaHoraActual();
+						$fechalimite = $estabatalla->getfecha()." 00:00:00";
+						$fechalimite = cambioFecha($fechalimite,$torneoActual->getduracionlive());
+						if(FechaMayor($fechahoraactual,$fechalimite)==1)
+							$fechausar = $fechalimite;
+						else
+							$fechausar = $fechahoraactual;
+						
+						$votocontar = $votocontar->read(true,0,"",0,""," idpersonaje=".$personaje->getid()." AND fecha <= \"".$fechausar."\" AND idbatalla=".$estabatalla->getid()." ");
+						
 						
 						$datospersonaje["voto"]=count($votocontar);
+
+
 						$todospersonajes[] = $datospersonaje;
+						$votoanterior=$datospersonaje["voto"];
+
 					}
 					for($i=0;$i<count($todospersonajes);$i++)
 						for($j=0;$j<count($todospersonajes)-1;$j++)
@@ -134,6 +152,14 @@ if($_GET['action']==0)
 								$todospersonajes[$j+1] = $temp;
 							}
 						}
+					for($i=0;$i<count($todospersonajes);$i++)
+					{
+						if($i!=0&&$todospersonajes[$i-1]["voto"]!=$todospersonajes[$i]["voto"])
+							$pos = $posvar;
+					
+						$todospersonajes[$i]["pos"]=$pos;
+						$posvar++;
+					}
 					
 				}
 				else
@@ -162,18 +188,24 @@ if($_GET['action']==0)
 					}	
 				}
 				$datos.=panelvotos($rondarev->getnombre()." ".$estabatalla->getgrupo(),$todospersonajes);
-				if($estabatalla->getestado()!=-1);
+				
+				if($estabatalla->getestado()!=-1)
 				{
 					$script.="<script src=\"charts/graph-batalla".$estabatalla->getid().".js\"></script><script>
 					var myLine = new Chart(document.getElementById(\"graphbatalla".$estabatalla->getid()."\").getContext(\"2d\")).Line(lineChartData".$estabatalla->getid().");</script>";
 					$datos.= "<canvas id=\"graphbatalla".$estabatalla->getid()."\" height=\"500\" width=\"1100\"></canvas>";
 				}
+				if($_GET['tipo']=="ronda" && $rondarev->gettipo()=="ELIMI")
+				{
+					$text.=panelcollapse("grupo".$estabatalla->getgrupo(),"Grupo ".$estabatalla->getgrupo(),$datos);
+					$datos = "";
+				}
 			}
-			if($_GET['tipo']=="fecha" || ($_GET['tipo']=="ronda" && ($rondarev->gettipo()=="ELGRU" || $rondarev->gettipo()=="EXHIB")))
+			if($_GET['tipo']=="fecha" || ($_GET['tipo']=="ronda" && $rondarev->gettipo()=="EXHIB"))
 				$text = $datos;
 		}
 		
-		if($rondarev->gettipo()=="ELGRU")
+		if($_GET['tipo']=="ronda" && $rondarev->gettipo()=="ELGRU")
 		{
 			$estado = substr($batallasusar[count($batallasusar)-1]->getgrupo(),0,1);
 			$text .=panelcollapse("grupo".$estado,"Grupo ".$estado,$datos);

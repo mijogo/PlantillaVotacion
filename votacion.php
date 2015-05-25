@@ -216,9 +216,8 @@ if($_GET['action']==0)
 				}
 				$arrawpersonaje = ordenarpersonajes($arrawpersonaje);
 				foreach($arrawpersonaje as $participante)
-					$datos.=panelvotar($arrawpersonaje->getnombre(),$arrawpersonaje->getid(),$arrawpersonaje->getimagenpeq(),$arrawpersonaje->getserie(),false);	
+					$datos.=panelvotar($participante->getnombre(),$participante->getid(),$participante->getimagenpeq(),$participante->getserie(),false);	
 				$text .= lugarvotacion($configuracionuso->getnombre()." ".$batallasactivas[$i]->getgrupo(),$datos);
-				$personajesarray[] = $arraysolabatalla;
 			}
 		}
 		$pagina = ingcualpag($pagina,"votacion",$text);

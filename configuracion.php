@@ -16,6 +16,26 @@ if($_GET['action']==0)
 	$pagina = ingcualpag($pagina,"tabla_objetos_1",tablaobjetos("Configuraciones",arregloconfiguraciones()));
 	$ClaseMaestra->Pagina("",$pagina);
 }
+elseif($_GET['action']==3)
+{
+	$BG = new DataBase();
+	$BG->connect();
+	
+	$torneoActual = new torneo($BG->con);
+	$torneoActual->setactivo(1);
+	$torneoActual = $torneoActual->read(false,1,array("activo"));	
+	
+	$cambiargrupo = new personajepar($BG->con);
+	$cambiargrupo->setidtorneo($torneoActual->getid());
+	$cambiargrupo->setestado(1);
+	$cambiargrupo->setronda($torneoActual->getopcionpartida());
+	$cambiargrupo->setgrupo("N");
+	
+	$cambiargrupo->update(2,array("ronda","grupo"),2,array("idtorneo","AND","estado"));
+	
+	$BG->close();
+	Redireccionar("configuracion.php");	
+}
 elseif($_GET['action']==2)
 {
 	$BG = new DataBase();
@@ -24,7 +44,7 @@ elseif($_GET['action']==2)
 	$configuracionelmi->setid($_GET["idconfiguracion"]);
 	$configuracionelmi->delete(1,array("id"));
 	$BG->close();
-	Redireccionar("revpersonaje.php");	
+	Redireccionar("configuracion.php");	
 }
 else
 {

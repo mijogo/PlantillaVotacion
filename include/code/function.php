@@ -320,13 +320,13 @@ function cambioGrupo($grupo,$nActual,$nSiguiente,$tipo)
 	if($tipo=="ELIMI")
 	{
 		$cantidad = $nActual/$nSiguiente;
-		$actual=$actual/$cantidad;
+		$actual=$grupo/$cantidad;
 		$actual=ceil($actual);
 		return $actual;
 	}
 	elseif($tipo=="ELGRU")
 	{
-		$actual = explode("-",$actual);
+		$actual = explode("-",$grupo);
 		$cantidad = $nActual/$nSiguiente;
 		$actual[1]=$actual[1]/$cantidad;
 		$actual[1]=ceil($actual[1]);
@@ -558,5 +558,11 @@ function coloresgraf($primdato,$tipo=true)
 		$valores["e"]=14;
 		$valores["f"]=15;
 		return $valores[$valor[0]]*16+$valores[$valor[1]];
+	}
+	function rondapos($i)
+	{
+		$rondapos[12]=1;
+		$rondapos[10]=2;
+		return	$rondapos[$i];
 	}
 ?>
