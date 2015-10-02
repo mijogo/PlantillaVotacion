@@ -13,7 +13,7 @@ if($_GET['action']==0)
 	{
 		$pagina .= fgets($file);
 	}
-	
+	$horafinal="22:00:00";
 	$BG = new DataBase();
 	$BG->connect();
 	$torneoActual = new torneo($BG->con);
@@ -24,154 +24,171 @@ if($_GET['action']==0)
 	{
 		$ClaseMaestra->devip();
 		$ipactual = $ClaseMaestra->ipcontext;
-		$useractual = $ClaseMaestra->user;
-		
-		if($ipactual->getusada()==0)
+		if($ipactual =="")
 		{
-			$activafecha = cambioFecha($ipactual->getfecha(),$ipactual->gettiempo());
-			$fechaactual = fechaHoraActual();
-			if(FechaMayor($activafecha,$fechaactual)==1)
-			{
-				$datetime1 = new DateTime($activafecha);
-				$datetime2 = new DateTime($fechaactual);
-				$interval = $datetime1->diff($datetime2);
-				$minutosfaltantes =  $interval->format("%i");
-				$text ="<div class=\"alert alert-info\">Por favor, espere ".($minutosfaltantes+1)." minutos para votar, por mientras puede revisar los enfrentamientos que se llevaran a cabo hoy</div>";
-				
-				$batallasactivas = new batalla($BG->con);	
-				$batallasactivas->setestado(0);
-				$batallasactivas = $batallasactivas->read(true,1,array("estado"));
-				$cantidadBatallas = count($batallasactivas);
-				
-				$peronajesparticipantes = new personajepar($BG->con);
-				$peronajesparticipantes = $peronajesparticipantes->read();
-				
-				for($i=0;$i<$cantidadBatallas;$i++)
-				{
-					$arrawpersonaje = array();
-					$datos = "";
-					
-					$configuracionuso = new configuracion($BG->con);
-					$configuracionuso->setid($batallasactivas[$i]->getronda());
-					$configuracionuso = $configuracionuso->read(false,1,array("id"));
-					
-					$participaciones = new participacion($BG->con);
-					$participaciones->setidbatalla($batallasactivas[$i]->getid());
-					$participaciones = $participaciones->read(true,1,array("idbatalla"));
-					
-					foreach($participaciones as $participante)
-					{
-						$arrawpersonaje[] = arrayobjeto($peronajesparticipantes,"id",$participante->getidpersonaje());
-					}
-					$arrawpersonaje = ordenarpersonajes($arrawpersonaje);
-					foreach($arrawpersonaje as $verpartpers)
-						$datos.=panelvotar($verpartpers->getnombre(),$verpartpers->getid(),$verpartpers->getimagenpeq(),$verpartpers->getserie(),false);	
-					$text .= lugarvotacion($configuracionuso->getnombre()." ".$batallasactivas[$i]->getgrupo(),$datos);
-					
-				}
-				$pagina = ingcualpag($pagina,"votacion",$text);
-				$ClaseMaestra->Pagina("",$pagina);
-			}
-			else
-			{
-				$text ="";
-				$personajesarray = array();
-				$batallaarray = array();
-				$batallasactivas = new batalla($BG->con);	
-				$batallasactivas->setestado(0);
-				$batallasactivas = $batallasactivas->read(true,1,array("estado"));
-				$cantidadBatallas = count($batallasactivas);
-				
-				$eventoactivo = new evento($BG->con);
-				$eventoactivo->setestado(1);
-				$eventoactivo = $eventoactivo->read(false,1,array("estado"));
-				
-				$peronajesparticipantes = new personajepar($BG->con);
-				$peronajesparticipantes = $peronajesparticipantes->read();
-				
-				for($i=0;$i<$cantidadBatallas;$i++)
-				{
-					$arraysolabatalla = array();	
-					$arrawpersonaje = array();	
-					$batallaarray[] = $batallasactivas[$i]->getid();
-					$datos = "";
-					
-					$configuracionuso = new configuracion($BG->con);
-					$configuracionuso->setid($batallasactivas[$i]->getronda());
-					$configuracionuso = $configuracionuso->read(false,1,array("id"));
-					
-					$participaciones = new participacion($BG->con);
-					$participaciones->setidbatalla($batallasactivas[$i]->getid());
-					$participaciones = $participaciones->read(true,1,array("idbatalla"));
-					
-					foreach($participaciones as $participante)
-					{
-						$arraysolabatalla[] = $participante->getidpersonaje();
-						$arrawpersonaje[] = arrayobjeto($peronajesparticipantes,"id",$participante->getidpersonaje());
-					}
-					$arrawpersonaje = ordenarpersonajes($arrawpersonaje);
-					foreach($arrawpersonaje as $participante)
-						$datos.=panelvotar($participante->getnombre(),$participante->getid(),$participante->getimagenpeq(),$participante->getserie());	
-					$text .= lugarvotacion($configuracionuso->getnombre()." ".$batallasactivas[$i]->getgrupo(),$datos);
-					$personajesarray[] = $arraysolabatalla;
-				}
-				$text.= input("evento".$eventoactivo->getid(),"hidden","","","evento".$eventoactivo->getid());
-				$text = "<form role=\"form\" action=\"votacion.php?action=1\" method=\"post\">".$text."      <button type=\"submit\" id=\"botonvoto\" class=\"btn btn-default\" disabled=\"disabled\">Votar</button>
-    </form>";
-				$pagina = ingcualpag($pagina,"votacion",$text);
-				$ClaseMaestra->Pagina(scriptvotacion($personajesarray,$batallaarray,$configuracionuso->getlimitevotos(),$eventoactivo->getid(),$useractual->getid()),$pagina);
-			}
+			$text ="<div class=\"alert alert-info\">Para poder participar de Miss Anime Tournament, usted debe tener las cookies del navegador activas</div>";
 		}
 		else
 		{
-			$text ="";
-			$BG = new DataBase();
-			$BG->connect();
-			
-			$ClaseMaestra->devip();
-			$ipactual = $ClaseMaestra->ipcontext;
 			$useractual = $ClaseMaestra->user;
 			
-			$ipvotante = new ip($BG->con);
-			$ipvotante->setcodepass($ipactual->getmastercode());
-			$ipvotante->setidevento($ipactual->getidevento());
-			$ipvotante->setusada(1);
-			$ipvotante = $ipvotante->read(true,3,array("codepass","AND","idevento","AND","usada"));
-			
-			$batallasactivas = new batalla($BG->con);	
-			$batallasactivas->setestado(0);
-			$batallasactivas = $batallasactivas->read(true,1,array("estado"));
-			$cantidadBatallas = count($batallasactivas);
-				
-			$peronajesparticipantes = new personajepar($BG->con);
-			$peronajesparticipantes = $peronajesparticipantes->read();
-				
-			for($i=0;$i<$cantidadBatallas;$i++)
+			if($ipactual->getusada()==0)
 			{
-				$arrawpersonaje = array();	
-				$datos = "";
-					
-				$configuracionuso = new configuracion($BG->con);
-				$configuracionuso->setid($batallasactivas[$i]->getronda());
-				$configuracionuso = $configuracionuso->read(false,1,array("id"));
-					
-				$votoactual = new voto($BG->con);
-				$votoactual->setidbatalla($batallasactivas[$i]->getid());
-				$votoactual->setcodepass($ipvotante[0]->getcodepass());
-				$votoactual = $votoactual->read(true,2,array("idbatalla","AND","codepass"));
-				foreach($votoactual as $participante)
+				$activafecha = cambioFecha($ipactual->getfecha(),$ipactual->gettiempo());
+				$fechaactual = fechaHoraActual();
+				if(FechaMayor($activafecha,$fechaactual)==1)
 				{
-					$arrawpersonaje[] = arrayobjeto($peronajesparticipantes,"id",$participante->getidpersonaje());
+					$datetime1 = new DateTime($activafecha);
+					$datetime2 = new DateTime($fechaactual);
+					$interval = $datetime1->diff($datetime2);
+					$minutosfaltantes =  $interval->format("%i");
+					$text ="<div class=\"alert alert-info\">Por favor, espere ".($minutosfaltantes+1)." minutos para votar, por mientras puede revisar los enfrentamientos que se llevaran a cabo hoy,Si no quiere esperar, puede registrarse y votar de inmediato</div>";
+					
+					$batallasactivas = new batalla($BG->con);	
+					$batallasactivas->setestado(0);
+					$batallasactivas = $batallasactivas->read(true,1,array("estado"));
+					$cantidadBatallas = count($batallasactivas);
+					
+					$peronajesparticipantes = new personajepar($BG->con);
+					$peronajesparticipantes = $peronajesparticipantes->read();
+					
+					for($i=0;$i<$cantidadBatallas;$i++)
+					{
+						$arrawpersonaje = array();
+						$datos = "";
+						
+						$configuracionuso = new configuracion($BG->con);
+						$configuracionuso->setid($batallasactivas[$i]->getronda());
+						$configuracionuso = $configuracionuso->read(false,1,array("id"));
+						
+						$participaciones = new participacion($BG->con);
+						$participaciones->setidbatalla($batallasactivas[$i]->getid());
+						$participaciones = $participaciones->read(true,1,array("idbatalla"));
+						
+						foreach($participaciones as $participante)
+						{
+							$arrawpersonaje[] = arrayobjeto($peronajesparticipantes,"id",$participante->getidpersonaje());
+						}
+						$arrawpersonaje = ordenarpersonajes($arrawpersonaje);
+						foreach($arrawpersonaje as $verpartpers)
+							$datos.=panelvotar($verpartpers->getnombre(),$verpartpers->getid(),$verpartpers->getimagenpeq(),$verpartpers->getserie(),false);	
+						$text .= lugarvotacion($configuracionuso->getnombre()." ".$batallasactivas[$i]->getgrupo(),$datos);
+						
+					}
+					$pagina = ingcualpag($pagina,"votacion",$text);
+					$ClaseMaestra->Pagina("",$pagina);
 				}
-				$arrawpersonaje = ordenarpersonajes($arrawpersonaje);
-				foreach($arrawpersonaje as $verpartpersonaje)
-					$datos.=panelvotar($verpartpersonaje->getnombre(),$verpartpersonaje->getid(),$verpartpersonaje->getimagenpeq(),$verpartpersonaje->getserie(),false);	
-				$text .= lugarvotacion($configuracionuso->getnombre()." ".$batallasactivas[$i]->getgrupo(),$datos);
-
+				else
+				{
+					$text ="";
+					$personajesarray = array();
+					$batallaarray = array();
+					$batallasactivas = new batalla($BG->con);	
+					$batallasactivas->setestado(0);
+					$batallasactivas = $batallasactivas->read(true,1,array("estado"));
+					$cantidadBatallas = count($batallasactivas);
+					
+					if(count($batallasactivas)>0)
+					{
+						$configuracionuso = new configuracion($BG->con);
+						$configuracionuso->setid($batallasactivas[0]->getronda());
+						$configuracionuso = $configuracionuso->read(false,1,array("id"));
+						$text .="<div class=\"alert alert-info\">Ahora usted puede votar por ".$configuracionuso->getlimitevotos()." personajes</div>";
+					}
+					
+					$eventoactivo = new evento($BG->con);
+					$eventoactivo->setestado(1);
+					$eventoactivo = $eventoactivo->read(false,1,array("estado"));
+					
+					$peronajesparticipantes = new personajepar($BG->con);
+					$peronajesparticipantes = $peronajesparticipantes->read();
+					
+					for($i=0;$i<$cantidadBatallas;$i++)
+					{
+						$arraysolabatalla = array();	
+						$arrawpersonaje = array();	
+						$batallaarray[] = $batallasactivas[$i]->getid();
+						$datos = "";
+						
+						$configuracionuso = new configuracion($BG->con);
+						$configuracionuso->setid($batallasactivas[$i]->getronda());
+						$configuracionuso = $configuracionuso->read(false,1,array("id"));
+						
+						$participaciones = new participacion($BG->con);
+						$participaciones->setidbatalla($batallasactivas[$i]->getid());
+						$participaciones = $participaciones->read(true,1,array("idbatalla"));
+						
+						foreach($participaciones as $participante)
+						{
+							$arraysolabatalla[] = $participante->getidpersonaje();
+							$arrawpersonaje[] = arrayobjeto($peronajesparticipantes,"id",$participante->getidpersonaje());
+						}
+						$arrawpersonaje = ordenarpersonajes($arrawpersonaje);
+						foreach($arrawpersonaje as $participante)
+							$datos.=panelvotar($participante->getnombre(),$participante->getid(),$participante->getimagenpeq(),$participante->getserie());	
+						$text .= lugarvotacion($configuracionuso->getnombre()." ".$batallasactivas[$i]->getgrupo(),$datos);
+						$personajesarray[] = $arraysolabatalla;
+					}
+					$text.= input("evento".$eventoactivo->getid(),"hidden","","","evento".$eventoactivo->getid());
+					$text = "<form role=\"form\" action=\"votacion.php?action=1\" method=\"post\">".$text."      <button type=\"submit\" id=\"botonvoto\" class=\"btn btn-default\" disabled=\"disabled\">Votar</button>
+		</form>";
+					$pagina = ingcualpag($pagina,"votacion",$text);
+					if($ClaseMaestra->useractivo)
+						$ClaseMaestra->Pagina(scriptvotacion($personajesarray,$batallaarray,$configuracionuso->getlimitevotos(),$eventoactivo->getid(),$useractual->getid()),$pagina);
+					else
+						$ClaseMaestra->Pagina(scriptvotacion($personajesarray,$batallaarray,$configuracionuso->getlimitevotos(),$eventoactivo->getid(),0),$pagina);
+				}
 			}
-			$pagina = ingcualpag($pagina,"votacion",$text);
-			$ClaseMaestra->Pagina("",$pagina);
-		}//fin else de usadas
+			else
+			{
+				$text ="<h1>Votos emitidos</h1>";
+				$faltanestahora = falta($horafinal);
+				$text .="<h5>Faltan ".$faltanestahora." para que termine el match</h5>";
+				//$ClaseMaestra->devip();duracionbatalla
+				//$ipactual = $ClaseMaestra->ipcontext;
+				$useractual = $ClaseMaestra->user;
+				
+				$ipvotante = new ip($BG->con);
+				$ipvotante->setcodepass($ipactual->getmastercode());
+				$ipvotante->setidevento($ipactual->getidevento());
+				$ipvotante->setusada(1);
+				$ipvotante = $ipvotante->read(true,3,array("codepass","AND","idevento","AND","usada"));
+				
+				$batallasactivas = new batalla($BG->con);	
+				$batallasactivas->setestado(0);
+				$batallasactivas = $batallasactivas->read(true,1,array("estado"));
+				$cantidadBatallas = count($batallasactivas);
+					
+				$peronajesparticipantes = new personajepar($BG->con);
+				$peronajesparticipantes = $peronajesparticipantes->read();
+					
+				for($i=0;$i<$cantidadBatallas;$i++)
+				{
+					$arrawpersonaje = array();	
+					$datos = "";
+						
+					$configuracionuso = new configuracion($BG->con);
+					$configuracionuso->setid($batallasactivas[$i]->getronda());
+					$configuracionuso = $configuracionuso->read(false,1,array("id"));
+						
+					$votoactual = new voto($BG->con);
+					$votoactual->setidbatalla($batallasactivas[$i]->getid());
+					$votoactual->setcodepass($ipvotante[0]->getcodepass());
+					$votoactual = $votoactual->read(true,2,array("idbatalla","AND","codepass"));
+					foreach($votoactual as $participante)
+					{
+						$arrawpersonaje[] = arrayobjeto($peronajesparticipantes,"id",$participante->getidpersonaje());
+					}
+					$arrawpersonaje = ordenarpersonajes($arrawpersonaje);
+					foreach($arrawpersonaje as $verpartpersonaje)
+						$datos.=panelvotar($verpartpersonaje->getnombre(),$verpartpersonaje->getid(),$verpartpersonaje->getimagenpeq(),$verpartpersonaje->getserie(),false);	
+					$text .= lugarvotacion($configuracionuso->getnombre()." ".$batallasactivas[$i]->getgrupo(),$datos);
+	
+				}
+				$pagina = ingcualpag($pagina,"votacion",$text);
+				$ClaseMaestra->Pagina("",$pagina);
+			}//fin else de usadas
+		}
 	}
 	else
 	{
@@ -223,7 +240,7 @@ if($_GET['action']==0)
 		$pagina = ingcualpag($pagina,"votacion",$text);
 		$ClaseMaestra->Pagina("",$pagina);
 	}//else de que no hay batallas
-	
+	$BG->close();
 
 }
 else
@@ -244,16 +261,22 @@ else
 		$eventoactivo = $eventoactivo->read(false,1,array("estado"));
 		
 		$voto = $_POST["evento".$eventoactivo->getid()];
+		$changevoto = $voto;
 		$arreglovotos = arrvoto($voto);
 		
 		$estaip = getRealIP();
-		if($eventoactivo->getid()==$arreglovotos["metadatos"]["idevento"] && $estaip==$arreglovotos["metadatos"]["ip"])
+		
+		$revisarip = new ip($BG->con);
+		$revisarip->setuniquecode($_COOKIE['uniqueCode']);
+		$revisarip = $revisarip->read(false,1,array("uniquecode"));
+		
+		if($revisarip->getusada()==0 && $eventoactivo->getid()==$arreglovotos["metadatos"]["idevento"] && $estaip==$arreglovotos["metadatos"]["ip"])
 		{
 			for($i=1;$i<=$arreglovotos["metadatos"]["cantidadmatch"];$i++)
 			{
 				foreach($arreglovotos["votos".$i] as $voto)
 				{
-					if($ClaseMaestra->useractivo)
+					if($ClaseMaestra->useractivo && $voto != 0)
 					{
 						$nuevovoto = new votouser($BG->con);
 						$nuevovoto->setiduser($ClaseMaestra->user->getid());
@@ -262,25 +285,27 @@ else
 						$nuevovoto->setfecha(fechaHoraActual());
 						$nuevovoto->save();
 					}
-					
-					$nuevovotousar = new voto($BG->con);
-					$nuevovotousar->setidbatalla($arreglovotos["metadatosbatalla".$i]["idbatalla"]);
-					$nuevovotousar->setidpersonaje($voto);
-					$nuevovotousar->setfecha(fechaHoraActual());
-					$nuevovotousar->setuniquecode($_COOKIE['uniqueCode']);
-					$nuevovotousar->setcodepass($_COOKIE['CodePassVote']);
-					$nuevovotousar->setidevento($torneoActual->getid());
-					$nuevovotousar->save();					
+					if($voto != 0)
+					{
+						$nuevovotousar = new voto($BG->con);
+						$nuevovotousar->setidbatalla($arreglovotos["metadatosbatalla".$i]["idbatalla"]);
+						$nuevovotousar->setidpersonaje($voto);
+						$nuevovotousar->setfecha(fechaHoraActual());
+						$nuevovotousar->setuniquecode($_COOKIE['uniqueCode']);
+						$nuevovotousar->setcodepass($_COOKIE['CodePassVote']);
+						$nuevovotousar->setidevento($torneoActual->getid());
+						$nuevovotousar->save();		
+					}
 				}
 			}
 			$cambiarip = new ip($BG->con);
 			$cambiarip->setuniquecode($_COOKIE['uniqueCode']);
 			$cambiarip = $cambiarip->read(false,1,array("uniquecode"));
 			$cambiarip->setusada(1);
-			$cambiarip->setforumcode($voto);
+			$cambiarip->setforumcode($changevoto);
 			$cambiarip->update(2,array("usada","forumcode"),1,array("uniquecode"));
 			
-			$nuevolog = new reg($BG->con,-1,"VOTO",fechaHoraActual(),1,$estaip,$voto);
+			$nuevolog = new reg($BG->con,-1,"VOTO",fechaHoraActual(),1,$estaip,$changevoto);
 			$nuevolog->save();
 		}
 	}

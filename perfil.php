@@ -42,15 +42,19 @@ if($_GET['action']==0)
 	if($useranalizar->getsexo()=="fem")
 		$datosuser["sexo"]="Femenino";
 	if($useranalizar->getedad()!=0)
-		$datosuser["edad"]=$useranalizar->getedad();
+		$datosuser["edad"]=$useranalizar->getedad()." años";
 	else
-		$datosuser["edad"]=0;
+		$datosuser["edad"]="";
 		
 	$datosuser["pais"]=nuevonombre($useranalizar->getpais(),$ClaseMaestra);
 	
 	$datosuser["imgavatar"]=$useranalizar->getimagen();
 	$datosuser["banner"]="";
-	$datosuser["linkperfil"]="http://localhost/PlantillaVotacion/perfil.php?idperfil=".$useranalizar->getid();
+	//$datosuser["linkperfil"]="http://localhost/PlantillaVotacion/perfil.php?idperfil=".$useranalizar->getid();
+	$datosuser["linkperfil"]="<div class=\"fb-share-button\" data-href=\"http://msat.moe/perfil.php?idperfil=".$useranalizar->getid()."\" data-layout=\"button\"></div>
+	
+	<div><a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-url=\"http://msat.moe/perfil.php?idperfil=".$useranalizar->getid()."\" data-text=\"Mi perfil en Miss Anime Tournament\" data-via=\"msat_2015\" data-lang=\"es\" data-count=\"none\" data-hashtags=\"missanime\">Twittear</a></div>";
+	//$datosuser["linkperfil"]="<div class="fb-share-button" data-href="http://msat.uphero.com/home.php" data-layout="button"></div>";
 	$torneoActual = new torneo($BG->con);
 	$torneoActual->setactivo(1);
 	$torneoActual = $torneoActual->read(false,1,array("activo"));

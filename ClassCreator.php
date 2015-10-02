@@ -62,7 +62,7 @@ $ElementosTablaL[]=array("id","nombre","idtorneo","numerogrupos","numerobatallas
 
 //ip
 $NombreTablaL[]="ip";
-$ElementosTablaL[]=array("fecha","ip","codepass","forumcode","user","idevento","tiempo","usada","uniquecode","mastercode","masterip","info");
+$ElementosTablaL[]=array("fecha","ip","codepass","forumcode","user","idevento","tiempo","usada","uniquecode","mastercode","masterip","info","stringvoto");
 
 //evento
 $NombreTablaL[]="evento";
@@ -83,6 +83,11 @@ $ElementosTablaL[]=array("idpersonaje","idbatalla","color");
 //usuario
 $NombreTablaL[]="usuario";
 $ElementosTablaL[]=array("id","username","password","email","verificacion","sexo","pais","fecharegistro","imagen","poder","facecode","facecodeex","twittercode","twittercodeex","extracode","extracodeex","edad");
+
+//recodato
+$NombreTablaL[]="recodato";
+$ElementosTablaL[]=array("id","fecha","iduser","codepass","uniquecode","ip","info");
+
 for($mn =0; $mn < count($NombreTablaL);$mn++)
 {
 $NombreTabla = $NombreTablaL[$mn];

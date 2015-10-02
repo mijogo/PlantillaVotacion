@@ -50,6 +50,45 @@ elseif($_GET['action']==2)
 	$BG->close();
 	Redireccionar("revpersonaje.php");
 }
+elseif($_GET['action']==3)
+{
+	$BG = new DataBase();
+	$BG->connect();
+	
+	$torneoActual = new torneo($BG->con);
+	$torneoActual->setactivo(1);
+	$torneoActual = $torneoActual->read(false,1,array("activo"));	
+	
+	$seriesactuales = new seriepar($BG->con);
+	$seriesactuales->setidtorneo($torneoActual->getid());
+	$seriesactuales = $seriesactuales->read(true,1,array("idtorneo"),1,array("nombre","ASC"));
+	$serietext ="";
+	foreach($seriesactuales as $serieelegir)
+	{
+		$personajevivos = new personajepar($BG->con);
+		$personajevivos->setronda(8);
+		$personajevivos->setidserie($serieelegir->getid());
+		$personajevivos->setidtorneo($torneoActual->getid());
+
+		$personajevivos = $personajevivos->read(true,3,array("ronda","AND","idserie","AND","idtorneo"),1,array("nombre","ASC"));
+
+		if(count($personajevivos)>0)
+		{
+			$personajestext="";
+			foreach($personajevivos as $personajesusar)
+			{
+				$personajestext.=panelpersonaje($personajesusar->getnombre(),$personajesusar->getimagenpeq());
+			}
+			$serietext.=panelcollapse("serie".$serieelegir->getid(),$serieelegir->getnombre(),$personajestext);
+		}
+	}
+	
+	$fp = fopen("fasegrupo.html", 'w');
+	fwrite($fp,$serietext);
+	fclose($fp);
+	$BG->close();
+	Redireccionar("revpersonaje.php");
+}
 else
 {
 	$BG = new DataBase();
@@ -66,7 +105,7 @@ function arreglopersonaje()
 	$BG->connect();
 	
 	$personajes = new personaje($BG->con);
-	$personajes = $personajes->read(true,0,"",1,array("serie","DESC"));
+	$personajes = $personajes->read(true,0,"",2,array("serie","ASC","nombre","ASC"));
 	
 	$torneoActual = new torneo($BG->con);
 	$torneoActual->setactivo(1);

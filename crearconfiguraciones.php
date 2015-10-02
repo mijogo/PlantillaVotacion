@@ -50,6 +50,7 @@ if($_GET['action']==0)
 	
 	$pagina = ingcualpag($pagina,"input_10",inputcheckbox("sorteo","Esta Ronda tiene sorteo"));
 	$pagina = ingcualpag($pagina,"input_11",inputform("limitevotos","Limite de votos por persona"));
+	$pagina = ingcualpag($pagina,"input_12",inputcheckbox("seed","Esta Ronda utiliza Seed"));
 	
 	$ClaseMaestra->Pagina("",$pagina);
 }
@@ -80,6 +81,10 @@ else
 		$nuevaconfiguracion->setsorteo(1);
 	else
 		$nuevaconfiguracion->setsorteo(0);
+	if(isset($_POST["seed"]))
+		$nuevaconfiguracion->setextra(1);
+	else
+		$nuevaconfiguracion->setextra(0);
 	$nuevaconfiguracion->setlimitevotos($_POST["limitevotos"]);
 	$nuevaconfiguracion->save();
 	$BG->close();

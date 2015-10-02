@@ -14,8 +14,8 @@ if($_GET['action']==0)
 		$pagina .= fgets($file);
 	}
 	
-	$valores = array("SORTE","ACTVA","CONVO","CHTOR","CHEVE","CALPO","INMAT");
-	$opciones = array("Sorteo","Activacion de la batalla","Conteo de Votos","Cambio de estado del Torneo","Cambio de evento","Calculo de la ponderacion","Exhibicion");
+	$valores = array("SORTE","ACTVA","CONVO","CHTOR","CHEVE","CALPO","INMAT","PAREP");
+	$opciones = array("Sorteo","Activacion de la batalla","Conteo de Votos","Cambio de estado del Torneo","Cambio de evento","Calculo de la ponderacion","Exhibicion","Pasar Repechaje");
 	
 	$pagina = ingcualpag($pagina,"input_1",inputselected("accion","Tipo de Accion",$valores,$opciones));
 	$pagina = ingcualpag($pagina,"input_2",inputcalendar("fecha","Fecha","",true));

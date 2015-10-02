@@ -89,7 +89,6 @@ elseif($_GET['action']==3)
 		$revisacalendario = new calendario($BG->con);
 		$revisacalendario->setfecha($fecha);
 		$revisacalendario = $revisacalendario->read(true,1,array("fecha"));
-		
 		if(count($revisacalendario)==0)
 		{
 			$nuevoschedule = new calendario($BG->con);
@@ -138,7 +137,7 @@ elseif($_GET['action']==3)
 	}
 	
 	$BG->close();
-	redireccionar("batalla.php");
+	//redireccionar("batalla.php");
 }
 elseif($_GET['action']==2)
 {

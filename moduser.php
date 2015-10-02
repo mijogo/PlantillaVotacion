@@ -22,7 +22,7 @@ if($_GET['action']==0)
 	$text.=agregaelem("E-mail",inputalone("mailmod",$info->getemail()));
 	$text.=agregaelem("Contraseña",inputalone("pass","","password"));
 	$text.=agregaelem("Repita la contraseña",inputalone("repass","","password"));
-	$text.=agregaelem("Avatar",inputimagealone("avatarmod","suba la imagen que sera su avatar"));
+	$text.=agregaelem("Avatar",inputimagealone("avatarmod","suba la imagen que sera su avatar, debe pesar menos de 500kb"));
 	$text.=agregaelem("Edad",inputalone("edadmod",$info->getedad()));	
 	$valores = array("","mas","fem");
 	$opciones = array("","Masculino","Femenimo");

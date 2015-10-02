@@ -15,11 +15,11 @@ if($_GET['action']==0)
 	}
 	$ClaseMaestra->Pagina("",$pagina);
 }
-elseif($_GET['action']==3)
+
+if($_GET['action']==3)
 {
 	$mail = $_GET["email"];
 	$token = $_GET["token"];
-	
 	$BG = new DataBase();
 	$BG->connect();
 	$NuevoUsuario = new Usuario($BG->con);	
@@ -29,14 +29,25 @@ elseif($_GET['action']==3)
 	$NuevoUsuario = $NuevoUsuario->read(true,3,array("email","AND","verificacion","AND","poder"));
 	if(count($NuevoUsuario)>0)
 	{
-		$NuevoUsuario[0]->setpoder(3);
-		$NuevoUsuario[0]->update(1,array("poder"),1,array("id"));
-		setcookie("id_user",$NuevoUsuario[0]->getid(),time()+(60*60));
-		Redireccionar("home.php?msg=Su cuenta ya se ha activado");
+		if(FechaMayor(fechaHoraActual(),cambioFechaseg($NuevoUsuario[0]->getfecharegistro(),10))==1)
+		{
+			$NuevoUsuario[0]->setpoder(3);
+			$NuevoUsuario[0]->update(1,array("poder"),1,array("id"));
+			//setcookie("id_user",$NuevoUsuario[0]->getid(),time()+(60*60));
+			CrearCookie("id_user",$NuevoUsuario[0]->getid(),3);
+			
+			Redireccionar("home.php?msg=Su cuenta ya se ha activado");
+		}
+		else
+			Redireccionar("home.php?msg=Intentelo de nuevo");
 	}
-	
+	else
+	{
+		Redireccionar("home.php?msg=La activación a sido erronea, contactese con el administrador");
+	}
 }
-elseif($_GET['action']==2)
+
+if($_GET['action']==2)
 {
 	$BG = new DataBase();
 	$BG->connect();
@@ -101,9 +112,10 @@ elseif($_GET['action']==2)
 				$NuevoUsuario->setemail($_POST["email"]);
 				$NuevoUsuario->setpoder(2);
 				$NuevoUsuario->setfecharegistro(fechaHoraActual());
-				$NuevoUsuario->setverificacion(crypt(fechaHoraActual()));
-				$link = "http://localhost/PlantillaVotacion/login.php?action=3&email=".$_POST["email"]."&token=".$NuevoUsuario->getverificacion();
-				$mensaje ="Saludos, usted acaba de registrarse en MSAT, para completar esta accion, haga click en el siguiente link <br>  <a href=\"".$link."\">".$link."</a>";
+				$NuevoUsuario->setverificacion(crypt(fechaHoraActual())."fin");
+				
+				$link = "http://msat.moe/login.php?action=3&email=".$_POST["email"]."&token=".$NuevoUsuario->getverificacion();
+				$mensaje ="Saludos, usted acaba de registrarse en MSAT, para completar esta accion, haga click en el siguiente link \n ".$link;
 				mail($NuevoUsuario->getemail(), 'Activación de la cuenta en MSAT', $mensaje);
 				$NuevoUsuario->save();
 				$BG->close();
@@ -112,7 +124,7 @@ elseif($_GET['action']==2)
 		}
 	}
 }
-else
+if($_GET['action']==1)
 {
 	$BG = new DataBase();
 	$BG->connect();
@@ -129,11 +141,17 @@ else
 				Redireccionar("login.php?msg=La cuenta aun no ha sido activada");
 			}
 			else
-			{
+			{/*
+				ob_start();
 				if(empty($_POST["recordar"]))
 					setcookie("id_user",$VerificarUsuario->getid(),time()+(120*60*60*24));
 				else
 					setcookie("id_user",$VerificarUsuario->getid(),time()+(60*60));
+				ob_end_flush();*/
+				if(empty($_POST["recordar"]))
+					CrearCookie("id_user",$VerificarUsuario->getid(),3);
+				else
+					CrearCookie("id_user",$VerificarUsuario->getid(),1);
 				$BG->close();
 				Redireccionar("home.php");
 			}

@@ -46,11 +46,16 @@ class Schedule
 					$target = explode(",",$process[$i]->gettargetstring());
 					$this->calcularPonderacion($target[0],$target[1]);
 				}
-				
 				if($process[$i]->getaccion()=="INMAT")
 				{
 					$this->ingresarMatch();
-				}			
+				}		
+				
+				if($process[$i]->getaccion()=="PAREP")
+				{
+					$target = explode(",",$process[$i]->gettargetstring());
+					$this->pasarrepechaje($target[0],$target[1],$target[2],$target[3]);
+				}		
 				$process[$i]->setHecho(1);
 				$process[$i]->update(1,array("hecho"),1,array("id"));
 				$lognew = new reg($this->BG->con,-10,$process[$i]->getaccion(),$fechaActual,1,"system",$process[$i]->gettargetstring()." ".$process[$i]->gettargetdate()." ".$process[$i]->gettargetint());
@@ -561,8 +566,11 @@ class Schedule
 							if($configuracionUsar->getsegundo()==1)
 								$segPos++;
 						}
-						if(!($j!=0&&$peleaBatalla[$j]->getvotos()==$peleaBatalla[$j-1]->getvotos()))
+						if($j==0)
+							$r=1;
+						elseif($peleaBatalla[$j]->getvotos()!=$peleaBatalla[$j-1]->getvotos())
 							$r=$j+1;
+						
 						$peleaBatalla[$j]->setposicion($r);
 						$peleaBatalla[$j]->setclasifico(1);
 						$peleaBatalla[$j]->update(2,array("posicion","clasifico"),2,array("idpersonaje","AND","idbatalla"));
@@ -593,8 +601,11 @@ class Schedule
 							$segPos++;
 						}	
 						
-						if(!($j!=0&&$peleaBatalla[$j]->getvotos()==$peleaBatalla[$j-1]->getvotos()))
+						if($j==0)
+							$r=1;
+						elseif($peleaBatalla[$j]->getvotos()!=$peleaBatalla[$j-1]->getvotos())
 							$r=$j+1;
+		
 						$peleaBatalla[$j]->setposicion($r);
 						$peleaBatalla[$j]->setclasifico(1);
 						$peleaBatalla[$j]->update(2,array("posicion","clasifico"),2,array("idpersonaje","AND","idbatalla"));					
@@ -605,8 +616,11 @@ class Schedule
 						$personajeCambiar->setestado(3);
 						$personajeCambiar->update(1,array("estado"),1,array("id"));
 						
-						if(!($j!=0&&$peleaBatalla[$j]->getvotos()==$peleaBatalla[$j-1]->getvotos()))
+						if($j==0)
+							$r=1;
+						elseif($peleaBatalla[$j]->getvotos()!=$peleaBatalla[$j-1]->getvotos())
 							$r=$j+1;
+						
 						$peleaBatalla[$j]->setposicion($r);
 						$peleaBatalla[$j]->setclasifico(0);
 						$peleaBatalla[$j]->update(2,array("posicion","clasifico"),2,array("idpersonaje","AND","idbatalla"));
@@ -656,6 +670,7 @@ class Schedule
 			$nuevoEvento->update(2,array("estado","fechatermino"),1,array("id"));
 		}
 	}
+	//instanciaActual-la ronda donde estan los personajes,instanciaPonderar-ronda que se analizara las ponderaciones 
 	function calcularPonderacion($instanciaActual="",$instanciaPonderar)
 	{
 		$personajesutil = new personajepar($this->BG->con);
@@ -845,6 +860,109 @@ class Schedule
 					$horaLimite = $fechaactual;
 				$horaLimite = sacarhora($horaLimite).":00";
 				$this->creargrafo($batallaactiva[$i]->getid(),$torneoActual->getintervalo(),$torneoActual->gethorainicio(),$horaLimite,$torneoActual->getmaxmiembrosgraf());
+			}
+		}
+	}
+	
+	//instactual-la ronda donde estan los personajes,insanalizar-la ronda que se analizaran los personajes
+	//insproxima-la instancia donde iran los personajes,limite-los personajes total de primera ronda
+	function pasarrepechaje($instactual,$insanalizar,$insproxima,$limite)
+	{
+		$torneoActual = new torneo($this->BG->con);
+		$torneoActual->setactivo(1);
+		$torneoActual = $torneoActual->read(false,1,array("activo"));
+		
+		$selepersonaje = new personajepar($this->BG->con);
+		$selepersonaje->setronda($instactual);
+		$selepersonaje->setidtorneo($torneoActual->getid());
+		$selepersonaje = $selepersonaje->read(true,2,array("ronda","AND","idtorneo"));
+		
+		$batallascon = new batalla($this->BG->con);
+		$batallascon->setidtorneo($torneoActual->getid());
+		$batallascon->setronda($insanalizar);
+		$batallascon = $batallascon->read(true,2,array("ronda","AND","idtorneo"));
+		
+		$todasparticipacion = array();
+		$colaar = 0;
+		foreach($selepersonaje as $estepersonaje)
+		{
+			$buspelea = new pelea($this->BG->con);
+			$buspelea->setidpersonaje($estepersonaje->getid());
+			$buspelea = $buspelea->read(true,1,array("idpersonaje"));
+			if(count($buspelea)>0)
+			{
+				$existe=0;
+				$cual=0;
+				for($i=0;$i<count($buspelea);$i++)
+				{
+					for($j=0;$j<count($batallascon);$j++)
+					{
+						if($buspelea[$i]->getidbatalla() == $batallascon[$j]->getid())
+						{
+							$existe = 1;	
+							$cual = $i;
+						}
+					}	
+				}
+				if($existe == 1)
+				{
+					$sigue=true;
+					$fin = $colaar;
+					while($sigue)
+					{
+						if($fin==0)
+						{
+							$todasparticipacion[0]=$buspelea[$cual];
+							$colaar++;
+							$sigue=false;
+						}
+						elseif($todasparticipacion[$fin-1]->getvotos()<$buspelea[$cual]->getvotos())
+						{
+							$todasparticipacion[$fin] = $todasparticipacion[$fin-1];
+							$fin--;
+						}
+						else
+						{
+							$todasparticipacion[$fin]=$buspelea[$cual];
+							$colaar++;
+							$sigue=false;
+						}
+					}
+				}
+			}
+		}
+		
+		$cuantolisto = new personajepar($this->BG->con);
+		$cuantolisto->setronda($insproxima);
+		$cuantolisto->setidtorneo($torneoActual->getid());
+		$cuantolisto = $cuantolisto->read(true,2,array("ronda","AND","idtorneo"));
+		$estosson = count($cuantolisto);
+		$agregar = $limite-$estosson;
+		
+		for($i=0;$i<$colaar;$i++)
+		{
+			if($agregar>0)
+			{
+				$cambiar = arrayobjeto($selepersonaje,"id",$todasparticipacion[$i]->getidpersonaje());
+				$cambiar->setronda($insproxima);
+				$cambiar->setgrupo("N");
+				$cambiar->update(2,array("ronda","grupo"),1,array("id"));
+				if($agregar>1)
+					$agregar--;
+				elseif($i<$colaar-1&&$todasparticipacion[$i]->getvotos()==$todasparticipacion[$i+1]->getvotos())
+					$fer=0;
+				else
+					$agregar--;
+			}
+			else
+			{
+				$todasparticipacion[$i]->setclasifico(0);
+				$todasparticipacion[$i]->update(1,array("clasifico"),2,array("idpersonaje","AND","idbatalla"));
+				
+				$cambiar = arrayobjeto($selepersonaje,"id",$todasparticipacion[$i]->getidpersonaje());
+				$cambiar->setestado(3);
+				$cambiar->update(1,array("estado"),1,array("id"));
+				$agregar--;
 			}
 		}
 	}

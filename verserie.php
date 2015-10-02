@@ -16,28 +16,28 @@ if($_GET['action']==0)
 	
 	$BG = new DataBase();
 	$BG->connect();
-	$serieactual = new serie($BG->con);
-	$serieactual->setid($_GET["idserie"]);
-	$serieactual = $serieactual->read(false,1,array("id"));
-	
-	$pagina = ingcualpag($pagina,"nombre_serie",$serieactual->getnombre());
-	$pagina = ingcualpag($pagina,"nombre_corto",$serieactual->getnombrecorto());
 	
 	$torneoActual = new torneo($BG->con);
 	$torneoActual->setactivo(1);
 	$torneoActual = $torneoActual->read(true,1,array("activo"));	
+	
+	$serieactual = new seriepar($BG->con);
+	$serieactual->setid($_GET["idserie"]);
+	$serieactual->setidtorneo($torneoActual[0]->getid());
+	$serieactual = $serieactual->read(false,2,array("id","AND","idtorneo"));
+	
+	$seriegeneral = new serie($BG->con);
+	$seriegeneral->setid($serieactual->getidserie());
+	$seriegeneral = $seriegeneral->read(false,1,array("id"));
+	
+	$pagina = ingcualpag($pagina,"nombre_serie",$seriegeneral->getnombre());
+	$pagina = ingcualpag($pagina,"nombre_corto",$seriegeneral->getnombrecorto());
+	
 	$textextra="";
-	if(count($torneoActual)>0)
+	
+	$pagina = ingcualpag($pagina,"imagen",$serieactual->getimagen());
+	switch($serieactual->gettipoformato())
 	{
-		$seriespar = new seriepar($BG->con);
-		$seriespar->setidserie($serieactual->getid());
-		$seriespar->setidtorneo($torneoActual[0]->getid());
-		$seriespar = $seriespar->read(true,2,array("idserie","AND","idtorneo"));
-		if(count($seriespar)>0)
-		{
-			$pagina = ingcualpag($pagina,"imagen",$seriespar[0]->getimagen());
-			switch($seriespar[0]->gettipoformato())
-			{
 				case "SERIE":
 					$formato = "Serie";	
 					break;
@@ -55,7 +55,7 @@ if($_GET['action']==0)
 					break;
 			}
 			
-			switch($seriespar[0]->gettcours())
+			switch($serieactual->gettcours())
 			{
 				case 1:
 					$temporada = "Invierno";	
@@ -73,16 +73,13 @@ if($_GET['action']==0)
 					$temporada = "Invierno";	
 					break;
 			}
-			$ntemo = $seriespar[0]->getncours();
+			$ntemo = $serieactual->getncours();
 			if($ntemo == 5)
 			{
 				$ntemo="4+";
 			}
-			$textextra =serieparticiapndo($seriespar[0]->getnombre(),$formato,$seriespar[0]->getano(),$temporada,$ntemo);
-		}
-		else
-			$pagina = ingcualpag($pagina,"imagen",$serieactual->getimagen());
-	}
+			$textextra =serieparticiapndo($serieactual->getnombre(),$formato,$serieactual->getano(),$temporada,$ntemo);
+
 	$pagina = ingcualpag($pagina,"participacion",$textextra);
 	$ClaseMaestra->Pagina("",$pagina);
 }

@@ -15,12 +15,18 @@ if($_GET['action']==0)
 		
 		if($_GET['tipo']=="ronda")
 		{
-			if($_GET['idronda']==12)
-				$ClaseMaestra = new MasterClass("preliminar");
 			if($_GET['idronda']==10)
+				$ClaseMaestra = new MasterClass("preliminar");
+			if($_GET['idronda']==8)
 				$ClaseMaestra = new MasterClass("primeraronda");
-			if($_GET['idronda']==9)
+			if($_GET['idronda']==7)
 				$ClaseMaestra = new MasterClass("segundaronda");
+			if($_GET['idronda']==6)
+				$ClaseMaestra = new MasterClass("terceraronda");
+			if($_GET['idronda']==5)
+				$ClaseMaestra = new MasterClass("finalgrupo");
+			if($_GET['idronda']==4)
+				$ClaseMaestra = new MasterClass("cuartofinal");
 			if($_GET['idronda']==1)
 				$ClaseMaestra = new MasterClass("exhibicion");
 			if(!$ClaseMaestra->VerificacionIdentidad(1))
@@ -85,7 +91,7 @@ if($_GET['action']==0)
 					{
 						$datospersonaje = array();
 						$personaje = arrayobjeto($todopersonaje,"id",$votoparticipante->getidpersonaje());
-						$datospersonaje["pos"]=$i;
+						$datospersonaje["pos"]=$votoparticipante->getposicion();
 						$i++;
 						$datospersonaje["img"]=$personaje->getimagenpeq();
 						$datospersonaje["nombre"]=$personaje->getnombre();

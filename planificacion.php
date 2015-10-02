@@ -132,6 +132,7 @@ function arreglocalendario()
 			case "CHEVE": 	$accion = "Cambio de evento";break;
 			case "CALPO": 	$accion = "Calculo de la ponderacion";break;
 			case "INMAT": 	$accion = "Exhibicion";break;
+			case "PAREP": 	$accion = "Pasar Repechaje";break;
 			default : $accion="Exhibicion";break;
 		}
 

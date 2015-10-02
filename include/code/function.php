@@ -5,8 +5,65 @@ function setCookies()
 	$cad = "";
 	for($i=0;$i<20;$i++) 
 		$cad .= substr($str,rand(0,62),1);
-	setcookie("CodePassVote",$cad,time()+(14*60*60*24));
+	//setcookie("CodePassVote",$cad,time()+(14*60*60*24));
+	CrearCookie("CodePassVote",$cad,2);
 	return $cad;
+}
+
+function CrearCookie($nombre,$valor,$tipo)
+{
+	if($tipo==0)
+		$duracion = -100000;
+	elseif($tipo==1)
+		$duracion = 100*24*60*60*1000;
+	elseif($tipo==2)
+		$duracion = 30*24*60*60*1000;
+	elseif($tipo==3)
+		$duracion = 20*60*1000;
+	else
+		$duracion = 2*24*60*60*1000;;
+		echo "<head>
+<script languaje=\"JavaScript\">
+function setCookie(cname, cvalue) {
+    var d = new Date();
+    d.setTime(d.getTime() + (".$duracion."));
+    var expires = \"expires=\"+d.toUTCString();
+    document.cookie = cname + \"=\" + cvalue + \"; \" + expires;
+} 
+setCookie(\"".$nombre."\",\"".$valor."\")
+</script>
+</head>";
+}
+
+function falta($limite)
+{
+	$horaactual = fechaHoraActual("H:i:s");
+	return restarhora($limite,$horaactual);
+}
+
+function restarhora($firsthora,$secondhora)
+{
+	$finalhora=array();
+	$firsthora = explode(":",$firsthora);
+	$secondhora = explode(":",$secondhora);
+	if($secondhora[2]>$firsthora[2])
+	{
+		$finalhora[2] = $firsthora[2]+60-$secondhora[2];
+		$firsthora[1]--;
+	}
+	else
+		$finalhora[2] = $firsthora[2]-$secondhora[2];
+		
+	if($secondhora[1]>$firsthora[1])
+	{
+		$finalhora[1] = $firsthora[1]+60-$secondhora[1];
+		$firsthora[0]--;
+	}
+	else
+		$finalhora[1] = $firsthora[1]-$secondhora[1];
+	$finalhora[0] = $firsthora[0]-$secondhora[0];
+
+	return $finalhora[0].":".$finalhora[1];
 }
 
 function fechaHoraActual($format="Y-m-d H:i:s")
@@ -259,7 +316,14 @@ function cambioFecha($actual,$min)
 	$timestamp = mktime($fecha2[0], $fecha2[1]+$min,$fecha2[2], $fecha1[1],$fecha1[2], $fecha1[0]);
     return date('Y-m-d H:i:s', $timestamp);
 }
-
+function cambioFechaseg($actual,$min)
+{
+	$actual = explode(" ",$actual);
+	$fecha1 = explode("-",$actual[0]);
+	$fecha2 = explode(":",$actual[1]);
+	$timestamp = mktime($fecha2[0], $fecha2[1],$fecha2[2]+$min, $fecha1[1],$fecha1[2], $fecha1[0]);
+    return date('Y-m-d H:i:s', $timestamp);
+}
 function sacarhora($actual)
 {
 	$actual = explode(" ",$actual);
@@ -383,7 +447,7 @@ function uploadimage($archivo,$carpeta="perimage")
 			$cad .= substr($str,rand(0,62),1);
 		}
 		$tamano = $archivo[ 'size' ];
-		$tamaño_max="50000000000";
+		$tamaño_max="512000";
 		if( $tamano < $tamaño_max)
 		{ 
 			$destino = $carpeta ;
@@ -498,7 +562,7 @@ function arrvoto($voto)
 		$arrayvoto["metadatosbatalla".$i]["idbatalla"]=$matchdatos[0];
 		$arrayvoto["metadatosbatalla".$i]["votosemitidos"]=$matchdatos[1];
 		$arrayvoto["metadatosbatalla".$i]["maximo"]=$matchdatos[2];
-		for($j=3;$j<$arrayvoto["metadatosbatalla".$i]["maximo"]+3;$j++)
+		for($j=3;$j<$arrayvoto["metadatosbatalla".$i]["votosemitidos"]+3;$j++)
 			$arrayvoto["votos".$i][]=$matchdatos[$j];
 	}
 	return $arrayvoto;
@@ -561,8 +625,14 @@ function coloresgraf($primdato,$tipo=true)
 	}
 	function rondapos($i)
 	{
-		$rondapos[12]=1;
-		$rondapos[10]=2;
+		$rondapos[10]=1;
+		$rondapos[8]=2;
+		$rondapos[7]=3;
+		$rondapos[6]=4;
+		$rondapos[5]=5;
+		$rondapos[4]=6;
+		$rondapos[3]=7;
+		$rondapos[2]=8;
 		return	$rondapos[$i];
 	}
 ?>

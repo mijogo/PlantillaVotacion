@@ -23,6 +23,8 @@ if($_GET['action']==0)
 	
 	$text ="";
 
+
+
 	
 	$idperfil=$_GET["iduser"];
 	$useranalizar = new usuario($BG->con);
@@ -62,6 +64,12 @@ if($_GET['action']==0)
 		$text .= lugarvotacion($configuracionuso->getnombre()." ".$batallasactivas[$i]->getgrupo(),$datos);
 
 	}
+	
+		$textrsocial="<div class=\"fb-share-button\" data-href=\"http://msat.moe/vervotacionusuario.php?iduser=".$idperfil."&fecha=".$_GET["fecha"]."\" data-layout=\"button\"></div>
+	
+	<div><a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-url=\"http://msat.moe/vervotacionusuario.php?iduser=".$idperfil."&fecha=".$_GET["fecha"]."\" data-text=\"Mis votos en Miss Anime Tournament\" data-via=\"msat_2015\" data-lang=\"es\" data-count=\"none\" data-hashtags=\"missanime\">Twittear</a></div>";
+	
+	$pagina = ingcualpag($pagina,"redessociales",$textrsocial);
 	$pagina = ingcualpag($pagina,"votausuario",$text);
 	$ClaseMaestra->Pagina("",$pagina);
 }

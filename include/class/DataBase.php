@@ -5,6 +5,7 @@ class DataBase
 	function connect()
 	{
 		$this->con = new mysqli(SERVER,USER,PASS,MYDB);
+		$this->con->set_charset('utf8');
 		if ($this->con->connect_error)
 		{
 		    die('Connect Error (' . $this->con->connect_errno . ') '. $this->con->connect_error);

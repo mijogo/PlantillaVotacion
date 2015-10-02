@@ -7,6 +7,7 @@ class MasterClass
 		$this->paisesabr=array("","AF","AL","DE","AD","AO","AI","AQ","AG","AN","SA","DZ","AR","AM","AW","AU","AT","AZ","BS","BH","BD","BB","BE","BZ","BJ","BM","BY","MM","BO","BA","BW","BR","BN","BG","BF","BI","BT","CV","KH","CM","CA","TD","CL","CN","CY","VA","CO","KM","CG","CD","KR","KP","CI","CR","HR","CU","DK","DJ","DM","EC","EG","SV","AE","ER","SI","ES","US","EE","ET","FJ","PH","FI","FR","GA","GM","GE","GH","GI","GD","GR","GL","GP","GU","GT","GY","GF","GN","GQ","GW","HT","HN","HU","IN","ID","IQ","IR","IE","BV","CX","IS","KY","CK","CC","FO","HM","FK","MP","MH","UM","PW","SB","SJ","TK","TC","VI","VG","WF","IL","IT","JM","JP","JO","KZ","KE","KG","KI","KW","LA","LS","LV","LB","LR","LY","LI","LT","LU","MK","MG","MY","MW","MV","ML","MT","MA","MQ","MU","MR","YT","MX","FM","MD","MC","MN","MS","MZ","NA","NR","NP","NI","NE","NG","NU","NF","NO","NC","NZ","OM","NL","PA","PG","PK","PY","PE","PN","PF","PL","PT","PR","QA","UK","CF","CZ","ZA","DO","SK","RE","RW","RO","RU","EH","KN","WS","AS","SM","VC","SH","LC","ST","SN","SC","SL","SG","SY","SO","LK","PM","SZ","SD","SE","CH","SR","TH","TW","TZ","TJ","TF","TP","TG","TO","TT","TN","TM","TR","TV","UA","UG","UY","UZ","VU","VE","VN","YE","YU","ZM","ZW");
 		$this->paisesnom=array("","Afganistán","Albania","Alemania","Andorra","Angola","Anguilla","Antártida","Antigua y Barbuda","Antillas Holandesas","Arabia Saudí","Argelia","Argentina","Armenia","Aruba","Australia","Austria","Azerbaiyán","Bahamas","Bahrein","Bangladesh","Barbados","Bélgica","Belice","Benin","Bermudas","Bielorrusia","Birmania","Bolivia","Bosnia y Herzegovina","Botswana","Brasil","Brunei","Bulgaria","Burkina Faso","Burundi","Bután","Cabo Verde","Camboya","Camerún","Canadá","Chad","Chile","China","Chipre","Ciudad del Vaticano (Santa Sede)","Colombia","Comores","Congo","Congo, República Democrática del","Corea","Corea del Norte","Costa de Marfíl","Costa Rica","Croacia (Hrvatska)","Cuba","Dinamarca","Djibouti","Dominica","Ecuador","Egipto","El Salvador","Emiratos Ãrabes Unidos","Eritrea","Eslovenia","España","Estados Unidos","Estonia","Etiopía","Fiji","Filipinas","Finlandia","Francia","Gabón","Gambia","Georgia","Ghana","Gibraltar","Granada","Grecia","Groenlandia","Guadalupe","Guam","Guatemala","Guayana","Guayana Francesa","Guinea","Guinea Ecuatorial","Guinea-Bissau","Haití","Honduras","Hungría","India","Indonesia","Irak","Irán","Irlanda","Isla Bouvet","Isla de Christmas","Islandia","Islas Caimán","Islas Cook","Islas de Cocos o Keeling","Islas Faroe","Islas Heard y McDonald","Islas Malvinas","Islas Marianas del Norte","Islas Marshall","Islas menores de Estados Unidos","Islas Palau","Islas Salomón","Islas Svalbard y Jan Mayen","Islas Tokelau","Islas Turks y Caicos","Islas Vírgenes (EEUU)","Islas Vírgenes (Reino Unido)","Islas Wallis y Futuna","Israel","Italia","Jamaica","Japón","Jordania","Kazajistán","Kenia","Kirguizistán","Kiribati","Kuwait","Laos","Lesotho","Letonia","Líbano","Liberia","Libia","Liechtenstein","Lituania","Luxemburgo","Macedonia, Ex-República Yugoslava de","Madagascar","Malasia","Malawi","Maldivas","Malí","Malta","Marruecos","Martinica","Mauricio","Mauritania","Mayotte","México","Micronesia","Moldavia","Mónaco","Mongolia","Montserrat","Mozambique","Namibia","Nauru","Nepal","Nicaragua","Níger","Nigeria","Niue","Norfolk","Noruega","Nueva Caledonia","Nueva Zelanda","Omán","Países Bajos","Panamá","Papúa Nueva Guinea","Paquistán","Paraguay","Perú","Pitcairn","Polinesia Francesa","Polonia","Portugal","Puerto Rico","Qatar","Reino Unido","República Centroafricana","República Checa","República de Sudáfrica","República Dominicana","República Eslovaca","Reunión","Ruanda","Rumania","Rusia","Sahara Occidental","Saint Kitts y Nevis","Samoa","Samoa Americana","San Marino","San Vicente y Granadinas","Santa Helena","Santa Lucía","Santo Tomé y Príncipe","Senegal","Seychelles","Sierra Leona","Singapur","Siria","Somalia","Sri Lanka","St Pierre y Miquelon","Suazilandia","Sudán","Suecia","Suiza","Surinam","Tailandia","Taiwán","Tanzania","Tayikistán","Territorios franceses del Sur","Timor Oriental","Togo","Tonga","Trinidad y Tobago","Túnez","Turkmenistán","Turquía","Tuvalu","Ucrania","Uganda","Uruguay","Uzbekistán","Vanuatu","Venezuela","Vietnam","Yemen","Yugoslavia","Zambia","Zimbabue");
 		
+		
 		$this->user="";
 		$BG = new DataBase();
 		$BG->connect();
@@ -191,7 +192,8 @@ class MasterClass
 		{
 			$this->userAnterior=true;
 			$this->cookies=$_COOKIE['CodePassVote'];
-			setcookie("CodePassVote",$this->cookies,time()+(14*60*60*24));
+			//setcookie("CodePassVote",$this->cookies,time()+(14*60*60*24));
+			CrearCookie("CodePassVote",$this->cookies,2);
 		}
 		else
 		{
@@ -339,7 +341,8 @@ class MasterClass
 			$creaIp->setuser(-1);
 		$creaIp->setuniquecode($this->newUniqueCode);
 		$creaIp->save();
-		setcookie("uniqueCode",$this->newUniqueCode,time()+(2*60*60*24));
+		//setcookie("uniqueCode",$this->newUniqueCode,time()+(2*60*60*24));
+		CrearCookie("uniqueCode",$this->newUniqueCode,4);
 		return $creaIp;
 	}
 }

@@ -65,12 +65,12 @@ if($_GET['action']==0)
 			{
 				$peleaver = new pelea($BG->con);
 				$peleaver->setidpersonaje($estepersonaje->getid());
-				$peleaver->setidbatalla($participacionesrev[$i]->getidbatalla());
+				$peleaver->setidbatalla($participacionesrev[$j]->getidbatalla());
 				$peleaver = $peleaver->read(false,2,array("idpersonaje","AND","idbatalla"));
 				$icono = "icon_close_alt2";
-				if($peleaver->clasifico()==1)
+				if($peleaver->getclasifico()==1)
 					$icono = "icon_check_alt2";
-				$datosoersonaje[rondapos($estabatalla->getronda())]=$estabatalla->getgrupo()." <br>".$peleaver->getvotos()."(".$peleaver->getposicion().")<i class=\"".$icono."\">";
+				$datosoersonaje[rondapos($estabatalla->getronda())]="[".$estabatalla->getgrupo()."] <br>".$peleaver->getposicion()."(".$peleaver->getvotos().")<i class=\"".$icono."\">";
 			}
 			else
 			{
@@ -98,7 +98,7 @@ if($_GET['action']==0)
 			}
 		}
 	}
-	$pagina=ingcualpag($pagina,"tablapersonaje",tablaseguimiento($arrayseguimiento,$agregar,$listapersonaje));
+	$pagina=ingcualpag($pagina,"tablapersonaje",tablaseguimiento($arrayseguimiento,$agregar,$listapersonaje)."Significado <br>[Grupo] <br> Posicion(votos)Clasificacion");
 	$ClaseMaestra->Pagina("",$pagina);
 	$BG->close();
 }

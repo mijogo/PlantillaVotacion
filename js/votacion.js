@@ -38,7 +38,7 @@ function votajs(arrayidpersonaje,inmaximo,inip,inidevento,iniduser,arrayidbatall
 			$("#idpersonaje"+id).addClass("active");
 			$("#idpersonaje"+id).html("Listo")
 			this.activado[batallapersonaje][this.inversapersonaje[id]]=1;
-			$("#idpersonaje"+id).attr("onclick", "votodesactivar("+id+")");
+			$("#idpersonaje"+id).attr("onclick", "votacion.votodesactivar("+id+")");
 		}
 		else if(this.contaractivos(batallapersonaje)==this.maximo-1)
 		{

@@ -16,7 +16,7 @@ if($_GET['action']==0)
 	$BG = new DataBase();
 	$BG->connect();
 	$serie = new seriepar($BG->con);
-	$serie = $serie->read();
+	$serie = $serie->read(true,0,"",1,array("nombre","ASC"));
 	for($i=0;$i<count($serie);$i++)
 	{
 		$valores[] = $serie[$i]->getid();
@@ -46,7 +46,7 @@ else
 		$nuevopersonaje->setimagen($archivo[1]);
 	$nuevopersonaje->setnparticipaciones(1);
 	$nuevopersonaje->save();
-	$nuevopersonaje = $nuevopersonaje->read(false,1,array("nombre"));
+	$nuevopersonaje = $nuevopersonaje->read(false,2,array("nombre","AND","idserie"));
 	
 	$nuevopersonajepar->setnombre($_POST["nombrepersonaje"]);
 	$nuevopersonajepar->setidpersonaje($nuevopersonaje->getid());
@@ -62,7 +62,7 @@ else
 		$nuevopersonajepar->setestado(2);
 	else	
 		$nuevopersonajepar->setestado(1);
-	$nuevopersonajepar->setseiyuu($_POST["seiyuupersonaje"]);
+	//$nuevopersonajepar->setseiyuu($_POST["seiyuupersonaje"]);
 	$nuevopersonajepar->save();
 	$BG->close();
 	Redireccionar("revpersonaje.php");

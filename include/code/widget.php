@@ -56,7 +56,7 @@ function widget()
                         <a href=\"https://www.facebook.com/MissAnimeTournament\" target=\"_blank\">
                             <img class=\"img-rounded\" src=\"img/facebook-icon.png\" width=\"60\" alt=\"Facebook\"></a>
 &nbsp;
-                        <a href=\"https://twitter.com/MsAT_2014\" target=\"_blank\">
+                        <a href=\"https://twitter.com/MsAT_2015\" target=\"_blank\">
                             <img class=\"img-rounded\" src=\"img/twittericon.png\" width=\"60\" alt=\"Twitter\"></a>
 
              </div>
@@ -131,12 +131,12 @@ function widget()
              </div>
 		</div>
     </div>";
-	
+	/*
 	
 	$todasactividad = new calendario($BG->con);
 	$todasactividad->setaccion("ACTBA");
 	$todasactividad->sethecho(-1);
-	$todasactividad=$todasactividad->read(true,1,array("accion","AND","hecho"),1,array("targetdate","ASC"));
+	$todasactividad=$todasactividad->read(true,2,array("accion","AND","hecho"),1,array("targetdate","ASC"));
 	
 	$rondarev = new configuracion($BG->con);
 	$rondarev = $rondarev->read();
@@ -189,7 +189,7 @@ function widget()
 	<div class=\"notice-board\">
      	<div class=\"panel panel-default\">
          	<div class=\"panel-heading\">
-              	Batallas 
+              	Calendario
             </div>
             <div class=\"panel-body\">
 				<ul >
@@ -199,6 +199,129 @@ function widget()
 			 ".$link."
 		</div>
     </div>";
+	
+	
+	*/
+	
+	
+	
+
+		
+	$todasactividad = new calendario($BG->con);
+	$todasactividad->setaccion("ACTBA");
+	$todasactividad->sethecho(-1);
+	$todasactividad=$todasactividad->read(true,2,array("accion","AND","hecho"),1,array("targetdate","ASC"));
+	
+	$rondarev = new configuracion($BG->con);
+	$rondarev = $rondarev->read();
+	$revisarpersonaje = new personajepar($BG->con);
+	$revisarpersonaje = $revisarpersonaje->read();
+	if(count($todasactividad)>0)
+	{
+
+		$batallasactivas = new batalla($BG->con);	
+		$batallasactivas->setfecha($todasactividad[0]->gettargetdate());
+		$batallasactivas = $batallasactivas->read(true,1,array("fecha"));
+		$cantidadBatallas = count($batallasactivas);
+		$estaronda = arrayobjeto($rondarev,"id",$batallasactivas[0]->getronda());
+
+		$contenidowid = "<li>".$estaronda->getnombre()." ";
+
+		foreach($batallasactivas as $batallaleer)
+			$contenidowid .=$batallaleer->getgrupo()." ";
+		$contenidowid .="</li><li>".$batallasactivas[0]->getfecha()."</li>";
+		$link = "
+             <div class=\"panel-footer\">
+			  	<a href=\"resultados.php?tipo=fecha&fecha=".$batallasactivas[0]->getfecha()."\" class=\"btn btn-default btn-block\">Ver mas</a>
+             </div>";
+	}
+	else
+	{
+		$contenidowid="<li>No hay enfrentamientos agendados</li>";
+		$link = "";
+	}
+		
+		$text .= "                    
+	<div class=\"notice-board\">
+     	<div class=\"panel panel-default\">
+         	<div class=\"panel-heading\">
+              	Proximos enfrentamientos
+            </div>
+            <div class=\"panel-body\">
+				<ul >
+					".$contenidowid."              
+                </ul>
+             </div>
+			 ".$link."
+		</div>
+    </div>";
+	
+	
+		
+	$todasactividad = new calendario($BG->con);
+	$todasactividad->setaccion("ACTBA");
+	$todasactividad->sethecho(1);
+	$todasactividad=$todasactividad->read(true,2,array("accion","AND","hecho"),1,array("targetdate","DESC"));
+	
+	$rondarev = new configuracion($BG->con);
+	$rondarev = $rondarev->read();
+	$revisarpersonaje = new personajepar($BG->con);
+	$revisarpersonaje = $revisarpersonaje->read();
+	if(count($todasactividad)>0)
+	{
+
+		$batallasactivas = new batalla($BG->con);	
+		$batallasactivas->setfecha($todasactividad[0]->gettargetdate());
+		$batallasactivas = $batallasactivas->read(true,1,array("fecha"));
+		$cantidadBatallas = count($batallasactivas);
+		if($cantidadBatallas>0)
+			if($batallasactivas[0]->getestado()==0)
+			{
+				$batallasactivas = new batalla($BG->con);	
+				$batallasactivas->setfecha($todasactividad[1]->gettargetdate());
+				$batallasactivas = $batallasactivas->read(true,1,array("fecha"));
+				$cantidadBatallas = count($batallasactivas);	
+			}
+		$estaronda = arrayobjeto($rondarev,"id",$batallasactivas[0]->getronda());
+
+		$contenidowid = "<li>".$estaronda->getnombre()." ";
+
+		foreach($batallasactivas as $batallaleer)
+			$contenidowid .=$batallaleer->getgrupo()." ";
+		$contenidowid .="</li><li>".$batallasactivas[0]->getfecha()."</li>";
+		$link = "
+             <div class=\"panel-footer\">
+			  	<a href=\"resultados.php?tipo=fecha&fecha=".$batallasactivas[0]->getfecha()."\" class=\"btn btn-default btn-block\">Ver mas</a>
+             </div>";
+	}
+	else
+	{
+		$contenidowid="<li>No se han realizado enfrentamientos</li>";
+		$link = "";
+	}
+		
+		$text .= "                    
+	<div class=\"notice-board\">
+     	<div class=\"panel panel-default\">
+         	<div class=\"panel-heading\">
+              	Ultimo enfrentamiento
+            </div>
+            <div class=\"panel-body\">
+				<ul >
+					".$contenidowid."              
+                </ul>
+             </div>
+			 ".$link."
+		</div>
+    </div>";
+	
+	
+	
+	
+	
+	
+	
+	
 	return $text;	
 }
 ?>

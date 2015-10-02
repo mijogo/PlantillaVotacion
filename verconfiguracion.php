@@ -40,7 +40,7 @@ if($_GET['action']==0)
 	
 	$pagina = ingcualpag($pagina,"primclass",ingresardatos("Numero de clasificados",$configuracionahora->getprimclas()).ingresardatos("Siguiente ronda para los primeros clasificados",$configuracionseguiente->getnombre()));
 	if($configuracionahora->getsegundo() == 1)
-		$pagina = ingcualpag($pagina,"segclass",ingresardatos("Numero de segundos clasificados",$configuracionahora->getsegclas()).ingresardatos("Siguiente ronda para los segundos clasificados",$$configuracionseguiente->getnombre()));
+		$pagina = ingcualpag($pagina,"segclass",ingresardatos("Numero de segundos clasificados",$configuracionahora->getsegclas()).ingresardatos("Siguiente ronda para los segundos clasificados",$configuracionseguiente->getnombre()));
 	else
 		$pagina = ingcualpag($pagina,"segclass","");
 	
